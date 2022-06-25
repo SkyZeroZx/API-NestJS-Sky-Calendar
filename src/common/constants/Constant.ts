@@ -20,7 +20,7 @@ export class Constant {
 
   public static readonly LOGO_FIIS = 'https://fiis.unac.edu.pe/images/logo-fiis.png';
   public static readonly LOGO_APP = 'https://skyzerozx.000webhostapp.com/images/logo_app.png';
-  public static readonly TRACKING_WEB = 'https://isekai-orpheus-bot.vercel.app/#/tracking';
+  public static readonly CALENDAR_WEB = 'https://sky-calendar-app.vercel.app/#/login';
 
   public static readonly MAIL = {
     CREATE_NEW_USER:
@@ -42,7 +42,7 @@ export class Constant {
       "'></img>" +
       '<p>Por medio del presente cumplimos con informar que su tramite con N° {{id_est_doc}} ' +
       'se actualizado con estado: <b> {{estado}} </b> para más detalles puede verificar su tramite en ' +
-      Constant.TRACKING_WEB +
+      Constant.CALENDAR_WEB +
       '</p>',
     SEND_CERTIFICATE:
       "<img src='" +
@@ -51,7 +51,7 @@ export class Constant {
       '<p>Por medio del presente cumplimos con informar que su tramite con N°{{id_est_doc}}' +
       ' se actualizado con estado: <b>FINALIZADO</b></p><br>' +
       '<p>Puede descargar su certificado en el apartado certificado en la busqueda de tramite+ ' +
-      Constant.TRACKING_WEB +
+      Constant.CALENDAR_WEB +
       '</p>',
   };
 
@@ -59,18 +59,18 @@ export class Constant {
     UPDATE_STATUS_TRAMITE:
       'Estimado estudiante se le informa por medio del presente que su tramite N°{{id_est_doc}} se actualizo con nuevo estado {{estado}}' +
       '\nPara más informacion puede realizar la busqueda de su tramite en la plataforma: ' +
-      Constant.TRACKING_WEB,
+      Constant.CALENDAR_WEB,
     SEND_CERTIFICATE:
       'Estimado estudiante se le informa por medio del presente que su tramite N°{{id_est_doc}} se encuentra FINALIZADO' +
       '\nPara más informacion puede realizar la busqueda de su tramite en la plataforma: ' +
-      Constant.TRACKING_WEB,
+      Constant.CALENDAR_WEB,
   };
 
   public static NOTIFICACION_NEW_TASK = {
     notification: {
       title: 'Se creo una nueva tarea para usted',
       data: {
-        url: Constant.TRACKING_WEB,
+        url: Constant.CALENDAR_WEB,
       },
       body: 'Revise sus calendario de tareas',
       vibrate: [150, 50, 150],
@@ -88,7 +88,7 @@ export class Constant {
     notification: {
       title: 'Se actualizo una tarea asignada a usted',
       data: {
-        url: Constant.TRACKING_WEB,
+        url: Constant.CALENDAR_WEB,
       },
       body: 'Revise sus calendario de tareas',
       vibrate: [150, 50, 150],
@@ -106,7 +106,7 @@ export class Constant {
     notification: {
       title: 'Se eliminado una tarea asignada a usted',
       data: {
-        url: Constant.TRACKING_WEB,
+        url: Constant.CALENDAR_WEB,
       },
       body: 'Revise sus calendario de tareas',
       vibrate: [150, 50, 150],
