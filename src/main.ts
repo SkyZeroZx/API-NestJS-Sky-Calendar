@@ -20,7 +20,7 @@ async function bootstrap() {
   app.use(helmet());
   // Inicializamos Swagger
   initSwagger(app);
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 
   webpush();
 
