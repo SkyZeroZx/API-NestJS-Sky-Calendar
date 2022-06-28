@@ -2,5 +2,5 @@ projectKey=API_NESTJS_CALENDAR_APP
 serverUrl=http://localhost:9000
 serverVersion=9.4.0.54424
 dashboardUrl=http://localhost:9000/dashboard?id=API_NESTJS_CALENDAR_APP
-ceTaskId=AYF5dQagKGRZyCkKqBvc
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYF5dQagKGRZyCkKqBvc
+ceTaskId=AYGegkHYy4ln6gTSosmn
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYGegkHYy4ln6gTSosmn

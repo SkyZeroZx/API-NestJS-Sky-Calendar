@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
-import { TaskToUser } from 'src/task_to_user/entities/task_to_user.entity';
- import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+  import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Notificacion {
@@ -11,11 +11,11 @@ export class Notificacion {
   @IsNotEmpty()
   tokenPush: string;
 
-  @ManyToOne(() => TaskToUser, (TaskToUser) => TaskToUser.id, {
+  @ManyToOne(() => User, (User) => User.id, {
     nullable: false,
     onDelete :"CASCADE"
   })
-  @JoinColumn({ name: 'codTaskToUser' })
+  @JoinColumn({ name: 'codUser' })
   @Column()
-  codTaskToUser: number;
+  codUser: number;
 }

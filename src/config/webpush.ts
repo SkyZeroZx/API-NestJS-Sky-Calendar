@@ -1,7 +1,6 @@
 const webpush = require("web-push");
-import { vapidKeys } from './config';
 
- 
+import { vapidKeys } from './config';
 
 export default (): void => {
   webpush.setVapidDetails(

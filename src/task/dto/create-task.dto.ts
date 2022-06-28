@@ -13,6 +13,7 @@ export class CreateTaskDto {
   title: string;
 
   @IsString()
+  @MaxLength(255)
   description: string;
 
   @IsNotEmpty()

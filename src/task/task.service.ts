@@ -62,8 +62,8 @@ export class TaskService {
       } catch (error) {
         this.logger.error(
           `Sucedio un error al registrar el usuario a la tarea ${task.codTask}`,
-          { user },
-          { error },
+           user ,
+           error ,
         );
         return { message: 'Sucedio un error al asignar la tarea al usuario' };
       }
@@ -77,8 +77,6 @@ export class TaskService {
       taskToUser: arrayTaskToUser,
     };
   }
-
-
 
   /**
    * It returns a list of tasks with the following fields: id, title, description, start, end, startDate,
@@ -133,6 +131,7 @@ export class TaskService {
       .select('TASK.codTask', 'id')
       .addSelect('TASK.title', 'title')
       .addSelect('TASK.description', 'description')
+      .addSelect('TYPE.codType', 'codType')
       .addSelect('CONCAT (DATE_FORMAT(TASK.start,"%Y-%m-%d"),"T",TYPE.start )', 'start')
       .addSelect('CONCAT (DATE_FORMAT(TASK.end,"%Y-%m-%d"),"T" ,TYPE.end  )', 'end')
       .addSelect('TYPE.backgroundColor', 'backgroundColor')
@@ -184,7 +183,7 @@ export class TaskService {
   async update(updateTaskDto: UpdateTaskDto) {
     this.logger.log(`Actualizando tarea`, updateTaskDto);
     // Obtenemos los tokens de los usuarios antes de eliminarlos los relacionado a la tarea
-    const tokens = await this.notificacionService.findTokensByTask(updateTaskDto.codTask);
+
     try {
       const updateTask = await this.taskRepository
         .createQueryBuilder()
@@ -200,6 +199,8 @@ export class TaskService {
         .execute();
       if (updateTask.affected > 0) {
         this.logger.log(`Se actualizo exitosamente el task`, { updateTaskDto });
+        const tokens = await this.notificacionService.findTokensByTask(updateTaskDto.codTask);
+        console.log('Tokens obtenidos son ', tokens);
         // Validando que se actualicen los task procedemos a enviar las notificaciones a los tokens
         for (let item of tokens) {
           this.notificacionService.sendNotification(
@@ -258,10 +259,31 @@ export class TaskService {
   }
 
   async removeUserToTask(taskToUserDto: TaskToUserDto) {
+    // Obtenemos los tokens para el usuario
+    const tokens = await this.notificacionService.findTokensByUser(taskToUserDto.codUser);
+    console.log('El ID user eliminado es ' , taskToUserDto.codUser);
+    console.log('Obtenemos todos los tokens del usuario antes de eliminarlo ' , tokens);
+
+    // Iteramos los tokens de los usuarios para enviarlo antes de finalizar de eliminarlos de la tarea
+    for (let item of tokens) {
+      this.notificacionService.sendNotification(item.tokenPush, Constant.NOTIFICACION_DELETE_TASK);
+    }
     return await this.serviceTaskToUser.removeUserToTask(taskToUserDto);
   }
 
   async addUserToTask(taskToUserDto: TaskToUserDto) {
-    return await this.serviceTaskToUser.addUserToTask(taskToUserDto);
+    // Registramos la nueva tarea para el usuario
+    const newUserToTask = await this.serviceTaskToUser.addUserToTask(taskToUserDto);
+    // Si nos devuelve un OK procedemos a enviar notificaciones
+    if (newUserToTask.message == Constant.MENSAJE_OK) {
+      // Obtenemos los tokens para el usuario
+      const tokens = await this.notificacionService.findTokensByUser(taskToUserDto.codUser);
+      // Iteramos los tokens y enviamos la notificacion
+      for (let item of tokens) {
+        this.notificacionService.sendNotification(item.tokenPush, Constant.NOTIFICACION_NEW_TASK);
+      }
+    }
+    // Al finalizar retornamos el mensaje del servicio llamado inicialmente
+    return newUserToTask;
   }
 }

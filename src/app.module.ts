@@ -12,7 +12,7 @@ import { TypeModule } from './type/type.module';
 import { AccessControlModule } from 'nest-access-control';
 import { roles } from './app.roles';
 import { TaskToUserModule } from './task_to_user/task_to_user.module';
-
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -36,6 +36,7 @@ import { TaskToUserModule } from './task_to_user/task_to_user.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    ScheduleModule.forRoot(),
     AccessControlModule.forRoles(roles),
     AuthModule,
     TaskModule,

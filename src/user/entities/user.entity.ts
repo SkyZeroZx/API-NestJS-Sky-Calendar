@@ -13,6 +13,7 @@ import {
 import { MinLength, IsNotEmpty, IsEmail, MaxLength } from 'class-validator';
 import * as bcrypt from 'bcryptjs';
 import { TaskToUser } from 'src/task_to_user/entities/task_to_user.entity';
+import { Notificacion } from 'src/notificacion/entities/notificacion.entity';
  
 @Entity()
 @Unique(['username'])
@@ -22,6 +23,9 @@ export class User {
     nullable: false,
   })
   @JoinColumn()
+  @OneToMany(() => Notificacion, (Notificacion) => Notificacion.id, {
+    nullable: false,
+  })
   id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false })

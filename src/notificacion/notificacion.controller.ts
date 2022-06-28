@@ -27,7 +27,7 @@ export class NotificacionController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async save(@User() user: UserEntity, @Body() createNotificacionDto: CreateNotificacionDto) {
-    this.logger.log(`Guardando Token para el usuario usuario ${user.username}`);
+    this.logger.log(`Guardando Token para el usuario logeado ${user.username}`);
     return await this.notificacionService.suscribeNotification(user.id, createNotificacionDto);
   }
 
@@ -36,7 +36,7 @@ export class NotificacionController {
   @Post('/send')
   async registerTaskTokenByUser(@Body() sendNotificacionDto: SendNotificacionDto) {
     this.logger.log(`Enviando notificaciones de nueva tarea creada a los usuarios `);
-    return await this.notificacionService.registerTaskTokenByUser(sendNotificacionDto.users , sendNotificacionDto.taskToUser);
+    return await this.notificacionService.registerTaskTokenByUser(sendNotificacionDto.users  );
   }
 
 

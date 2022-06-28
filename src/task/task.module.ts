@@ -11,8 +11,7 @@ import { NotificacionModule } from 'src/notificacion/notificacion.module';
   imports: [
     TypeOrmModule.forFeature([Task]),
     TaskToUserModule,
-    NotificacionModule,
-    TypeOrmModule.forFeature([Notificacion]),
+    NotificacionModule
   ],
   controllers: [TaskController],
   providers: [TaskService],

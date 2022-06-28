@@ -9,8 +9,5 @@ export class SendNotificacionDto {
   @IsArray()
   @IsNotEmpty()
   users: User[];
-
-  @IsArray()
-  @IsNotEmpty()
-  taskToUser: any[];
+ 
 }
