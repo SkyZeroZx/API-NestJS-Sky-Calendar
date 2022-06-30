@@ -13,7 +13,7 @@ import {
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'localhost';
+const rpID = 'sky-calendar-app';
 // The URL at which registrations and authentications should occur
 const origin = [`http://${rpID}:4200`,`http://${rpID}:4300`,'https://sky-calendar-app.vercel.app','https://sky-calendar-app.vercel.app:4200'];
 
