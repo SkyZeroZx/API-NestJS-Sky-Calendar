@@ -64,6 +64,7 @@ export async function verifyAuthWeb(body, expectedChallenge) {
 
 export async function generateAuthenticationOption(userAuthenticators: Authentication[]) {
   return generateAuthenticationOptions({
+    rpID,
     // Require users to use a previously-registered authenticator
     allowCredentials: userAuthenticators.map((authenticator) => ({
       id: authenticator.credentialID,
