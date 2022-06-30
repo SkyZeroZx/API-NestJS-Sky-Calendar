@@ -12,7 +12,9 @@ import {
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'kikesport.com.pe';
+const rpID = 'localhost';
+
+const rpIDArray = ['localhost','kikesport.com.pe','sky-calendar-app.vercel.app','sky-calendar.herokuapp.com']
 // The URL at which registrations and authentications should occur
 const origin = [
   `http://${rpID}:4200`,
@@ -21,6 +23,8 @@ const origin = [
   'https://www.kikesport.com.pe/sky',
   'https://sky-calendar-app.vercel.app',
   'https://sky-calendar-app.vercel.app:4200',
+  'https://sky-calendar.herokuapp.com',
+  'http://sky-calendar.herokuapp.com'
 ];
 
 export function registerAuthWeb(user: User, userAuthenticators: Authentication[]) {
@@ -32,11 +36,13 @@ export function registerAuthWeb(user: User, userAuthenticators: Authentication[]
     // Don't prompt users for additional information about the authenticator
     // (Recommended for smoother UX)
     attestationType: 'direct',
+    
     // Prevent users from re-registering existing authenticators
     excludeCredentials: userAuthenticators.map((authenticator) => ({
       id: authenticator.credentialID,
       type: 'public-key',
-      transports: ['internal', 'usb', 'ble', 'nfc']
+      transports: ['internal'],
+ 
     })),
   });
 }
@@ -47,7 +53,7 @@ export async function verifyAuthWeb(body, expectedChallenge) {
       credential: body,
       expectedChallenge,
       expectedOrigin: origin,
-      expectedRPID: rpID,
+      expectedRPID: rpIDArray,
     });
   } catch (error) {
     console.log(error);
@@ -62,9 +68,11 @@ export async function generateAuthenticationOption(userAuthenticators: Authentic
       id: authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
+      authenticatorAttachment: 'platform' ,
+      rpID : rpIDArray
     })),
     userVerification: 'preferred',
-  });
+   });
 }
 
 export async function verifyAuthenticationOption(body, expectedChallenge, authenticator) {
@@ -73,7 +81,7 @@ export async function verifyAuthenticationOption(body, expectedChallenge, authen
       credential: body,
       expectedChallenge,
       expectedOrigin: origin,
-      expectedRPID: rpID,
+      expectedRPID: rpIDArray,
       authenticator,
     });
   } catch (error) {
