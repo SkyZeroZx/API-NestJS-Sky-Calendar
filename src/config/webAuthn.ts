@@ -12,7 +12,7 @@ import {
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'kikesport.com.pe';
+const rpID = 'localhost';
 
 const rpIDArray = ['localhost','kikesport.com.pe','sky-calendar-app.vercel.app','sky-calendar.herokuapp.com']
 // The URL at which registrations and authentications should occur
@@ -35,7 +35,7 @@ export function registerAuthWeb(user: User, userAuthenticators: Authentication[]
     userName: user.username,
     // Don't prompt users for additional information about the authenticator
     // (Recommended for smoother UX)
-    //attestationType: 'indirect',
+    attestationType: 'indirect',
  
     // Prevent users from re-registering existing authenticators
     excludeCredentials: userAuthenticators.map((authenticator) => ({
@@ -68,7 +68,7 @@ export async function generateAuthenticationOption(userAuthenticators: Authentic
     allowCredentials: userAuthenticators.map((authenticator) => ({
       id: authenticator.credentialID,
       type: 'public-key',
-      transports: ['internal'],
+     // transports: ['internal'],
     //  authenticatorAttachment: 'platform' ,
     //  rpID : rpIDArray
     })),
