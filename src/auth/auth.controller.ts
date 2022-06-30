@@ -71,9 +71,12 @@ export class AuthController {
   @Get('generate-authentication-options')
   async generateAuthenticationOptions( ) {
     let username = 'saivergx@gmail.com';
-    let userAuthenticators2: Authentication[] = await this.authService.getUserAuthenticatorsByUsername(username);
-    console.log('userAuthenticators 2 ' , userAuthenticators2);
-    const authOptions = await generateAuthenticationOption(userAuthenticators2);
+    // let userAuthenticators2: Authentication[] = await this.authService.getUserAuthenticatorsByUsername(username);
+    let user
+    user.id = 4
+    let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticators(user);
+    console.log('userAuthenticators 2 ' , userAuthenticators);
+    const authOptions = await generateAuthenticationOption(userAuthenticators);
   //  console.log('Generate Auth', authOptions);
     this.rememberChallenge = authOptions.challenge;
     console.log('Verificando challenge 1', this.rememberChallenge);
