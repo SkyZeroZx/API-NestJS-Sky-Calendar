@@ -60,7 +60,7 @@ export async function generateAuthenticationOption(userAuthenticators: Authentic
     allowCredentials: userAuthenticators.map((authenticator) => ({
       id: authenticator.credentialID,
       type: 'public-key',
-      transports: ['internal', 'usb', 'ble', 'nfc'],
+      transports: ['internal'],
     })),
     userVerification: 'preferred',
   });
