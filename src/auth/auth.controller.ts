@@ -77,6 +77,7 @@ export class AuthController {
   //  console.log('Generate Auth', authOptions);
     this.rememberChallenge = authOptions.challenge;
     console.log('Verificando challenge 1', this.rememberChallenge);
+    console.log('Retorne authOptions' , authOptions);
     return authOptions;
   }
 
