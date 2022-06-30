@@ -12,7 +12,7 @@ import {
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'kikesport';
+const rpID = 'kikesport.com.pe';
 // The URL at which registrations and authentications should occur
 const origin = [
   `http://${rpID}:4200`,
