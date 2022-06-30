@@ -93,7 +93,7 @@ export class AuthService {
     return resetUser;
   }
 
-  async getUserAuthenticators(user: any) {
+  async getUserAuthenticators(user: User) {
     return this.autenticationRepository.find({
       where: {
         codUser: user.id,

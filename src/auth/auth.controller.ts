@@ -67,14 +67,12 @@ export class AuthController {
     return await this.authService.saveUserAuthenticators(user, verify.id,verifyTest);
   }
 
- 
+  @UseGuards(JwtAuthGuard)
   @Get('generate-authentication-options')
-  async generateAuthenticationOptions( ) {
+  async generateAuthenticationOptions(@User() user: UserEntity ) {
     let username = 'saivergx@gmail.com';
-    // let userAuthenticators2: Authentication[] = await this.authService.getUserAuthenticatorsByUsername(username);
-    let user
-    user.id = 4
-    let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticators(user);
+  //  let userAuthenticators2: Authentication[] = await this.authService.getUserAuthenticatorsByUsername(username);
+  let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticators(user);
     console.log('userAuthenticators 2 ' , userAuthenticators);
     const authOptions = await generateAuthenticationOption(userAuthenticators);
   //  console.log('Generate Auth', authOptions);
