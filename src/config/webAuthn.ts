@@ -35,14 +35,15 @@ export function registerAuthWeb(user: User, userAuthenticators: Authentication[]
     userName: user.username,
     // Don't prompt users for additional information about the authenticator
     // (Recommended for smoother UX)
-    attestationType: 'direct',
-    
+    //attestationType: 'indirect',
+ 
     // Prevent users from re-registering existing authenticators
     excludeCredentials: userAuthenticators.map((authenticator) => ({
       id: authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
- 
+    //  authenticatorAttachment: 'platform' ,
+   //   rpID : rpIDArray
     })),
   });
 }
@@ -54,7 +55,7 @@ export async function verifyAuthWeb(body, expectedChallenge) {
       expectedChallenge,
       expectedOrigin: origin,
       expectedRPID: rpIDArray,
-    });
+     });
   } catch (error) {
     console.log(error);
     return { error };
@@ -68,10 +69,10 @@ export async function generateAuthenticationOption(userAuthenticators: Authentic
       id: authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
-      authenticatorAttachment: 'platform' ,
-      rpID : rpIDArray
+    //  authenticatorAttachment: 'platform' ,
+    //  rpID : rpIDArray
     })),
-    userVerification: 'preferred',
+ //   userVerification: 'preferred',
    });
 }
 
