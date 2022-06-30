@@ -84,9 +84,10 @@ export class AuthController {
  
   @Post('verify-authentication')
   async verifityAuthentication(@Body() data: any) {
+    console.log('Verificando challenge 2', this.rememberChallenge);
     let username = 'saivergx@gmail.com';
     console.log('Angular response ', data.id);
-   console.log('Verificando challenge 2', this.rememberChallenge);
+  // console.log('Verificando challenge 2', this.rememberChallenge);
     let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticatorsById(username,data.id);
     console.log('userAuthenticators ' ,userAuthenticators)
     const authOptions = await verifyAuthenticationOption(
