@@ -8,9 +8,12 @@ import { ConfigService } from '@nestjs/config';
  import { JwtStrategy } from './strategies/jwt.stragegy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JWT_TOKEN } from 'src/common/constants/Constant';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Authentication } from './entities/autentication.entity';
  
 @Module({
   imports: [
+    TypeOrmModule.forFeature([Authentication]),
     PassportModule,
     UserModule,
     JwtModule.registerAsync({

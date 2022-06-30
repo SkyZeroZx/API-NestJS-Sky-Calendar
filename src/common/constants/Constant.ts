@@ -20,8 +20,9 @@ export class Constant {
 
   public static readonly LOGO_FIIS = 'https://fiis.unac.edu.pe/images/logo-fiis.png';
   public static readonly LOGO_APP = 'https://skyzerozx.000webhostapp.com/images/logo_app.png';
+  public static readonly LOGO_ICON = 'https://skyzerozx.000webhostapp.com/images/favicon0.ico';
   public static readonly CALENDAR_WEB = 'https://sky-calendar-app.vercel.app/#/login';
-
+//https://skyzerozx.000webhostapp.com/images/favicon0.ico
   public static readonly MAIL = {
     CREATE_NEW_USER:
       "<img src='" +
@@ -69,11 +70,12 @@ export class Constant {
   public static NOTIFICACION_NEW_TASK = {
     notification: {
       title: 'Se creo una nueva tarea para usted',
+      icon: Constant.LOGO_ICON,
       data: {
         url: Constant.CALENDAR_WEB,
       },
       body: 'Revise sus calendario de tareas',
-      vibrate: [150, 50, 150],
+      vibrate: [1000, 1000, 1000],
       image: Constant.LOGO_APP,
       actions: [
         {
@@ -87,11 +89,12 @@ export class Constant {
   public static NOTIFICACION_UPDATE_TASK = {
     notification: {
       title: 'Se actualizo una tarea asignada a usted',
+      icon: Constant.LOGO_ICON,
       data: {
         url: Constant.CALENDAR_WEB,
       },
       body: 'Revise sus calendario de tareas',
-      vibrate: [150, 50, 150],
+      vibrate: [1000, 1000, 1000],
       image: Constant.LOGO_APP,
       actions: [
         {
@@ -105,11 +108,12 @@ export class Constant {
   public static NOTIFICACION_DELETE_TASK = {
     notification: {
       title: 'Se eliminado una tarea asignada a usted',
+      icon: Constant.LOGO_ICON,
       data: {
         url: Constant.CALENDAR_WEB,
       },
       body: 'Revise sus calendario de tareas',
-      vibrate: [150, 50, 150],
+      vibrate: [1000, 1000, 1000],
       image: Constant.LOGO_APP,
       actions: [
         {

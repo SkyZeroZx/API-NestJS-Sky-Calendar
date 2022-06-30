@@ -6,11 +6,19 @@ import { User } from 'src/user/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { transporter } from 'src/config/mailer';
 import { generate } from 'generate-password';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Authentication } from './entities/autentication.entity';
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
-  constructor(private readonly jwtService: JwtService, private readonly userService: UserService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    @InjectRepository(Authentication)
+    private readonly autenticationRepository: Repository<Authentication>,
+    private readonly userService: UserService,
+  ) {}
 
   async validateUser(email: string, pass: string) {
     this.logger.log('Validando Usuario');
@@ -66,7 +74,11 @@ export class AuthService {
           from: 'Universidad <institucional@gmail.com>',
           to: username,
           subject: 'Reseteo de contraseña',
-          html: Constant.replaceText(['{{username}}', '{{passwordReset}}'], [username, generatePassword], Constant.MAIL.RESET_PASSWORD),
+          html: Constant.replaceText(
+            ['{{username}}', '{{passwordReset}}'],
+            [username, generatePassword],
+            Constant.MAIL.RESET_PASSWORD,
+          ),
         });
         this.logger.log(`Se envio correo de reseteo del usuario ${username}`);
         return { message: Constant.MENSAJE_OK, info: 'Usuario reseteado exitosamente' };
@@ -81,8 +93,68 @@ export class AuthService {
     return resetUser;
   }
 
+  async getUserAuthenticators(user: User) {
+    return this.autenticationRepository.find({
+      where: {
+        codUser: user.id,
+      },
+    });
+  }
+ 
+
+  async getUserAuthenticatorsById(username : string , id : string) {
+    return await this.autenticationRepository
+    .createQueryBuilder('AUTH')
+    .select('AUTH.id', 'id')
+    .addSelect('AUTH.codUser', 'codUser')
+    .addSelect('AUTH.credentialID', 'credentialID')
+    .addSelect('AUTH.credentialPublicKey', 'credentialPublicKey')
+    .addSelect('AUTH.counter', 'counter')
+    .innerJoin(User,'USER','User.id  = AUTH.codUser')
+    .where('USER.username  = :username and AUTH.id =:id', { 
+      username : username,
+      id : id
+    })
+    .getRawOne();
+  }
+
+  async getUserAuthenticatorsByUsername( username : string){
+    return await this.autenticationRepository
+    .createQueryBuilder('AUTH')
+    .select('AUTH.id', 'id')
+    .addSelect('AUTH.codUser', 'codUser')
+    .addSelect('AUTH.credentialID', 'credentialID')
+    .addSelect('AUTH.credentialPublicKey', 'credentialPublicKey')
+    .addSelect('AUTH.counter', 'counter')
+    .innerJoin(User,'USER','User.id  = AUTH.codUser')
+    .where('User.username  = :username', { 
+      username : username
+    })
+    .getRawMany();
+  }
+
+
+
+
+  async saveUserAuthenticators(user: User, id :string , data: any) {
+    console.log('Soy data a registrar ', await data);
+    let auth =   this.autenticationRepository.create({
+      id : id,
+      counter: data.registrationInfo.counter,
+      codUser: user.id,
+      credentialPublicKey: data.registrationInfo.credentialPublicKey,
+      credentialID: data.registrationInfo.credentialID,
+    });
+    return await this.autenticationRepository.save(auth);
+  }
+
   generateToken(user: User) {
-    const payload = { userId: user.id, username: user.username, role: user.role, firstLogin: user.firstLogin };
+    const payload = {
+      userId: user.id,
+      username: user.username,
+      role: user.role,
+      firstLogin: user.firstLogin,
+    };
     return {
       ...user,
       token: this.jwtService.sign(payload),
