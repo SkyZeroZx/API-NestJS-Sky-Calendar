@@ -81,7 +81,7 @@ export class AuthController {
     console.log('Retorne authOptions' , authOptions);
     return authOptions;
   }
-
+  //Funciona
  
   @Post('verify-authentication')
   async verifityAuthentication(@Body() data: any) {
@@ -113,7 +113,7 @@ export class AuthController {
       default:
         return { message: 'El usuario tiene un estado ' + user.estado };
     } 
-*/
+*/ 
 
   @UseGuards(JwtAuthGuard)
   @Post('reset-password')
