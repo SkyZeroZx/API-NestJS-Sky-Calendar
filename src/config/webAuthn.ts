@@ -47,7 +47,6 @@ export function generateRegistrationOption(user: User, userAuthenticators: Authe
       id: authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
-      authenticatorAttachment: 'platform',
       //   rpID : rpIDArray
     })),
   });
@@ -75,7 +74,6 @@ export async function generateAuthenticationOption(userAuthenticators: Authentic
       id: _authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
-      authenticatorAttachment: 'platform',
       //  rpID : rpIDArray
     })),
    // userVerification: 'preferred',

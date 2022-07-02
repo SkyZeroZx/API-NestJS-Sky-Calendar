@@ -64,17 +64,21 @@ export class AuthController {
   async generateAuthenticationOptions(@Body() username: string) {
     this.logger.log('Generando Authentication Options Authn Web');
     let userAuthenticators: Authentication[] =
-      await this.authService.getUserAuthenticatorsByUsername(username);
+    await this.authService.getUserAuthenticatorsByUsername(username);
     const authOptions = await generateAuthenticationOption(userAuthenticators);
     this.rememberChallenge = authOptions.challenge;
+    this.logger.log('Se genero authOptions' , authOptions);
     return authOptions;
   }
 
   @Post('verify-authentication')
   async verifityAuthentication(@Body() data) {
+    this.logger.log('Angular envio' , data);
     this.logger.log('Verificando Authentication Authn Web');
+    let username = data.username;
+    delete data.username;
     let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticatorsById(
-      data.username,
+      username,
       data.id,
     );
     const verifyOptions = await verifyAuthenticationOption(
@@ -82,11 +86,13 @@ export class AuthController {
       this.rememberChallenge,
       userAuthenticators,
     );
+    this.logger.log('verifyOptions' , verifyOptions);
     if (verifyOptions['verified']) {
       Object.assign(verifyOptions, {
-        data: await this.authService.generateTokenWithAuthnWeb(data.username),
+        data: await this.authService.generateTokenWithAuthnWeb(username),
       });
     }
+
     return verifyOptions;
   }
 
@@ -126,5 +132,4 @@ export class AuthController {
     user.estado = Constant.ESTADOS_USER.HABILITADO;
     return this.authService.changePassword(user, oldPassword);
   }
-  
 }
