@@ -61,10 +61,10 @@ export class AuthController {
   }
 
   @Post('generate-authentication-options')
-  async generateAuthenticationOptions(@Body() username: string) {
-    this.logger.log('Generando Authentication Options Authn Web username' , username);
+  async generateAuthenticationOptions(@Body() data) {
+    this.logger.log('Generando Authentication Options Authn Web username' , data.username);
     let userAuthenticators: Authentication[] =
-    await this.authService.getUserAuthenticatorsByUsername(username);
+    await this.authService.getUserAuthenticatorsByUsername(data.username);
     console.log('userAuthenticators ', userAuthenticators );
     const authOptions = await generateAuthenticationOption(userAuthenticators);
     this.rememberChallenge = authOptions.challenge;
