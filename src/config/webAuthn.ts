@@ -40,8 +40,14 @@ export function generateRegistrationOption(user: User, userAuthenticators: Authe
     userName: user.username,
     // Don't prompt users for additional information about the authenticator
     // (Recommended for smoother UX)
-    attestationType: 'indirect',
-
+    attestationType: 'direct',
+    authenticatorSelection: {
+      userVerification: 'preferred',
+      authenticatorAttachment: 'platform',
+    },
+    extensions: {
+      uvm: true,
+    },
     // Prevent users from re-registering existing authenticators
     excludeCredentials: userAuthenticators.map((authenticator) => ({
       id: authenticator.credentialID,
@@ -74,9 +80,13 @@ export async function generateAuthenticationOption(userAuthenticators: Authentic
       id: _authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
+      authenticatorSelection: {
+        userVerification: 'preferred',
+        authenticatorAttachment: 'platform',
+      },
       //  rpID : rpIDArray
     })),
-   // userVerification: 'preferred',
+    userVerification: 'preferred',
   });
 }
 
