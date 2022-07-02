@@ -11,7 +11,7 @@ import { ResetUserDto } from './dtos/reset.dto';
 import { ChangePasswordDto } from './dtos/changePasssword.dto';
 import {
   generateAuthenticationOption,
-  registerAuthWeb,
+  generateRegistrationOption,
   verifyAuthenticationOption,
   verifyAuthWeb,
 } from 'src/config/webAuthn';
@@ -27,7 +27,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() loginDto: LoginDto, @User() user: UserEntity) {
+  async login(@Body() _loginDto: LoginDto, @User() user: UserEntity) {
     this.logger.log('Retornando datos');
     // Segun el estado de nuestro usuario retornamos una respuesta
     switch (user.estado) {
@@ -44,76 +44,51 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('generate-registration-options')
-  async registerFingerprint(@User() user: UserEntity) {
+  async generateRegistration(@User() user: UserEntity) {
     this.logger.log('generate-registration-options');
     let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticators(user);
-    console.log(userAuthenticators);
-
-    const register = registerAuthWeb(user, userAuthenticators);
+    const register = generateRegistrationOption(user, userAuthenticators);
     this.rememberChallenge = register.challenge;
     return register;
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('verify-registration')
-  async verifyFingerprint(@Body() verify: any, @User() user: UserEntity) {
-    console.log('Mi challenge guardado es ', this.rememberChallenge);
-    this.logger.log('Verificando fingerprint');
-    console.log('Soy la data enviada ID Verify', verify.id);
+  async verifyRegistration(@Body() verify, @User() user: UserEntity) {
+    this.logger.log('Verificando registro Authn Web');
     const verifyTest = await verifyAuthWeb(verify, this.rememberChallenge);
-    console.log('Verificando');
-    // return verifyTest;
-    //  return await this.authService.getUserAuthenticators(user);
-    return await this.authService.saveUserAuthenticators(user, verify.id,verifyTest);
+    return this.authService.saveUserAuthenticators(user, verify.id, verifyTest);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('generate-authentication-options')
-  async generateAuthenticationOptions(@User() user: UserEntity ) {
-    let username = 'saivergx@gmail.com';
-  //  let userAuthenticators2: Authentication[] = await this.authService.getUserAuthenticatorsByUsername(username);
-  let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticators(user);
-    console.log('userAuthenticators 2 ' , userAuthenticators);
+  @Post('generate-authentication-options')
+  async generateAuthenticationOptions(@Body() username: string) {
+    this.logger.log('Generando Authentication Options Authn Web');
+    let userAuthenticators: Authentication[] =
+      await this.authService.getUserAuthenticatorsByUsername(username);
     const authOptions = await generateAuthenticationOption(userAuthenticators);
-  //  console.log('Generate Auth', authOptions);
     this.rememberChallenge = authOptions.challenge;
-    console.log('Verificando challenge 1', this.rememberChallenge);
-    console.log('Retorne authOptions' , authOptions);
     return authOptions;
   }
-  //Funciona
- 
+
   @Post('verify-authentication')
-  async verifityAuthentication(@Body() data: any) {
-    console.log('Verificando challenge 2', this.rememberChallenge);
-    let username = 'saivergx@gmail.com';
-    console.log('Angular response ', data.id);
-  // console.log('Verificando challenge 2', this.rememberChallenge);
-    let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticatorsById(username,data.id);
-    console.log('userAuthenticators ' ,userAuthenticators)
-    const authOptions = await verifyAuthenticationOption(
+  async verifityAuthentication(@Body() data) {
+    this.logger.log('Verificando Authentication Authn Web');
+    let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticatorsById(
+      data.username,
+      data.id,
+    );
+    const verifyOptions = await verifyAuthenticationOption(
       data,
       this.rememberChallenge,
       userAuthenticators,
     );
-    console.log('authOptions ' , authOptions)
-    return authOptions;
+    if (verifyOptions['verified']) {
+      Object.assign(verifyOptions, {
+        data: await this.authService.generateTokenWithAuthnWeb(data.username),
+      });
+    }
+    return verifyOptions;
   }
-
-  /*
-    this.logger.log('Retornando datos');
-    // Segun el estado de nuestro usuario retornamos una respuesta
-    switch (user.estado) {
-      case Constant.ESTADOS_USER.CREADO:
-      case Constant.ESTADOS_USER.HABILITADO:
-      case Constant.ESTADOS_USER.RESETEADO:
-        const data = this.authService.generateToken(user);
-        Object.assign(data, { message: Constant.MENSAJE_OK });
-        return data;
-      default:
-        return { message: 'El usuario tiene un estado ' + user.estado };
-    } 
-*/ 
 
   @UseGuards(JwtAuthGuard)
   @Post('reset-password')
@@ -144,13 +119,12 @@ export class AuthController {
       this.logger.warn('No puede repetir la contraseña antigua para la nueva contraseña');
       return { message: 'No puede repetir la contraseña antigua para la nueva contraseña' };
     }
-
     user.password = newPassword;
     // En caso sea el primer cambio de contraseña o reseteado cambiamos el estado a false
     user.firstLogin = false;
     // Al ser cambio de contraseña el estado pasa a ser habilitado
     user.estado = Constant.ESTADOS_USER.HABILITADO;
-
     return this.authService.changePassword(user, oldPassword);
   }
+  
 }

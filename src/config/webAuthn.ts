@@ -1,11 +1,6 @@
-import SimpleWebAuthnServer from '@simplewebauthn/server';
-import { generateRegistrationOptions, verifyRegistrationResponse } from '@simplewebauthn/server';
+import { generateAuthenticationOptions, generateRegistrationOptions, verifyAuthenticationResponse, verifyRegistrationResponse } from '@simplewebauthn/server';
 import { Authentication } from 'src/auth/entities/autentication.entity';
 import { User } from 'src/user/entities/user.entity';
-import {
-  generateAuthenticationOptions,
-  verifyAuthenticationResponse,
-} from '@simplewebauthn/server';
 
 // Utilitarios de AuthnWeb generateRegistrationsOptions
 
@@ -14,7 +9,12 @@ const rpName = 'Sky Calendar App';
 // A unique identifier for your website
 const rpID = 'kikesport.com.pe';
 
-const rpIDArray = ['localhost','kikesport.com.pe','sky-calendar-app.vercel.app','sky-calendar.herokuapp.com']
+const rpIDArray = [
+  'localhost',
+  'kikesport.com.pe',
+  'sky-calendar-app.vercel.app',
+  'sky-calendar.herokuapp.com',
+];
 // The URL at which registrations and authentications should occur
 const origin = [
   `http://${rpID}:4200`,
@@ -24,10 +24,10 @@ const origin = [
   'https://sky-calendar-app.vercel.app',
   'https://sky-calendar-app.vercel.app:4200',
   'https://sky-calendar.herokuapp.com',
-  'http://sky-calendar.herokuapp.com'
+  'http://sky-calendar.herokuapp.com',
 ];
 
-export function registerAuthWeb(user: User, userAuthenticators: Authentication[]) {
+export function generateRegistrationOption(user: User, userAuthenticators: Authentication[]) {
   return generateRegistrationOptions({
     rpName,
     rpID,
@@ -36,14 +36,14 @@ export function registerAuthWeb(user: User, userAuthenticators: Authentication[]
     // Don't prompt users for additional information about the authenticator
     // (Recommended for smoother UX)
     attestationType: 'indirect',
- 
+
     // Prevent users from re-registering existing authenticators
     excludeCredentials: userAuthenticators.map((authenticator) => ({
       id: authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
-    //  authenticatorAttachment: 'platform' ,
-   //   rpID : rpIDArray
+      //  authenticatorAttachment: 'platform' ,
+      //   rpID : rpIDArray
     })),
   });
 }
@@ -55,7 +55,7 @@ export async function verifyAuthWeb(body, expectedChallenge) {
       expectedChallenge,
       expectedOrigin: origin,
       expectedRPID: rpIDArray,
-     });
+    });
   } catch (error) {
     console.log(error);
     return { error };
@@ -66,20 +66,20 @@ export async function generateAuthenticationOption(userAuthenticators: Authentic
   return generateAuthenticationOptions({
     rpID,
     // Require users to use a previously-registered authenticator
-    allowCredentials: userAuthenticators.map((authenticator) => ({
-      id: authenticator.credentialID,
+    allowCredentials: userAuthenticators.map((_authenticator) => ({
+      id: _authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
-    //  authenticatorAttachment: 'platform' ,
-    //  rpID : rpIDArray
+      //  authenticatorAttachment: 'platform' ,
+      //  rpID : rpIDArray
     })),
- //   userVerification: 'preferred',
-   });
+      userVerification: 'preferred',
+  });
 }
 
 export async function verifyAuthenticationOption(body, expectedChallenge, authenticator) {
   try {
-    return await verifyAuthenticationResponse({
+    return verifyAuthenticationResponse({
       credential: body,
       expectedChallenge,
       expectedOrigin: origin,

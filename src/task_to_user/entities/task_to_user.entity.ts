@@ -1,6 +1,6 @@
 import { Task } from 'src/task/entities/task.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
  
 
 @Entity()
@@ -8,14 +8,14 @@ export class TaskToUser {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (User) => User.id, {
+  @ManyToOne(() => User, (user) => user.id, {
     nullable: false,
     onDelete :"CASCADE"
   })
   @JoinColumn({ name: "codUser" })
   codUser: number;
 
-  @ManyToOne(() => Task, (Task) => Task.codTask, {
+  @ManyToOne(() => Task, (task) => task.codTask, {
     nullable: false,
     onDelete :"CASCADE"
   })

@@ -100,52 +100,48 @@ export class AuthService {
       },
     });
   }
- 
 
-  async getUserAuthenticatorsById(username : string , id : string) {
-    return await this.autenticationRepository
-    .createQueryBuilder('AUTH')
-    .select('AUTH.id', 'id')
-    .addSelect('AUTH.codUser', 'codUser')
-    .addSelect('AUTH.credentialID', 'credentialID')
-    .addSelect('AUTH.credentialPublicKey', 'credentialPublicKey')
-    .addSelect('AUTH.counter', 'counter')
-    .innerJoin(User,'USER','User.id  = AUTH.codUser')
-    .where('USER.username  = :username and AUTH.id =:id', { 
-      username : username,
-      id : id
-    })
-    .getRawOne();
+  async getUserAuthenticatorsById(username: string, id: string) {
+    return this.autenticationRepository
+      .createQueryBuilder('AUTH')
+      .select('AUTH.id', 'id')
+      .addSelect('AUTH.codUser', 'codUser')
+      .addSelect('AUTH.credentialID', 'credentialID')
+      .addSelect('AUTH.credentialPublicKey', 'credentialPublicKey')
+      .addSelect('AUTH.counter', 'counter')
+      .innerJoin(User, 'USER', 'USER.id  = AUTH.codUser')
+      .where('USER.username  = :username and AUTH.id =:id', {
+        username: username,
+        id: id,
+      })
+      .getRawOne();
   }
 
-  async getUserAuthenticatorsByUsername( username : string){
-    return await this.autenticationRepository
-    .createQueryBuilder('AUTH')
-    .select('AUTH.id', 'id')
-    .addSelect('AUTH.codUser', 'codUser')
-    .addSelect('AUTH.credentialID', 'credentialID')
-    .addSelect('AUTH.credentialPublicKey', 'credentialPublicKey')
-    .addSelect('AUTH.counter', 'counter')
-    .innerJoin(User,'USER','User.id  = AUTH.codUser')
-    .where('User.username  = :username', { 
-      username : username
-    })
-    .getRawMany();
+  async getUserAuthenticatorsByUsername(username: string) {
+    return this.autenticationRepository
+      .createQueryBuilder('AUTH')
+      .select('AUTH.id', 'id')
+      .addSelect('AUTH.codUser', 'codUser')
+      .addSelect('AUTH.credentialID', 'credentialID')
+      .addSelect('AUTH.credentialPublicKey', 'credentialPublicKey')
+      .addSelect('AUTH.counter', 'counter')
+      .innerJoin(User, 'USER', 'USER.id  = AUTH.codUser')
+      .where('USER.username  = :username', {
+        username: username,
+      })
+      .getRawMany();
   }
 
-
-
-
-  async saveUserAuthenticators(user: User, id :string , data: any) {
+  async saveUserAuthenticators(user: User, id: string, data: any) {
     console.log('Soy data a registrar ', await data);
-    let auth =   this.autenticationRepository.create({
-      id : id,
+    let auth = this.autenticationRepository.create({
+      id: id,
       counter: data.registrationInfo.counter,
       codUser: user.id,
       credentialPublicKey: data.registrationInfo.credentialPublicKey,
       credentialID: data.registrationInfo.credentialID,
     });
-    return await this.autenticationRepository.save(auth);
+    return this.autenticationRepository.save(auth);
   }
 
   generateToken(user: User) {
@@ -159,5 +155,11 @@ export class AuthService {
       ...user,
       token: this.jwtService.sign(payload),
     };
+  }
+
+  async generateTokenWithAuthnWeb(username: string) {
+    const user = await this.userService.findByEmail(username);
+    delete user.user.password;
+     return this.generateToken(user.user)
   }
 }
