@@ -1,4 +1,9 @@
-import { generateAuthenticationOptions, generateRegistrationOptions, verifyAuthenticationResponse, verifyRegistrationResponse } from '@simplewebauthn/server';
+import {
+  generateAuthenticationOptions,
+  generateRegistrationOptions,
+  verifyAuthenticationResponse,
+  verifyRegistrationResponse,
+} from '@simplewebauthn/server';
 import { Authentication } from 'src/auth/entities/autentication.entity';
 import { User } from 'src/user/entities/user.entity';
 
@@ -42,7 +47,7 @@ export function generateRegistrationOption(user: User, userAuthenticators: Authe
       id: authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
-      //  authenticatorAttachment: 'platform' ,
+      authenticatorAttachment: 'platform',
       //   rpID : rpIDArray
     })),
   });
@@ -70,10 +75,10 @@ export async function generateAuthenticationOption(userAuthenticators: Authentic
       id: _authenticator.credentialID,
       type: 'public-key',
       transports: ['internal'],
-      //  authenticatorAttachment: 'platform' ,
+      authenticatorAttachment: 'platform',
       //  rpID : rpIDArray
     })),
-      userVerification: 'preferred',
+   // userVerification: 'preferred',
   });
 }
 
