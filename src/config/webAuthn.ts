@@ -7,7 +7,7 @@ import { User } from 'src/user/entities/user.entity';
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'kikesport.com.pe';
+const rpID = 'sky-calendar.herokuapp.com';
 
 const rpIDArray = [
   'localhost',
