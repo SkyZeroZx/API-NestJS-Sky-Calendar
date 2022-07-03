@@ -4,7 +4,7 @@ import { vapidKeys } from './config';
 
 export default (): void => {
   webpush.setVapidDetails(
-    'mailto:test@test.com',
+    'mailto:nodetestui@gmail.com',
     vapidKeys.publicKey,
     vapidKeys.privateKey
   );

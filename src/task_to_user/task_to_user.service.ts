@@ -38,6 +38,12 @@ export class TaskToUserService {
     };
   }
 
+/**
+ * It saves a task to a user
+ * @param codTask - The task code
+ * @param codUser - The user's ID
+ * @returns The taskToUserRepository.save() method is being returned.
+ */
   async saveTaskToUser(codTask, codUser) {
     return await this.taskToUserRepository.save({ codTask: codTask, codUser: codUser });
   }

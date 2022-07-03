@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 
 export const initSwagger = (app: INestApplication) => {
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Isekai Orpheus Bot API')
+    .setTitle('Sky Calendar API')
     .addBearerAuth()
     .setDescription('Esta es una API Creada con NestJS.')
     .build();

@@ -1,17 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Logger,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Logger } from '@nestjs/common';
 import { NotificacionService } from './notificacion.service';
 import { CreateNotificacionDto } from './dto/create-notificacion.dto';
-import { UpdateNotificacionDto } from './dto/update-notificacion.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/common/decorators/user.decorator';
@@ -31,40 +20,16 @@ export class NotificacionController {
     return await this.notificacionService.suscribeNotification(user.id, createNotificacionDto);
   }
 
-
   @UseGuards(JwtAuthGuard)
   @Post('/send')
   async registerTaskTokenByUser(@Body() sendNotificacionDto: SendNotificacionDto) {
     this.logger.log(`Enviando notificaciones de nueva tarea creada a los usuarios `);
-    return await this.notificacionService.registerTaskTokenByUser(sendNotificacionDto.users  );
+    return await this.notificacionService.registerTaskTokenByUser(sendNotificacionDto.users);
   }
-
-
-
-  @Get()
-  findAll() {
-    return this.notificacionService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notificacionService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNotificacionDto: UpdateNotificacionDto) {
-    return this.notificacionService.update(+id, updateNotificacionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.notificacionService.remove(+id);
-  }
-
 
   @Post('tokens')
-  obtenerTokens(@Body() tokens : any){
-    console.log('Envie' , tokens.codTask)
+  obtenerTokens(@Body() tokens: any) {
+    this.logger.log('Envie', tokens.codTask);
     const result = this.notificacionService.findTokensByTask(tokens.codTask);
     return result;
   }

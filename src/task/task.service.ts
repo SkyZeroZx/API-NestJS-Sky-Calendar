@@ -53,7 +53,7 @@ export class TaskService {
       this.logger.error(`Sucedio un error al crear el task`, { createTaskDto }, { error });
       return { message: 'Sucedio un error al crear el task' };
     }
-    console.log('test createTaskDto.users)', createTaskDto.users);
+    this.logger.log('Create User Dto', createTaskDto.users);
 
     let arrayTaskToUser: any[] = [];
     for (let user of createTaskDto.users) {
@@ -68,7 +68,7 @@ export class TaskService {
         return { message: 'Sucedio un error al asignar la tarea al usuario' };
       }
     }
-    console.log('ArrayToUser ', arrayTaskToUser);
+    this.logger.log('ArrayToUser ', arrayTaskToUser);
 
     this.logger.log('Task registrado exitosamente');
     return {
@@ -180,6 +180,14 @@ export class TaskService {
     return `This action returns a #${id} task`;
   }
 
+/**
+ * It updates a task.
+ * @param {UpdateTaskDto} updateTaskDto - UpdateTaskDto
+ * @returns return {
+ *     message: Constant.MENSAJE_OK,
+ *     info: 'Task Actualizado Correctamente',
+ *   };
+ */
   async update(updateTaskDto: UpdateTaskDto) {
     this.logger.log(`Actualizando tarea`, updateTaskDto);
     // Obtenemos los tokens de los usuarios antes de eliminarlos los relacionado a la tarea
@@ -200,7 +208,7 @@ export class TaskService {
       if (updateTask.affected > 0) {
         this.logger.log(`Se actualizo exitosamente el task`, { updateTaskDto });
         const tokens = await this.notificacionService.findTokensByTask(updateTaskDto.codTask);
-        console.log('Tokens obtenidos son ', tokens);
+        this.logger.log('Tokens obtenidos son ', tokens);
         // Validando que se actualicen los task procedemos a enviar las notificaciones a los tokens
         for (let item of tokens) {
           this.notificacionService.sendNotification(
@@ -214,7 +222,7 @@ export class TaskService {
         };
       }
     } catch (error) {
-      console.log('El error es ', error);
+  
       this.logger.error(`Sucedio un error al actualizar al task ${updateTaskDto.codTask}`, error);
       return { message: 'Sucedio un error al actualizar al task' };
     }
@@ -261,8 +269,8 @@ export class TaskService {
   async removeUserToTask(taskToUserDto: TaskToUserDto) {
     // Obtenemos los tokens para el usuario
     const tokens = await this.notificacionService.findTokensByUser(taskToUserDto.codUser);
-    console.log('El ID user eliminado es ' , taskToUserDto.codUser);
-    console.log('Obtenemos todos los tokens del usuario antes de eliminarlo ' , tokens);
+    this.logger.log('El ID user eliminado es ' , taskToUserDto.codUser);
+    this.logger.log('Obtenemos todos los tokens del usuario antes de eliminarlo ' , tokens);
 
     // Iteramos los tokens de los usuarios para enviarlo antes de finalizar de eliminarlos de la tarea
     for (let item of tokens) {

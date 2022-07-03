@@ -61,11 +61,11 @@ export class AuthController {
   }
 
   @Post('generate-authentication-options')
-  async generateAuthenticationOptions(@Body() data) {
-    this.logger.log('Generando Authentication Options Authn Web username' , data.username);
+  async generateAuthenticationOptions(@Body() user) {
+    this.logger.log('Generando Authentication Options Authn Web username' , user.username);
     let userAuthenticators: Authentication[] =
-    await this.authService.getUserAuthenticatorsByUsername(data.username);
-    console.log('userAuthenticators ', userAuthenticators );
+    await this.authService.getUserAuthenticatorsByUsername(user.username);
+    this.logger.log('userAuthenticators ', userAuthenticators );
     const authOptions = await generateAuthenticationOption(userAuthenticators);
     this.rememberChallenge = authOptions.challenge;
     this.logger.log('Se genero authOptions' , authOptions);
@@ -74,7 +74,7 @@ export class AuthController {
 
   @Post('verify-authentication')
   async verifityAuthentication(@Body() data) {
-    this.logger.log('Angular envio' , data);
+    this.logger.log('Se recibio' , data);
     this.logger.log('Verificando Authentication Authn Web');
     let username = data.username;
     delete data.username;
@@ -93,7 +93,6 @@ export class AuthController {
         data: await this.authService.generateTokenWithAuthnWeb(username),
       });
     }
-
     return verifyOptions;
   }
 

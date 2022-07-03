@@ -11,7 +11,7 @@ export class Notificacion {
   @IsNotEmpty()
   tokenPush: string;
 
-  @ManyToOne(() => User, (User) => User.id, {
+  @ManyToOne(() => User, (user) => user.id, {
     nullable: false,
     onDelete :"CASCADE"
   })
