@@ -12,7 +12,7 @@ import { User } from '../user/entities/user.entity';
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'localhost';
+const rpID = 'sky-calendar-app.vercel.app';
 
 const rpIDArray = [
   'localhost',

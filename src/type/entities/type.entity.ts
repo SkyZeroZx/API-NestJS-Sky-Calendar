@@ -14,11 +14,11 @@ export class Type {
 
   @Column({ type: 'varchar', length: 120 })
   @IsNotEmpty()
-  backgroundColor: Date;
+  backgroundColor: string;
 
   @Column({ type: 'varchar', length: 12 })
   @IsNotEmpty()
-  borderColor: Date;
+  borderColor: string;
 
 
   @Column({ type: 'time' })

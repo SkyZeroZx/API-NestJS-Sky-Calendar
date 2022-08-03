@@ -246,12 +246,13 @@ export class TaskService {
       if (taskDelete.affected > 0) {
         this.logger.log(`Tarea eliminada exitosamente`);
         // Validando que se eliminen los task procedemos a enviar las notificaciones a los tokens
-        for (let item of tokens) {
+        tokens.forEach((item) => {
           this.notificacionService.sendNotification(
             item.tokenPush,
             Constant.NOTIFICACION_DELETE_TASK,
           );
-        }
+        });
+
         return { message: Constant.MENSAJE_OK, info: 'Tarea eliminada exitosamente' };
       } else {
         this.logger.warn(`No se encontro tarea a eliminar`);
@@ -270,9 +271,10 @@ export class TaskService {
     this.logger.log('Obtenemos todos los tokens del usuario antes de eliminarlo ', tokens);
 
     // Iteramos los tokens de los usuarios para enviarlo antes de finalizar de eliminarlos de la tarea
-    for (const item of tokens) {
+    tokens.forEach((item) => {
       this.notificacionService.sendNotification(item.tokenPush, Constant.NOTIFICACION_DELETE_TASK);
-    }
+    });
+
     return this.serviceTaskToUser.removeUserToTask(taskToUserDto);
   }
 
@@ -284,9 +286,9 @@ export class TaskService {
       // Obtenemos los tokens para el usuario
       const tokens = await this.notificacionService.findTokensByUser(taskToUserDto.codUser);
       // Iteramos los tokens y enviamos la notificacion
-      for (let item of tokens) {
+      tokens.forEach((item) => {
         this.notificacionService.sendNotification(item.tokenPush, Constant.NOTIFICACION_NEW_TASK);
-      }
+      });
     }
     // Al finalizar retornamos el mensaje del servicio llamado inicialmente
     return newUserToTask;

@@ -256,7 +256,7 @@ describe('UserService', () => {
     const spyWhere = jest.spyOn(mockService, 'where');
     const spyExecuteQueryBuilderAffected = jest
       .spyOn(mockService, 'execute')
-      .mockResolvedValue({ affected: 1 });
+      .mockResolvedValueOnce({ affected: 1 });
     const savePasswordAffect = await service.saveNewPassword(UserServiceMock.mockResultCreateUser);
     //Validamos la primera condicion cuando es afectado la actualizacion
     expect(spyUserHashPassword).toBeCalled();
@@ -270,7 +270,7 @@ describe('UserService', () => {
     expect(spyExecuteQueryBuilderAffected).toBeCalled();
     expect(savePasswordAffect.message).toEqual(Constant.MENSAJE_OK);
     // Validamos para el caso que es diferente de 1 es decir no fue afectado
-    const spyExecuteQueryBuilderNotAffected = spyExecuteQueryBuilderAffected.mockResolvedValue({
+    const spyExecuteQueryBuilderNotAffected = spyExecuteQueryBuilderAffected.mockResolvedValueOnce({
       affected: 0,
     });
     const savePasswordNotAffected = await service.saveNewPassword(
@@ -278,5 +278,19 @@ describe('UserService', () => {
     );
     expect(savePasswordNotAffected.message).toEqual('Sucedio un error al cambiar la contraseña');
     expect(spyExecuteQueryBuilderNotAffected).toBeCalled();
+  });
+
+  it('Validamos saveNewPassword Error', async () => {
+    const spyExecuteQueryBuilderError = jest
+      .spyOn(mockService, 'execute')
+      .mockRejectedValueOnce(new Error('Algo salio mal'));
+    await expect(
+      service.saveNewPassword(UserServiceMock.mockResultCreateUser),
+    ).rejects.toThrowError(
+      new InternalServerErrorException({
+        message: 'Sucedio un error al cambiar la contraseña',
+      }),
+    );
+    expect(spyExecuteQueryBuilderError).toBeCalled();
   });
 });
