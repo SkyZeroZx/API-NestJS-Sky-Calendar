@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Constant } from 'src/common/constants/Constant';
+import { Constant } from '../common/constants/Constant';
 import { Repository } from 'typeorm';
 import { TaskToUserDto } from './dto/task-to-user.dto';
 import { TaskToUser } from './entities/task_to_user.entity';
@@ -23,29 +23,37 @@ export class TaskToUserService {
    */
   async addUserToTask(taskToUserDto: TaskToUserDto) {
     try {
-      await this.taskToUserRepository.save({ codTask: taskToUserDto.codTask, codUser: taskToUserDto.codUser });
-    } catch (error) {
-      this.logger.error(`Sucedio un error al agregar al usuario ${taskToUserDto.codUser} a la tarea ${taskToUserDto.codTask}`, {
-        error,
+      await this.taskToUserRepository.save({
+        codTask: taskToUserDto.codTask,
+        codUser: taskToUserDto.codUser,
       });
+    } catch (error) {
+      this.logger.error(
+        `Sucedio un error al agregar al usuario ${taskToUserDto.codUser} a la tarea ${taskToUserDto.codTask}`,
+        {
+          error,
+        },
+      );
       return { message: 'Sucedio un error al agregar al usuario a la tarea seleccionada' };
     }
     // TODO ADD USER TOKEN FOR THE TASK
-    this.logger.log(`Se agrego exitosamente al usuario ${taskToUserDto.codUser} a la tarea ${taskToUserDto.codTask}`);
+    this.logger.log(
+      `Se agrego exitosamente al usuario ${taskToUserDto.codUser} a la tarea ${taskToUserDto.codTask}`,
+    );
     return {
       message: Constant.MENSAJE_OK,
       info: 'Usuario Agregado a la Tarea',
     };
   }
 
-/**
- * It saves a task to a user
- * @param codTask - The task code
- * @param codUser - The user's ID
- * @returns The taskToUserRepository.save() method is being returned.
- */
+  /**
+   * It saves a task to a user
+   * @param codTask - The task code
+   * @param codUser - The user's ID
+   * @returns The taskToUserRepository.save() method is being returned.
+   */
   async saveTaskToUser(codTask, codUser) {
-    return await this.taskToUserRepository.save({ codTask: codTask, codUser: codUser });
+    return this.taskToUserRepository.save({ codTask: codTask, codUser: codUser });
   }
 
   /**
@@ -55,16 +63,24 @@ export class TaskToUserService {
    */
   async removeUserToTask(taskToUserDto: TaskToUserDto) {
     try {
-      await this.taskToUserRepository.delete({ codUser: taskToUserDto.codUser, codTask: taskToUserDto.codTask });
-    } catch (error) {
-      this.logger.error(`Sucedio un error al eliminar al usuario ${taskToUserDto.codUser} de la tarea ${taskToUserDto.codTask}`, {
-        error,
+      await this.taskToUserRepository.delete({
+        codUser: taskToUserDto.codUser,
+        codTask: taskToUserDto.codTask,
       });
+    } catch (error) {
+      this.logger.error(
+        `Sucedio un error al eliminar al usuario ${taskToUserDto.codUser} de la tarea ${taskToUserDto.codTask}`,
+        {
+          error,
+        },
+      );
       return { message: 'Sucedio un error al eliminar al usuario de la tarea seleccionada' };
     }
     // TODO REMOVE USER TOKEN FOR THE TASK
 
-    this.logger.log(`Se elimino exitosamente al usuario ${taskToUserDto.codUser} de la tarea ${taskToUserDto.codTask}`);
+    this.logger.log(
+      `Se elimino exitosamente al usuario ${taskToUserDto.codUser} de la tarea ${taskToUserDto.codTask}`,
+    );
     return {
       message: Constant.MENSAJE_OK,
       info: 'Usuario Eliminado de la Tarea',
@@ -77,7 +93,7 @@ export class TaskToUserService {
    * @returns An array of objects with the id of the taskToUser
    */
   async TaskToUserByUser(id: number) {
-    return await this.taskToUserRepository
+    return this.taskToUserRepository
       .createQueryBuilder()
       .select('id')
       .where('codUser =:codUser', {

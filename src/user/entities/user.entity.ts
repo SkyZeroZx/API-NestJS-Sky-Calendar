@@ -12,9 +12,10 @@ import {
 } from 'typeorm';
 import { MinLength, IsNotEmpty, IsEmail, MaxLength } from 'class-validator';
 import * as bcrypt from 'bcryptjs';
-import { TaskToUser } from 'src/task_to_user/entities/task_to_user.entity';
-import { Notificacion } from 'src/notificacion/entities/notificacion.entity';
- 
+import { Notificacion } from '../../notificacion/entities/notificacion.entity';
+import { TaskToUser } from '../../task_to_user/entities/task_to_user.entity';
+import { Constant } from '../../common/constants/Constant';
+
 @Entity()
 @Unique(['username'])
 export class User {
@@ -81,5 +82,15 @@ export class User {
     }
     const salt = bcrypt.genSaltSync(10);
     this.password = bcrypt.hashSync(this.password, salt);
+  }
+
+  @BeforeUpdate()
+  async firstLoginStatus() {
+    console.log('Entro en firstLogin')
+    if (this.estado === Constant.ESTADOS_USER.HABILITADO) {
+      this.firstLogin = false;
+    } else {
+      this.firstLogin = true;
+    }
   }
 }

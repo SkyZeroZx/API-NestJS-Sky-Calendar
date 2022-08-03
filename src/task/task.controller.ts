@@ -1,15 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Logger,
+  UseGuards,
+} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Constant } from 'src/common/constants/Constant';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { User } from 'src/common/decorators/user.decorator';
-import { User as UserEntity } from 'src/user/entities/user.entity';
- 
+import { Constant } from '../common/constants/Constant';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { User } from '../common/decorators/user.decorator';
+import { User as UserEntity } from '../user/entities/user.entity';
 import { DeleteTaskDto } from './dto/delete-task.dto';
-import { TaskToUserDto } from 'src/task_to_user/dto/task-to-user.dto';
+import { TaskToUserDto } from '../task_to_user/dto/task-to-user.dto';
+import { Auth } from '../common/decorators/auth.decorator';
 
 @ApiTags('Task')
 @Controller('task')
@@ -20,7 +30,7 @@ export class TaskController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createTaskDto: CreateTaskDto) {
-    return await this.taskService.create(createTaskDto);
+    return this.taskService.create(createTaskDto);
   }
 
   /*Este es un método que devolverá todas las tareas*/
@@ -92,10 +102,12 @@ export class TaskController {
   removeTask(@Body() deleteTaskDto: DeleteTaskDto) {
     return this.taskService.removeTask(deleteTaskDto);
   }
+
  
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.taskService.findOne(+id);
+  @Post('/testTask')
+  @Auth('SuperAdminTesting')
+  testTaskRole() {
+    return { message: 'OK' };
   }
 }

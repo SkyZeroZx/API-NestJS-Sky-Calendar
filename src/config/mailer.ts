@@ -18,7 +18,5 @@ transporter
     logger.log('Servidor de correos inicializado');
   })
   .catch((error) => {
-    logger.error('Sucedio un error al iniciarlizar el servidor de correos', {
-      error,
-    });
+    logger.error('Sucedio un error al iniciarlizar el servidor de correos', error);
   });

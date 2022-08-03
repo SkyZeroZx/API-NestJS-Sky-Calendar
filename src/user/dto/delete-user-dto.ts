@@ -4,5 +4,5 @@ import { IsNotEmpty } from 'class-validator';
 export class DeleteUserDto {
   @ApiProperty()
   @IsNotEmpty()
-  id: string;
+  id: number;
 }

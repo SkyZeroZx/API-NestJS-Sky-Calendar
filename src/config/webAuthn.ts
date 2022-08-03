@@ -4,15 +4,15 @@ import {
   verifyAuthenticationResponse,
   verifyRegistrationResponse,
 } from '@simplewebauthn/server';
-import { Authentication } from 'src/auth/entities/autentication.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Authentication } from '../auth/entities/autentication.entity';
+import { User } from '../user/entities/user.entity';
 
 // Utilitarios de AuthnWeb generateRegistrationsOptions
 
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'sky-calendar-app.vercel.app';
+const rpID = 'localhost';
 
 const rpIDArray = [
   'localhost',
@@ -68,7 +68,7 @@ export async function verifyAuthWeb(body, expectedChallenge) {
     });
   } catch (error) {
     console.log(error);
-    return { error };
+    return  error ;
   }
 }
 

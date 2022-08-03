@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Constant } from 'src/common/constants/Constant';
-import { UserService } from 'src/user/user.service';
+import { Constant } from '../common/constants/Constant';
+import { UserService } from '../user/user.service';
 import { compare } from 'bcryptjs';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { transporter } from 'src/config/mailer';
+import { transporter } from '../config/mailer';
 import { generate } from 'generate-password';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -99,7 +99,7 @@ export class AuthService {
       } catch (error) {
         this.logger.error('Hubo un error al enviar el correo de resteo');
         return {
-          message: 'Hubo un error al enviar el correo de resteo',
+          message: 'Hubo un error al enviar el correo de reseteo',
         };
       }
     }

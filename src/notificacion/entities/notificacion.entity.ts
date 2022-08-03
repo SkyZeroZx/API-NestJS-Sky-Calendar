@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
-import { User } from 'src/user/entities/user.entity';
-  import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
+   import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
+import { User } from '../../user/entities/user.entity';
 
 @Entity()
 export class Notificacion {

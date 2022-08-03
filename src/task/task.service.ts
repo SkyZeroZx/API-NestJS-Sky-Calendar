@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Constant } from 'src/common/constants/Constant';
-import { NotificacionService } from 'src/notificacion/notificacion.service';
-import { TaskToUserDto } from 'src/task_to_user/dto/task-to-user.dto';
-import { TaskToUser } from 'src/task_to_user/entities/task_to_user.entity';
-import { TaskToUserService } from 'src/task_to_user/task_to_user.service';
-import { Type } from 'src/type/entities/type.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Constant } from '../common/constants/Constant';
+import { NotificacionService } from '../notificacion/notificacion.service';
+import { TaskToUserDto } from '../task_to_user/dto/task-to-user.dto';
+import { TaskToUser } from '../task_to_user/entities/task_to_user.entity';
+import { TaskToUserService } from '../task_to_user/task_to_user.service';
+import { Type } from '../type/entities/type.entity';
+import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { DeleteTaskDto } from './dto/delete-task.dto';
@@ -53,28 +53,28 @@ export class TaskService {
       this.logger.error(`Sucedio un error al crear el task`, { createTaskDto }, { error });
       return { message: 'Sucedio un error al crear el task' };
     }
-    this.logger.log('Create User Dto', createTaskDto.users);
 
     let arrayTaskToUser: any[] = [];
-    for (let user of createTaskDto.users) {
-      try {
-        arrayTaskToUser.push(await this.serviceTaskToUser.saveTaskToUser(task.codTask, user.id));
-      } catch (error) {
-        this.logger.error(
-          `Sucedio un error al registrar el usuario a la tarea ${task.codTask}`,
-           user ,
-           error ,
-        );
-        return { message: 'Sucedio un error al asignar la tarea al usuario' };
-      }
+
+    try {
+      createTaskDto.users.forEach((user) => {
+        arrayTaskToUser.push(this.serviceTaskToUser.saveTaskToUser(task.codTask, user.id));
+      });
+      await Promise.all(arrayTaskToUser);
+    } catch (error) {
+      this.logger.error(
+        `Sucedio un error al registrar el usuario a la tarea ${task.codTask}`,
+        error,
+      );
+      return { message: 'Sucedio un error al asignar la tarea al usuario' };
     }
+
     this.logger.log('ArrayToUser ', arrayTaskToUser);
 
     this.logger.log('Task registrado exitosamente');
     return {
       message: Constant.MENSAJE_OK,
       info: 'Task registrado exitosamente',
-      taskToUser: arrayTaskToUser,
     };
   }
 
@@ -93,7 +93,7 @@ export class TaskService {
    *     startDate: '2020
    */
   async findAll() {
-    return await this.taskRepository
+    return this.taskRepository
       .createQueryBuilder('TASK')
       .select('TASK.codTask', 'id')
       .addSelect('TASK.title', 'title')
@@ -126,7 +126,7 @@ export class TaskService {
    *     backgroundColor: '#
    */
   async findByUser(id) {
-    return await this.taskRepository
+    return this.taskRepository
       .createQueryBuilder('TASK')
       .select('TASK.codTask', 'id')
       .addSelect('TASK.title', 'title')
@@ -162,7 +162,7 @@ export class TaskService {
    *     nombre: 'Pedro',
    */
   async findByTask(codTask: number) {
-    return await this.taskRepository
+    return this.taskRepository
       .createQueryBuilder('TASK')
       .select('USER.id', 'id')
       .addSelect('USER.nombre', 'nombre')
@@ -176,18 +176,14 @@ export class TaskService {
       .getRawMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
-  }
-
-/**
- * It updates a task.
- * @param {UpdateTaskDto} updateTaskDto - UpdateTaskDto
- * @returns return {
- *     message: Constant.MENSAJE_OK,
- *     info: 'Task Actualizado Correctamente',
- *   };
- */
+  /**
+   * It updates a task.
+   * @param {UpdateTaskDto} updateTaskDto - UpdateTaskDto
+   * @returns return {
+   *     message: Constant.MENSAJE_OK,
+   *     info: 'Task Actualizado Correctamente',
+   *   };
+   */
   async update(updateTaskDto: UpdateTaskDto) {
     this.logger.log(`Actualizando tarea`, updateTaskDto);
     // Obtenemos los tokens de los usuarios antes de eliminarlos los relacionado a la tarea
@@ -210,19 +206,20 @@ export class TaskService {
         const tokens = await this.notificacionService.findTokensByTask(updateTaskDto.codTask);
         this.logger.log('Tokens obtenidos son ', tokens);
         // Validando que se actualicen los task procedemos a enviar las notificaciones a los tokens
-        for (let item of tokens) {
+
+        tokens.forEach((item) => {
           this.notificacionService.sendNotification(
             item.tokenPush,
             Constant.NOTIFICACION_UPDATE_TASK,
           );
-        }
+        });
+
         return {
           message: Constant.MENSAJE_OK,
           info: 'Task Actualizado Correctamente',
         };
       }
     } catch (error) {
-  
       this.logger.error(`Sucedio un error al actualizar al task ${updateTaskDto.codTask}`, error);
       return { message: 'Sucedio un error al actualizar al task' };
     }
@@ -269,14 +266,14 @@ export class TaskService {
   async removeUserToTask(taskToUserDto: TaskToUserDto) {
     // Obtenemos los tokens para el usuario
     const tokens = await this.notificacionService.findTokensByUser(taskToUserDto.codUser);
-    this.logger.log('El ID user eliminado es ' , taskToUserDto.codUser);
-    this.logger.log('Obtenemos todos los tokens del usuario antes de eliminarlo ' , tokens);
+    this.logger.log('El ID user eliminado es ', taskToUserDto.codUser);
+    this.logger.log('Obtenemos todos los tokens del usuario antes de eliminarlo ', tokens);
 
     // Iteramos los tokens de los usuarios para enviarlo antes de finalizar de eliminarlos de la tarea
-    for (let item of tokens) {
+    for (const item of tokens) {
       this.notificacionService.sendNotification(item.tokenPush, Constant.NOTIFICACION_DELETE_TASK);
     }
-    return await this.serviceTaskToUser.removeUserToTask(taskToUserDto);
+    return this.serviceTaskToUser.removeUserToTask(taskToUserDto);
   }
 
   async addUserToTask(taskToUserDto: TaskToUserDto) {

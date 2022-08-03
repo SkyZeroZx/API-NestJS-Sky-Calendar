@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
-import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../../user/entities/user.entity';
 
 @Entity()
 export class Authentication {

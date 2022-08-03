@@ -1,7 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
-import { TaskToUser } from 'src/task_to_user/entities/task_to_user.entity';
-import { Type } from 'src/type/entities/type.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+  import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { TaskToUser } from '../../task_to_user/entities/task_to_user.entity';
+import { Type } from '../../type/entities/type.entity';
 
 
 @Entity()

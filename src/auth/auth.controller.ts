@@ -2,10 +2,10 @@ import { Body, Controller, Get, Logger, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { User } from 'src/common/decorators/user.decorator';
-import { User as UserEntity } from 'src/user/entities/user.entity';
+import { User } from '../common/decorators/user.decorator';
+import { User as UserEntity } from '../user/entities/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { Constant } from 'src/common/constants/Constant';
+import { Constant } from '../common/constants/Constant';
 import { LoginDto } from './dtos/login.dto';
 import { ResetUserDto } from './dtos/reset.dto';
 import { ChangePasswordDto } from './dtos/changePasssword.dto';
@@ -115,11 +115,6 @@ export class AuthController {
     this.logger.log(`Cambiando contraseña usuario ${user.username}`);
     // Obtenemos las contraseña antigua y nueva de nuestro ChangePasswordDto
     const { oldPassword, newPassword } = changePasswordDto;
-    // Validamos que existan las nueva y antigua contraseña
-    if (!(oldPassword && newPassword)) {
-      this.logger.warn('Contraseña antigua y nueva son requeridas');
-      return { message: 'Contraseña antigua y nueva son requeridas' };
-    }
     //Realizamos validaciones
     if (oldPassword == newPassword) {
       this.logger.warn('No puede repetir la contraseña antigua para la nueva contraseña');

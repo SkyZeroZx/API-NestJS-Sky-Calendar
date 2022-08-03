@@ -1,12 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Constant } from 'src/common/constants/Constant';
-import { TaskToUser } from 'src/task_to_user/entities/task_to_user.entity';
-import { TaskToUserService } from 'src/task_to_user/task_to_user.service';
-import { User } from 'src/user/entities/user.entity';
+import { Constant } from '../common/constants/Constant';
+import { TaskToUser } from '../task_to_user/entities/task_to_user.entity';
+import { TaskToUserService } from '../task_to_user/task_to_user.service';
+import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateNotificacionDto } from './dto/create-notificacion.dto';
-import { UpdateNotificacionDto } from './dto/update-notificacion.dto';
 import { Notificacion } from './entities/notificacion.entity';
 const webpush = require('web-push');
 
@@ -47,7 +46,7 @@ export class NotificacionService {
 
   async save(tokenPush: string, codUser: number) {
     this.logger.log(`Suscribiendo el token para el usuario ${codUser}`);
-    return await this.notificacionRepository.save({
+    return this.notificacionRepository.save({
       codUser: codUser,
       tokenPush: tokenPush,
     });
@@ -66,7 +65,7 @@ export class NotificacionService {
   }
 
   async findTokensByUser(codUser) {
-    return await this.notificacionRepository
+    return this.notificacionRepository
       .createQueryBuilder('NOTIFICACION')
       .select('DISTINCT   (NOTIFICACION.tokenPush)', 'tokenPush')
       .innerJoin(User, 'USER', ' USER.id = NOTIFICACION.codUser')
@@ -77,7 +76,7 @@ export class NotificacionService {
   }
 
   async findTokensByTask(codTask) {
-    return await this.notificacionRepository
+    return this.notificacionRepository
       .createQueryBuilder('NOTIFICACION')
       .select('DISTINCT   (NOTIFICACION.tokenPush)', 'tokenPush')
       .innerJoin(User, 'USER', ' USER.id = NOTIFICACION.codUser')
@@ -92,26 +91,27 @@ export class NotificacionService {
     this.logger.log('Obteniendo Tokens para la nueva tarea creada');
     let arrayTokenUsers: any[] = [];
     try {
-      for (let user of listaUsers) {
-        try {
-          arrayTokenUsers.push(await this.findTokensByUser(user.id));
-        } catch (error) {
-          this.logger.error('Error al obtener token del usuario', error);
+      try {
+        listaUsers.forEach((user) => {
+          arrayTokenUsers.push(this.findTokensByUser(user.id));
+        });
+        arrayTokenUsers = await Promise.all(arrayTokenUsers);
+      } catch (error) {
+        this.logger.error('Error al obtener token del usuario', error);
 
-          return {
-            message: 'Error al obtener token del usuario',
-          };
-        }
+        return {
+          message: 'Error al obtener token del usuario',
+        };
       }
 
       this.logger.log('Despues del Lop soy el arrayTokens cantidad', arrayTokenUsers.length);
 
-      for (let tokens of arrayTokenUsers) {
-        for (let token of tokens) {
+      arrayTokenUsers.forEach((tokens) => {
+        tokens.map((token) => {
           this.logger.log('Llegue aca el token push es ', token);
           this.sendNotification(token.tokenPush, Constant.NOTIFICACION_NEW_TASK);
-        }
-      }
+        });
+      });
 
       this.logger.log('Notificaciones enviadas exitosamente');
       return {
@@ -125,6 +125,4 @@ export class NotificacionService {
       };
     }
   }
-
-  
 }

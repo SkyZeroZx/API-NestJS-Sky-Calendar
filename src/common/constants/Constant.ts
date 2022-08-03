@@ -22,7 +22,7 @@ export class Constant {
   public static readonly LOGO_APP = 'https://skyzerozx.000webhostapp.com/images/logo_app.png';
   public static readonly LOGO_ICON = 'https://skyzerozx.000webhostapp.com/images/favicon0.ico';
   public static readonly CALENDAR_WEB = 'https://sky-calendar-app.vercel.app/#/login';
-//https://skyzerozx.000webhostapp.com/images/favicon0.ico
+
   public static readonly MAIL = {
     CREATE_NEW_USER:
       "<img src='" +
