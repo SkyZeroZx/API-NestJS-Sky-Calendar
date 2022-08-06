@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Constant } from '../common/constants/Constant';
 import { Repository } from 'typeorm';
@@ -23,10 +23,7 @@ export class TaskToUserService {
    */
   async addUserToTask(taskToUserDto: TaskToUserDto) {
     try {
-      await this.taskToUserRepository.save({
-        codTask: taskToUserDto.codTask,
-        codUser: taskToUserDto.codUser,
-      });
+      await this.taskToUserRepository.save(taskToUserDto);
     } catch (error) {
       this.logger.error(
         `Sucedio un error al agregar al usuario ${taskToUserDto.codUser} a la tarea ${taskToUserDto.codTask}`,
@@ -34,9 +31,11 @@ export class TaskToUserService {
           error,
         },
       );
-      return { message: 'Sucedio un error al agregar al usuario a la tarea seleccionada' };
+      throw new InternalServerErrorException({
+        message: 'Sucedio un error al agregar al usuario a la tarea seleccionada',
+      });
     }
-    // TODO ADD USER TOKEN FOR THE TASK
+
     this.logger.log(
       `Se agrego exitosamente al usuario ${taskToUserDto.codUser} a la tarea ${taskToUserDto.codTask}`,
     );
@@ -63,10 +62,7 @@ export class TaskToUserService {
    */
   async removeUserToTask(taskToUserDto: TaskToUserDto) {
     try {
-      await this.taskToUserRepository.delete({
-        codUser: taskToUserDto.codUser,
-        codTask: taskToUserDto.codTask,
-      });
+      await this.taskToUserRepository.delete(taskToUserDto);
     } catch (error) {
       this.logger.error(
         `Sucedio un error al eliminar al usuario ${taskToUserDto.codUser} de la tarea ${taskToUserDto.codTask}`,
@@ -74,9 +70,10 @@ export class TaskToUserService {
           error,
         },
       );
-      return { message: 'Sucedio un error al eliminar al usuario de la tarea seleccionada' };
+      throw new InternalServerErrorException({
+        message: 'Sucedio un error al eliminar al usuario de la tarea seleccionada',
+      });
     }
-    // TODO REMOVE USER TOKEN FOR THE TASK
 
     this.logger.log(
       `Se elimino exitosamente al usuario ${taskToUserDto.codUser} de la tarea ${taskToUserDto.codTask}`,

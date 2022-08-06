@@ -5,12 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { NotificacionModule } from './notificacion/notificacion.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DATABASE_HOST, DATABASE_PORT, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME } from './common/constants/Constant';
+import {
+  DATABASE_HOST,
+  DATABASE_PORT,
+  DATABASE_USERNAME,
+  DATABASE_PASSWORD,
+  DATABASE_NAME,
+} from './common/constants/Constant';
 import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
 import { TypeModule } from './type/type.module';
-import { AccessControlModule } from 'nest-access-control';
-import { roles } from './app.roles';
 import { TaskToUserModule } from './task_to_user/task_to_user.module';
 import { ScheduleModule } from '@nestjs/schedule';
 
@@ -37,7 +41,6 @@ import { ScheduleModule } from '@nestjs/schedule';
       envFilePath: '.env',
     }),
     ScheduleModule.forRoot(),
-    AccessControlModule.forRoles(roles),
     AuthModule,
     TaskModule,
     TypeModule,

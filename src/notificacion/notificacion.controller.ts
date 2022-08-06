@@ -15,7 +15,10 @@ export class NotificacionController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async save(@User() user: UserEntity, @Body() createNotificacionDto: CreateNotificacionDto) {
+  async registerSuscriptionNotification(
+    @User() user: UserEntity,
+    @Body() createNotificacionDto: CreateNotificacionDto,
+  ) {
     this.logger.log(`Guardando Token para el usuario logeado ${user.username}`);
     return this.notificacionService.suscribeNotification(user.id, createNotificacionDto);
   }

@@ -1,12 +1,13 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JWT_TOKEN } from '../../common/constants/Constant';
+import { Constant, JWT_TOKEN } from '../../common/constants/Constant';
 import { UserService } from '../../user/user.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+  private readonly logger = new Logger(JwtStrategy.name);
   constructor(private userService: UserService, private config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -16,6 +17,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return this.userService.getUserById(payload.userId);
+    const user = await this.userService.getUserById(payload.userId);
+    switch (user.estado) {
+      case Constant.ESTADOS_USER.HABILITADO:
+      case Constant.ESTADOS_USER.RESETEADO:
+      case Constant.ESTADOS_USER.CREADO:
+        return user;
+      default:
+        this.logger.warn(`Su usuario no se encuentra autorizado`, user , payload);
+        throw new UnauthorizedException({
+          message: `Su usuario no se encuentra autorizado , tiene un status ${user.estado}`,
+        });
+    }
   }
 }

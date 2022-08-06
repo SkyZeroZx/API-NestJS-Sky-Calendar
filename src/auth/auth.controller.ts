@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Logger, Post, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -14,8 +22,7 @@ import {
   generateRegistrationOption,
   verifyAuthenticationOption,
   verifyAuthWeb,
-} from 'src/config/webAuthn';
-import { Authentication } from './entities/autentication.entity';
+} from '../config/webAuthn';
 
 @ApiTags('Autentificacion')
 @Controller('auth')
@@ -38,7 +45,7 @@ export class AuthController {
         Object.assign(data, { message: Constant.MENSAJE_OK });
         return data;
       default:
-        return { message: 'El usuario tiene un estado ' + user.estado };
+        return { message: `El usuario tiene un estado ${user.estado}` };
     }
   }
 
@@ -46,7 +53,7 @@ export class AuthController {
   @Get('generate-registration-options')
   async generateRegistration(@User() user: UserEntity) {
     this.logger.log('generate-registration-options');
-    let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticators(user);
+    const userAuthenticators = await this.authService.getUserAuthenticators(user);
     const register = generateRegistrationOption(user, userAuthenticators);
     this.rememberChallenge = register.challenge;
     return register;
@@ -62,32 +69,30 @@ export class AuthController {
 
   @Post('generate-authentication-options')
   async generateAuthenticationOptions(@Body() user) {
-    this.logger.log('Generando Authentication Options Authn Web username' , user.username);
-    let userAuthenticators: Authentication[] =
-    await this.authService.getUserAuthenticatorsByUsername(user.username);
-    this.logger.log('userAuthenticators ', userAuthenticators );
+    this.logger.log('Generando Authentication Options Authn Web username', user.username);
+    const userAuthenticators = await this.authService.getUserAuthenticatorsByUsername(
+      user.username,
+    );
+    this.logger.log('userAuthenticators ', userAuthenticators);
     const authOptions = await generateAuthenticationOption(userAuthenticators);
     this.rememberChallenge = authOptions.challenge;
-    this.logger.log('Se genero authOptions' , authOptions);
+    this.logger.log('Se genero authOptions', authOptions);
     return authOptions;
   }
 
   @Post('verify-authentication')
   async verifityAuthentication(@Body() data) {
-    this.logger.log('Se recibio' , data);
+    this.logger.log('Se recibio', data);
     this.logger.log('Verificando Authentication Authn Web');
     let username = data.username;
     delete data.username;
-    let userAuthenticators: Authentication[] = await this.authService.getUserAuthenticatorsById(
-      username,
-      data.id,
-    );
+    const userAuthenticators = await this.authService.getUserAuthenticatorsById(username, data.id);
     const verifyOptions = await verifyAuthenticationOption(
       data,
       this.rememberChallenge,
       userAuthenticators,
     );
-    this.logger.log('verifyOptions' , verifyOptions);
+    this.logger.log('verifyOptions', verifyOptions);
     if (verifyOptions['verified']) {
       Object.assign(verifyOptions, {
         data: await this.authService.generateTokenWithAuthnWeb(username),
@@ -100,12 +105,7 @@ export class AuthController {
   @Post('reset-password')
   async resetPassword(@Body() resetUserDto: ResetUserDto) {
     this.logger.log(`Reseteando usuario ${resetUserDto.username}`);
-    // Validamos la existencia del campo
     const { username } = resetUserDto;
-    if (!username) {
-      this.logger.warn('Se requiere username');
-      return { message: 'Se requiere username' };
-    }
     return this.authService.resetPassword(username);
   }
 
@@ -118,7 +118,9 @@ export class AuthController {
     //Realizamos validaciones
     if (oldPassword == newPassword) {
       this.logger.warn('No puede repetir la contraseña antigua para la nueva contraseña');
-      return { message: 'No puede repetir la contraseña antigua para la nueva contraseña' };
+      throw new BadRequestException({
+        message: 'No puede repetir la contraseña antigua para la nueva contraseña',
+      });
     }
     user.password = newPassword;
     // En caso sea el primer cambio de contraseña o reseteado cambiamos el estado a false

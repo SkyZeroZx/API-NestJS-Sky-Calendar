@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Logger,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Delete, Logger, UseGuards } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -102,8 +92,6 @@ export class TaskController {
   removeTask(@Body() deleteTaskDto: DeleteTaskDto) {
     return this.taskService.removeTask(deleteTaskDto);
   }
-
- 
 
   @Post('/testTask')
   @Auth('SuperAdminTesting')

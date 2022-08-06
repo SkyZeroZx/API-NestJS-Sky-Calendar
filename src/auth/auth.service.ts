@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { Constant } from '../common/constants/Constant';
 import { UserService } from '../user/user.service';
 import { compare } from 'bcryptjs';
@@ -31,7 +31,7 @@ export class AuthService {
     this.logger.log('Validando Usuario');
     const user = await this.userService.findByEmail(email);
     if (typeof user.user == 'undefined') {
-      this.logger.log('Login fallido usuario: ' + email);
+      this.logger.warn(`Login fallido usuario: ${email}`);
       return null;
     }
 
@@ -39,7 +39,7 @@ export class AuthService {
       delete user.message;
       user.message = Constant.MENSAJE_OK;
       delete user.user.password;
-      this.logger.log('Login exitoso usuario: ' + email);
+      this.logger.log(`Login fallido usuario: ${email}`);
       return user.user;
     }
     return null;
@@ -59,52 +59,52 @@ export class AuthService {
       return this.userService.saveNewPassword(user);
     }
     this.logger.warn('Antigua contraseña no coincidio con la contraseña actual');
-    return { message: 'Hubo un error al cambiar la contraseña , validar' };
+
+    throw new InternalServerErrorException({
+      message: 'Hubo un error al cambiar la contraseña , validar',
+    });
   }
 
   async resetPassword(username: string) {
-    // Realizamos la busqueda de nuestro usuario
-    let userReset = await this.userService.findByEmail(username);
-    // Validamos que nos retorne diferente de undefined
-    if (typeof userReset.user == 'undefined') {
-      return { message: `Sucedio un error al resetear al usuario ${username}` };
-    }
-    // Generamos nuestra contraseña random
-    let generatePassword = generate({
-      length: 10,
-      numbers: true,
-    });
-    // Asiganamos nuestra contraseña generada
-    userReset.user.password = generatePassword;
-    // Asigamos firstLogin TRUE y estado Reseteado
-    userReset.user.firstLogin = true;
-    userReset.user.estado = Constant.ESTADOS_USER.RESETEADO;
-    // Salvamos la nueva contraseña con sus datos del usuario reseteado
-    const resetUser = await this.userService.saveNewPassword(userReset.user);
-    if (resetUser.message == Constant.MENSAJE_OK) {
-      // Validamos la respuesta si es OK enviamos mail
-      try {
+    const userReset = {
+      username,
+      password: generate({
+        length: 10,
+        numbers: true,
+      }),
+      estado: Constant.ESTADOS_USER.RESETEADO,
+      firstLogin: true,
+    } as User;
+    try {
+      // Salvamos la nueva contraseña con sus datos del usuario reseteado
+      const response = await this.userService.saveNewPassword(userReset);
+      if (response.message == Constant.MENSAJE_OK) {
+        // Validamos la respuesta si es OK enviamos mail
+
         await transporter.sendMail({
-          from: 'Universidad <institucional@gmail.com>',
+          from: 'SkyCalendar <sky-admin@gmail.com>',
           to: username,
           subject: 'Reseteo de contraseña',
           html: Constant.replaceText(
             ['{{username}}', '{{passwordReset}}'],
-            [username, generatePassword],
+            [username, userReset.password],
             Constant.MAIL.RESET_PASSWORD,
           ),
         });
         this.logger.log(`Se envio correo de reseteo del usuario ${username}`);
         return { message: Constant.MENSAJE_OK, info: 'Usuario reseteado exitosamente' };
-      } catch (error) {
-        this.logger.error('Hubo un error al enviar el correo de resteo');
-        return {
+      } else {
+        this.logger.error('No se pudo resetear la contraseña');
+        throw new InternalServerErrorException({
           message: 'Hubo un error al enviar el correo de reseteo',
-        };
+        });
       }
+    } catch (error) {
+      this.logger.error('Hubo un error al enviar el correo de resteo');
+      throw new InternalServerErrorException({
+        message: 'Hubo un error al enviar el correo de reseteo',
+      });
     }
-    //Caso contrario translamos el error
-    return resetUser;
   }
 
   /**
@@ -112,7 +112,7 @@ export class AuthService {
    * @param {User} user - User - The user object that was passed to the method.
    * @returns An array of Authenticator objects.
    */
-  async getUserAuthenticators(user: User) {
+  async getUserAuthenticators(user: User): Promise<Authentication[]> {
     return this.autenticationRepository.find({
       where: {
         codUser: user.id,
@@ -126,7 +126,7 @@ export class AuthService {
    * @param {string} id - The id of the authenticator you want to get.
    * @returns The user authenticators by id
    */
-  async getUserAuthenticatorsById(username: string, id: string) {
+  async getUserAuthenticatorsById(username: string, id: string)  : Promise<Authentication[]> {
     return this.autenticationRepository
       .createQueryBuilder('AUTH')
       .select('AUTH.id', 'id')
@@ -159,7 +159,7 @@ export class AuthService {
    *     id: 2,
    *     codUser: 1,
    */
-  async getUserAuthenticatorsByUsername(username: string) {
+  async getUserAuthenticatorsByUsername(username: string): Promise<Authentication[]> {
     return this.autenticationRepository
       .createQueryBuilder('AUTH')
       .select('AUTH.id', 'id')
@@ -183,8 +183,8 @@ export class AuthService {
    */
   async saveUserAuthenticators(user: User, id: string, data: any) {
     this.logger.log('Se esta registrando al usuario ', user);
-    this.logger.log('Informacion recibida es ', await data);
-    let auth = this.autenticationRepository.create({
+    this.logger.log('Informacion recibida es ', data);
+    const auth = this.autenticationRepository.create({
       id: id,
       counter: data.registrationInfo.counter,
       codUser: user.id,
@@ -214,13 +214,13 @@ export class AuthService {
   }
 
   /**
-   * It takes a username, finds the user in the database, deletes the password from the user object, and
+   * It takes a email, finds the user in the database, deletes the password from the user object, and
    * then generates a token with the user object
-   * @param {string} username - The username of the user to be authenticated.
+   * @param {string} email - The email of the user to be authenticated.
    * @returns A token
    */
-  async generateTokenWithAuthnWeb(username: string) {
-    const user = await this.userService.findByEmail(username);
+  async generateTokenWithAuthnWeb(email: string) {
+    const user = await this.userService.findByEmail(email);
     delete user.user.password;
     return this.generateToken(user.user);
   }

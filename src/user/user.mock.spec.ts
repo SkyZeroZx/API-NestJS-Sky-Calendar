@@ -1,6 +1,6 @@
 import { Constant } from '../common/constants/Constant';
 import { CreateUserDto } from './dto/create-user.dto';
-import { DeleteUserDto } from './dto/delete-user-dto';
+import { DeleteUserDto } from './dto/delete-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
@@ -8,8 +8,6 @@ export class UserServiceMock {
   public async save(_dto: any): Promise<any> {
     return UserServiceMock.mockResultCreateUser;
   }
-
- 
 
   public find = jest.fn().mockReturnThis();
   public create = jest.fn().mockReturnThis();
@@ -22,9 +20,9 @@ export class UserServiceMock {
     getOne: this.getOne,
     offset: this.offset,
     limit: this.limit,
-    update : this.update,
-    set : this.set,
-    execute : this.execute
+    update: this.update,
+    set: this.set,
+    execute: this.execute,
   }));
 
   // Mockeo para funciones del QueryBuilder
@@ -34,9 +32,9 @@ export class UserServiceMock {
   public offset = jest.fn().mockReturnThis();
   public limit = jest.fn().mockReturnThis();
   public update = jest.fn().mockReturnThis();
-  public set  = jest.fn().mockReturnThis();
+  public set = jest.fn().mockReturnThis();
   public execute = jest.fn().mockReturnThis();
- 
+
   // Mockeo de objetos
   public static mockCreateDto: CreateUserDto = {
     username: 'SkyZeroZx',
@@ -62,8 +60,8 @@ export class UserServiceMock {
       return;
     },
     firstLoginStatus: function (): Promise<void> {
-     return;
-    }
+      return;
+    },
   };
 
   public static mockResultOk = {
@@ -80,9 +78,9 @@ export class UserServiceMock {
     estado: 'CREADO',
   };
 
-  public static deleteUser : DeleteUserDto = {
-    id: 1
-  }
+  public static deleteUser: DeleteUserDto = {
+    id: 1,
+  };
 
   public static readonly mockFindAllUserData: User[] = [
     {
@@ -98,7 +96,7 @@ export class UserServiceMock {
       estado: 'CREADO',
       firstLogin: false,
       hashPassword: Object,
-      firstLoginStatus : Object
+      firstLoginStatus: Object,
     },
     {
       id: 2,
@@ -113,7 +111,7 @@ export class UserServiceMock {
       estado: 'BLOQUEADO',
       firstLogin: false,
       hashPassword: Object,
-      firstLoginStatus : Object
+      firstLoginStatus: Object,
     },
   ];
 }

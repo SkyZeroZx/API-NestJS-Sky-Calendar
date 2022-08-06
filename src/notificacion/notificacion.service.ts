@@ -1,8 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Constant } from '../common/constants/Constant';
 import { TaskToUser } from '../task_to_user/entities/task_to_user.entity';
-import { TaskToUserService } from '../task_to_user/task_to_user.service';
 import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateNotificacionDto } from './dto/create-notificacion.dto';
@@ -15,21 +14,20 @@ export class NotificacionService {
   constructor(
     @InjectRepository(Notificacion)
     private readonly notificacionRepository: Repository<Notificacion>,
-    private readonly taskToUserService: TaskToUserService,
   ) {}
 
   async suscribeNotification(codUser: number, createNotificacionDto: CreateNotificacionDto) {
     this.logger.log('Suscribiendo el token para el usuario', createNotificacionDto);
     try {
       // Validamos si existe alguna coincidencia
-      const notificactionRegister = await this.notificacionRepository.findAndCount({
+      const [, count] = await this.notificacionRepository.findAndCount({
         where: {
           codUser: codUser,
           tokenPush: createNotificacionDto.tokenPush,
         },
       });
       // En caso no devuelva 0 significa que no existe por lo cual vamos a registrarlo
-      if (notificactionRegister[1] == 0) {
+      if (count == 0) {
         await this.notificacionRepository.save({
           codUser: codUser,
           tokenPush: createNotificacionDto.tokenPush,
@@ -37,19 +35,11 @@ export class NotificacionService {
       }
     } catch (error) {
       this.logger.error(`Sucedio un error al guardar el token`, error);
-      return { message: 'Sucedio un error al guardar el token' };
+      throw new InternalServerErrorException({ message: 'Sucedio un error al guardar el token' });
     }
 
     this.logger.log('Se guardo el Token Task To User');
     return { message: Constant.MENSAJE_OK, info: 'Se guardo el token exitosamente' };
-  }
-
-  async save(tokenPush: string, codUser: number) {
-    this.logger.log(`Suscribiendo el token para el usuario ${codUser}`);
-    return this.notificacionRepository.save({
-      codUser: codUser,
-      tokenPush: tokenPush,
-    });
   }
 
   async sendNotification(tokenPush: string, message: Object) {
@@ -57,14 +47,14 @@ export class NotificacionService {
     webpush
       .sendNotification(JSON.parse(tokenPush), JSON.stringify(message))
       .then((res) => {
-        this.logger.log('Enviado !!', res);
+        this.logger.log('Se envio notificacion ', res);
       })
       .catch((err) => {
-        this.logger.warn('Fallo Enviar StatusCode: ' + err.statusCode, err.body);
+        this.logger.warn(`Fallo al enviar notificacion statusCode : ${err.statusCode}`, err.body);
       });
   }
 
-  async findTokensByUser(codUser) {
+  async findTokensByUser(codUser: number) {
     return this.notificacionRepository
       .createQueryBuilder('NOTIFICACION')
       .select('DISTINCT   (NOTIFICACION.tokenPush)', 'tokenPush')
@@ -75,7 +65,7 @@ export class NotificacionService {
       .getRawMany();
   }
 
-  async findTokensByTask(codTask) {
+  async findTokensByTask(codTask: number) {
     return this.notificacionRepository
       .createQueryBuilder('NOTIFICACION')
       .select('DISTINCT   (NOTIFICACION.tokenPush)', 'tokenPush')
@@ -91,23 +81,16 @@ export class NotificacionService {
     this.logger.log('Obteniendo Tokens para la nueva tarea creada');
     let arrayTokenUsers: any[] = [];
     try {
-      try {
-        listaUsers.forEach((user) => {
-          arrayTokenUsers.push(this.findTokensByUser(user.id));
-        });
-        arrayTokenUsers = await Promise.all(arrayTokenUsers);
-      } catch (error) {
-        this.logger.error('Error al obtener token del usuario', error);
 
-        return {
-          message: 'Error al obtener token del usuario',
-        };
-      }
+      listaUsers.forEach((user) => {
+        arrayTokenUsers.push(this.findTokensByUser(user.id));
+      });
+      arrayTokenUsers = await Promise.all(arrayTokenUsers);
 
       this.logger.log('Despues del Lop soy el arrayTokens cantidad', arrayTokenUsers.length);
 
       arrayTokenUsers.forEach((tokens) => {
-        tokens.map((token) => {
+        tokens.forEach((token) => {
           this.logger.log('Llegue aca el token push es ', token);
           this.sendNotification(token.tokenPush, Constant.NOTIFICACION_NEW_TASK);
         });
@@ -120,9 +103,9 @@ export class NotificacionService {
       };
     } catch (error) {
       this.logger.error('Sucedio un error al registrar tokens para la nueva tarea', error);
-      return {
+      throw new InternalServerErrorException({
         message: 'Sucedio un error al registrar tokens para la nueva tarea',
-      };
+      });
     }
   }
 }

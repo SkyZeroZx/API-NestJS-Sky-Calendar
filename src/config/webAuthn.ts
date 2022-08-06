@@ -12,7 +12,7 @@ import { User } from '../user/entities/user.entity';
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'sky-calendar-app.vercel.app';
+const rpID = 'localhost';
 
 const rpIDArray = [
   'localhost',
@@ -28,8 +28,7 @@ const origin = [
   'https://www.kikesport.com.pe/sky',
   'https://sky-calendar-app.vercel.app',
   'https://sky-calendar-app.vercel.app:4200',
-  'https://sky-calendar.herokuapp.com',
-  'http://sky-calendar.herokuapp.com',
+  'https://sky-calendar.herokuapp.com'
 ];
 
 export function generateRegistrationOption(user: User, userAuthenticators: Authentication[]) {

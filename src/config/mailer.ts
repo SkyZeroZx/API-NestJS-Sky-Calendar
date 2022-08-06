@@ -1,16 +1,19 @@
 import { Logger } from '@nestjs/common';
-import nodemailer = require('nodemailer');
+import * as nodemailer from 'nodemailer';
+import 'dotenv/config';
+
+const logger = new Logger('NodeMailer');
 
 export const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
+  host: process.env.EMAIL_HOST,
+  port: parseInt(process.env.EMAIL_PORT),
   secure: true,
   auth: {
-    user: 'nodetestui@gmail.com',
-    pass: 'goaqcsrjxfuuklcz',
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
-const logger = new Logger('NodeMailer');
+
 
 transporter
   .verify()

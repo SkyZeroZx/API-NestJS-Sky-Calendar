@@ -26,6 +26,10 @@ describe('UserService', () => {
     service = module.get<UserService>(UserService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Service debe estar definido', () => {
     expect(service).toBeDefined();
   });
@@ -41,8 +45,8 @@ describe('UserService', () => {
     });
     // Mockeamos el envio de email
     const spyTransporterEmail = jest
-      .spyOn(transporter, 'sendMail')
-      .mockImplementationOnce(async () => UserServiceMock.mockResultOk);
+      .spyOn(transporter, 'sendMail').mockReturnValue(null)
+       
     const dataOK = await service.create(UserServiceMock.mockCreateDto);
     // Validamos las llamadas a nuestras funciones mockeadas
     expect(spyFindByEmailMockOk).toBeCalledWith(UserServiceMock.mockCreateDto.username);
@@ -109,7 +113,7 @@ describe('UserService', () => {
     const spyWhere = jest.spyOn(mockService, 'where');
     const spyAddSelect = jest.spyOn(mockService, 'addSelect');
     // Realizamos el mockeo para que solo una vez nos retorne el valor null
-    mockService.getOne.mockReturnValueOnce(null);
+    mockService.getOne.mockReturnValueOnce(false);
     // Llamamos nuestra funcion findByEmail y le paso el email fake
     const userNoExist = await service.findByEmail(username);
     // Validamos que nuestros mocks fueran llamado
@@ -249,8 +253,11 @@ describe('UserService', () => {
   });
 
   it('Validamos saveNewPassword OK', async () => {
-    const { id, password, firstLogin, estado } = UserServiceMock.mockResultCreateUser;
+    const { username, password, firstLogin, estado } = UserServiceMock.mockResultCreateUser;
     const spyUserHashPassword = jest.spyOn(UserServiceMock.mockResultCreateUser, 'hashPassword');
+    const spyCreate = jest.spyOn(mockService, 'create').mockImplementation(() => {
+      return UserServiceMock.mockResultCreateUser;
+    });
     const spyUpdate = jest.spyOn(mockService, 'update');
     const spySet = jest.spyOn(mockService, 'set');
     const spyWhere = jest.spyOn(mockService, 'where');
@@ -260,13 +267,14 @@ describe('UserService', () => {
     const savePasswordAffect = await service.saveNewPassword(UserServiceMock.mockResultCreateUser);
     //Validamos la primera condicion cuando es afectado la actualizacion
     expect(spyUserHashPassword).toBeCalled();
+    expect(spyCreate).toBeCalled();
     expect(spyUpdate).toBeCalledWith(User);
     expect(spySet).toBeCalledWith({
-      password,
       firstLogin,
+      password,
       estado,
     });
-    expect(spyWhere).toBeCalledWith('id = :id', { id });
+    expect(spyWhere).toBeCalledWith('username = :username', { username });
     expect(spyExecuteQueryBuilderAffected).toBeCalled();
     expect(savePasswordAffect.message).toEqual(Constant.MENSAJE_OK);
     // Validamos para el caso que es diferente de 1 es decir no fue afectado
@@ -281,9 +289,10 @@ describe('UserService', () => {
   });
 
   it('Validamos saveNewPassword Error', async () => {
-    const spyExecuteQueryBuilderError = jest
-      .spyOn(mockService, 'execute')
-      .mockRejectedValueOnce(new Error('Algo salio mal'));
+    const spyCreate = jest.spyOn(mockService, 'create').mockImplementation(() => {
+      return UserServiceMock.mockResultCreateUser;
+    });
+    const spyExecuteQueryBuilderError = jest.spyOn(mockService, 'execute').mockRejectedValue(new Error('Algo salio mal'));
     await expect(
       service.saveNewPassword(UserServiceMock.mockResultCreateUser),
     ).rejects.toThrowError(
@@ -292,5 +301,7 @@ describe('UserService', () => {
       }),
     );
     expect(spyExecuteQueryBuilderError).toBeCalled();
+    expect(spyCreate).toBeCalled();
+ 
   });
 });

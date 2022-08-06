@@ -7,7 +7,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Constant } from '../common/constants/Constant';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { DeleteUserDto } from './dto/delete-user-dto';
+import { DeleteUserDto } from './dto/delete-user.dto';
 import { UserServiceMock } from './user.mock.spec';
 
 describe('UserController', () => {

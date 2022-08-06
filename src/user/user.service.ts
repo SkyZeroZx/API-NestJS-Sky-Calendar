@@ -4,7 +4,7 @@ import { Constant } from '../common/constants/Constant';
 import { transporter } from '../config/mailer';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import { DeleteUserDto } from './dto/delete-user-dto';
+import { DeleteUserDto } from './dto/delete-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { generate } from 'generate-password';
@@ -162,13 +162,23 @@ export class UserService {
   async saveNewPassword(user: User) {
     try {
       // Hasheamos nuestra contraseña
-      user.hashPassword();
+      const userCreateNewPassword = this.userRepository.create({
+        username: user.username,
+        password: user.password,
+        firstLogin: user.firstLogin,
+        estado: user.estado,
+      });
+      userCreateNewPassword.hashPassword();
       // Llamamos nuestro userRepository y creamos nuestra query Update
       const userNewPassword = await this.userRepository
         .createQueryBuilder()
         .update(User)
-        .set({ password: user.password, firstLogin: user.firstLogin, estado: user.estado })
-        .where('id = :id', { id: user.id })
+        .set({
+          password: userCreateNewPassword.password,
+          firstLogin: userCreateNewPassword.firstLogin,
+          estado: userCreateNewPassword.estado,
+        })
+        .where('username = :username', { username: userCreateNewPassword.username })
         .execute();
       // Validamos que se actualice con el valor de affected
       if (userNewPassword.affected == 1) {
@@ -176,7 +186,7 @@ export class UserService {
         return { message: Constant.MENSAJE_OK, info: 'Se cambio exitosamente la contraseña' };
       } else {
         // Caso contrario retornamos un error
-        this.logger.log(`Se cambio satisfactoriamente la contraseña del usuario ${user.username}`);
+        this.logger.warn(`Sucedio un error al cambiar la contraseña , usuario : ${user.username}`);
         return { message: 'Sucedio un error al cambiar la contraseña' };
       }
     } catch (error) {

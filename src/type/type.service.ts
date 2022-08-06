@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Type } from './entities/type.entity';
@@ -13,6 +13,12 @@ export class TypeService {
 
   async findAll(): Promise<Type[]> {
     this.logger.log('Listando Types');
-    return await this.typeRepository.find();
+    const listaTypes: Type[] = await this.typeRepository.find();
+    if (listaTypes.length === 0) {
+      throw new InternalServerErrorException({
+        message: 'No se encontraron Types',
+      });
+    }
+    return listaTypes;
   }
 }

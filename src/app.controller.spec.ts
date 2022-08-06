@@ -15,7 +15,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
+    it('should return "Sky Calendar API"', () => {
       expect(appController.getName()).toBe('Sky Calendar API');
     });
   });
