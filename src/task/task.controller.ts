@@ -5,11 +5,10 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Constant } from '../common/constants/Constant';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { User } from '../common/decorators/user.decorator';
+import { UserDecorator as User } from '../common/decorators/user.decorator';
 import { User as UserEntity } from '../user/entities/user.entity';
 import { DeleteTaskDto } from './dto/delete-task.dto';
 import { TaskToUserDto } from '../task_to_user/dto/task-to-user.dto';
-import { Auth } from '../common/decorators/auth.decorator';
 
 @ApiTags('Task')
 @Controller('task')
@@ -93,9 +92,9 @@ export class TaskController {
     return this.taskService.removeTask(deleteTaskDto);
   }
 
-  @Post('/testTask')
-  @Auth('SuperAdminTesting')
-  testTaskRole() {
-    return { message: 'OK' };
-  }
+  // @Post('/testTask')
+  // @Auth('SuperAdminTesting')
+  // testTaskRole() {
+  //   return { message: 'OK' };
+  // }
 }

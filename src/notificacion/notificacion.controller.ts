@@ -3,7 +3,7 @@ import { NotificacionService } from './notificacion.service';
 import { CreateNotificacionDto } from './dto/create-notificacion.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { User } from '../common/decorators/user.decorator';
+import { UserDecorator as User } from '../common/decorators/user.decorator';
 import { User as UserEntity } from '../user/entities/user.entity';
 import { SendNotificacionDto } from './dto/send-notificacion.dto';
 

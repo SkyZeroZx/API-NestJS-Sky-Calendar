@@ -107,4 +107,10 @@ describe('UserController', () => {
     // Validamos que se llame a remove
     expect(spyRemove).toBeCalled();
   });
+
+
+  it('Validamos Profile', async () => {
+    const profile = await controller.profile(UserServiceMock.mockResultCreateUser);
+    expect(profile.message).toEqual(Constant.MENSAJE_OK)
+  })
 });

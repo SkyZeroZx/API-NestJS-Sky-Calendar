@@ -55,17 +55,35 @@ describe('AuthController', () => {
     const spyGenerateToken = jest.spyOn(authService, 'generateToken').mockImplementation(() => {
       return { ...UserServiceMock.mockFindAllUserData[0], token: AuthMockService.token };
     });
-    const loginOk: any = await controller.login(
+    const loginOkReseteado: any = await controller.login(
       AuthMockService.loginDto,
       AuthMockService.userResetado,
     );
     expect(spyGenerateToken).toBeCalledWith(AuthMockService.userResetado);
-    expect(loginOk.message).toEqual(Constant.MENSAJE_OK);
+    expect(loginOkReseteado.message).toEqual(Constant.MENSAJE_OK);
+    // Validamos para el caso de usuario HABILITADO
+
+    const loginOkHabilitado: any = await controller.login(
+      AuthMockService.loginDto,
+      AuthMockService.userHabilitado,
+    );
+    expect(spyGenerateToken).toHaveBeenNthCalledWith(2, AuthMockService.userHabilitado);
+    expect(loginOkHabilitado.message).toEqual(Constant.MENSAJE_OK);
+
+    // Validamos para el caso de usuario CREADO
+    const loginOkCreado: any = await controller.login(
+      AuthMockService.loginDto,
+      AuthMockService.userCreate,
+    );
+    expect(spyGenerateToken).toHaveBeenNthCalledWith(3, AuthMockService.userCreate);
+
+    expect(loginOkHabilitado.message).toEqual(Constant.MENSAJE_OK);
+
     // En caso contario cualquier otro usuario como el estado bloqueado no puede logearse
     let userBloqueado = AuthMockService.userResetado;
     userBloqueado.estado = Constant.ESTADOS_USER.BLOQUEADO;
     const loginBloqueado: any = await controller.login(AuthMockService.loginDto, userBloqueado);
-    expect(spyGenerateToken).not.toBeCalledTimes(2);
+    expect(spyGenerateToken).not.toBeCalledTimes(4);
     expect(loginBloqueado).toEqual({
       message: `El usuario tiene un estado ${userBloqueado.estado}`,
     });

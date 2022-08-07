@@ -7,7 +7,8 @@ import { DeleteUserDto } from './dto/delete-user.dto';
 import { Constant } from '../common/constants/Constant';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User as UserEntity } from '../user/entities/user.entity';
-import { User } from '../common/decorators/user.decorator';
+import { UserDecorator as User } from '../common/decorators/user.decorator';
+import { Auth } from '../common/decorators/auth.decorator';
 
 @ApiTags('Users')
 @Controller('users')
@@ -35,16 +36,15 @@ export class UserController {
     return users;
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  async findByUser(@User() user: UserEntity) {
+   
+  @Auth('SuperAdminTesting')
+  @Post('profile')
+  async profile(@User() user: UserEntity) {
     this.logger.log('User JWT is ' , user.id);
- 
-    console.log(user);
     this.logger.log(`Usuario Obtenido ${Constant.MENSAJE_OK}`);
     return {message:Constant.MENSAJE_OK};
   }
-
+ 
   @UseGuards(JwtAuthGuard)
   @Patch()
   update(@Body() updateUserDto: UpdateUserDto) {

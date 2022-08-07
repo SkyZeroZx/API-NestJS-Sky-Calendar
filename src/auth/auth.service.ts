@@ -39,7 +39,7 @@ export class AuthService {
       delete user.message;
       user.message = Constant.MENSAJE_OK;
       delete user.user.password;
-      this.logger.log(`Login fallido usuario: ${email}`);
+      this.logger.log(`Login exitoso usuario: ${email}`);
       return user.user;
     }
     return null;
@@ -100,7 +100,7 @@ export class AuthService {
         });
       }
     } catch (error) {
-      this.logger.error('Hubo un error al enviar el correo de resteo');
+      this.logger.error('Hubo un error al enviar el correo de reseteo');
       throw new InternalServerErrorException({
         message: 'Hubo un error al enviar el correo de reseteo',
       });
