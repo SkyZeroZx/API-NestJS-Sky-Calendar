@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 16
+      - name: Run Install Dependences
+        run: npm i
       - name: Run test cov
         run: npm run test:cov
       - name: SonarCloud Scan
