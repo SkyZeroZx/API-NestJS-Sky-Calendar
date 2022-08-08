@@ -1,6 +1,6 @@
-projectKey=API_NESTJS_CALENDAR_APP
+projectKey=SkyZeroZx_API-NestJS-Sky-Calendar
 serverUrl=http://localhost:9000
 serverVersion=9.5.0.56709
-dashboardUrl=http://localhost:9000/dashboard?id=API_NESTJS_CALENDAR_APP
-ceTaskId=AYJ5Q_9r5L9a9woA0F_n
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYJ5Q_9r5L9a9woA0F_n
+dashboardUrl=http://localhost:9000/dashboard?id=SkyZeroZx_API-NestJS-Sky-Calendar
+ceTaskId=AYJ7TpoY5L9a9woA0F_z
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYJ7TpoY5L9a9woA0F_z

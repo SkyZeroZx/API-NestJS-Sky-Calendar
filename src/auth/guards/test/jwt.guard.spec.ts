@@ -1,17 +1,12 @@
 import { InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import { AuthMockService } from '../../auth.mock.spec';
-
 import { JwtAuthGuard } from '../jwt-auth.guard';
+
 describe('JWT Guard ', () => {
   let jwtAuthGuard: JwtAuthGuard;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [JwtAuthGuard],
-    }).compile();
-
-    jwtAuthGuard = module.get<JwtAuthGuard>(JwtAuthGuard);
+    jwtAuthGuard = new JwtAuthGuard();
   });
 
   afterEach(() => {

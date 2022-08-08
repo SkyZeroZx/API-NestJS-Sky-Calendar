@@ -121,6 +121,10 @@ _Reporte de Cobertura en SonarCloud_
 
 ![SonarQube Cloud 2](/docs/sonar/sonar-cloud-2.png)
 
+
+![SonarQube Cloud 3](/docs/sonar/sonar-cloud-3.png)
+
+
 ## Construido con 🛠️
 
 _Las herramientas utilizadas son:_
