@@ -22,13 +22,13 @@
 
 ## :ledger: Index
 
-- [Pre-Requisitos](#pre-requisitos-📋)
-- [Instalación](#instalación-🔧)
-- [Desarrollo](#desarrollo-⚙️)
+- [Pre-Requisitos](#pre-requisitos-)
+- [Instalación](#instalación-)
+- [Desarrollo](#desarrollo-)
   - [Unit-Test](#desarrollo-unit-test)
   - [Build](#desarrollo-build)
-- [Analisis de Codigo](#analisis-de-codigo-🔩)
-- [Construido](#construido-con-🛠️)
+- [Analisis de Codigo](#analisis-de-codigo-)
+- [Construido](#construido-con-)
 
 ## Comenzando 🚀
 _Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
@@ -72,7 +72,7 @@ _Dirigirse a la ruta http://localhost:3000/ donde tendra el API REST levantada_
 
 _Las siguientes instrucciones serviran para ejecutar en su entorno local la pruebas unitarias realizadas para el proyecto_
 
-###  :Desarrollo: Unit-Test 
+###  Unit-Test 
 
 _Para ejecutar todos los Unit Test y reporte de cobertura de codigo ejecutar el comando_
 
@@ -85,7 +85,7 @@ _La carpeta con la cobertura del codigo se creara en la raiz del proyecto con la
 ![Unit Test Coverage](/docs/unit-test/unit-test-coverage.png)
 
 
-###  :Desarrollo: Build
+###  Build
 
 _Para generar el build de producción del proyecto ejecutar el siguiente comando:_
 
