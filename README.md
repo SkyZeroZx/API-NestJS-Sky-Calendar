@@ -5,56 +5,140 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+  <h1 align="center">Sky Calendar API NestJS</h1>
+  Es el API REST para la WebAPP/PWA SkyCalendar integrado con Web Authentication para el inicio de sesion passworless
+  <p></p>
+  <p align="center">
+<a href="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=alert_status" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=alert_status" alt="Quality Gate" /></a>
+<a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=coverage" alt="Coverage" /></a>
+<a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=vulnerabilities" alt="Vulnerabilities" /></a>
+<a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=bugs" alt="Bugs" /></a>
+<a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=security_rating" alt="Security Rating" /></a>
+<a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=code_smells" alt="Code Smells"/></a>
+<a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=sqale_rating" alt="Maintainability Rating"/></a>
+<img src="https://badgen.net/badge/Built%20With/TypeScript/bl" alt="Build With TypeScript" />
+<img src="https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg" alt="Build With TypeScript" />
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## :ledger: Index
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [Pre-Requisitos](#pre-requisitos-📋)
+- [Instalación](#instalación-🔧)
+- [Desarrollo](#desarrollo-⚙️)
+  - [Unit-Test](#desarrollo-unit-test)
+  - [Build](#desarrollo-build)
+- [Analisis de Codigo](#analisis-de-codigo-🔩)
+- [Construido](#construido-con-🛠️)
 
-## Installation
+## Comenzando 🚀
+_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
 
-```bash
-$ npm install
+## Pre-Requisitos 📋
+
+_Software requerido_
+
+```
+NodeJS >= 14.X
+NPM >= 8.X
+NestJS >= 8.X
 ```
 
-## Running the app
+_Software opcional_
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+Visual Studio Code ( O el editor de su preferencia)
 ```
 
-## Test
+## Instalación 🔧
 
-```bash
-# unit tests
-$ npm run test
+_Para ejecutar un entorno de desarrollo_
 
-# e2e tests
-$ npm run test:e2e
+_Previamente ejecutar el comando en la terminal para descargar "node_modules" para el funcionamiento del proyecto_
 
-# test coverage
-$ npm run test:cov
 ```
-  
+ npm install
+```
+
+_Previamente a ejecutar el servidor en desarrollo configurar el archivo .env con las credenciales del servidor correos y base de datos , ejecutar :_
+
+```
+ npm run start:dev
+```
+
+_Dirigirse a la ruta http://localhost:3000/ donde tendra el API REST levantada_
+
+
+## Desarrollo ⚙️
+
+_Las siguientes instrucciones serviran para ejecutar en su entorno local la pruebas unitarias realizadas para el proyecto_
+
+###  :Desarrollo: Unit-Test 
+
+_Para ejecutar todos los Unit Test y reporte de cobertura de codigo ejecutar el comando_
+
+```
+ npm run test:cov
+```
+_La carpeta con la cobertura del codigo se creara en la raiz del proyecto con la siguiente ruta coverage/Icov-report/index.html el cual se puede visualizar_
+
+
+![Unit Test Coverage](/docs/unit-test/unit-test-coverage.png)
+
+
+###  :Desarrollo: Build
+
+_Para generar el build de producción del proyecto ejecutar el siguiente comando:_
+
+```
+ npm run build
+```
+
+## Analisis de Codigo 🔩
+
+_**Pre requisitos**_
+
+_En la raiz del proyecto se tiene el archivo *sonar-project.properties* el cual tiene las propiedades necesarias para ejecutarlo sobre un SonarQube_
+
+_Configurar los apartados : *sonar.host.url* , *sonar.login* *sonar.password* con los datos de su instancia correspondiente o usar SonarCloud con su token correspondiente_
+
+```
+Sonaqube >= 9.X
+```
+
+![SonarQube Properties](/docs/sonar/sonar-properties.png)
+
+_Las pruebas fueron realizas sobre *SonarQube 9.5* y *SonarCloud*  para ejecutar el analisis de codigo ejecutar el comando para la instancia local:_
+
+
+```
+npm run sonar
+```
+
+_Reporte de Cobertura en SonarCloud_
+
+![SonarQube Cloud 1](/docs/sonar/sonar-cloud.png)
+
+
+![SonarQube Cloud 2](/docs/sonar/sonar-cloud-2.png)
+
+## Construido con 🛠️
+
+_Las herramientas utilizadas son:_
+
+- [NestJS](https://nestjs.com/) - El framework para construir aplicaciones del lado del servidor eficientes, confiables y escalables.
+- [NPM](https://www.npmjs.com/) - Manejador de dependencias
+- [Jest](https://jestjs.io/) - Framework Testing para pruebas unitarias
+- [SonarQube](https://www.sonarqube.org/) - Evaluacion de codigo on premise
+- [SonarCloud](https://sonarcloud.io/) - Evaluacion de codigo cloud
+- [Visual Studio Code](https://code.visualstudio.com/) - Editor de Codigo
+- [Prettier](https://prettier.io/) - Formateador de Codigo
+- [WebAuthn](https://webauthn.guide/) - Estándar web del proyecto FIDO2 de la Alianza FIDO
+- [TabNine](https://www.tabnine.com/) - Autocompletador de Codigo
+
+## Versionado 📌
+
+Usamos [GIT](https://git-scm.com/) para el versionado.
+
+## Autor ✒️
+
+- **Jaime Burgos Tejada** - _Developer_ - [SkyZeroZx](https://github.com/SkyZeroZx) - email : jaimeburgostejada@gmail.com
