@@ -7,12 +7,12 @@ import {
 import { Authentication } from '../auth/entities/autentication.entity';
 import { User } from '../user/entities/user.entity';
 
-// Utilitarios de AuthnWeb generateRegistrationsOptions
+// Utilitarios de AuthnWeb 
 
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'localhost';
+const rpID = 'sky-calendar-app.vercel.app';
 
 const rpIDArray = [
   'localhost',
