@@ -86,7 +86,6 @@ export class User {
 
   @BeforeUpdate()
   async firstLoginStatus() {
-    console.log('Entro en firstLogin')
     if (this.estado === Constant.ESTADOS_USER.HABILITADO) {
       this.firstLogin = false;
     } else {

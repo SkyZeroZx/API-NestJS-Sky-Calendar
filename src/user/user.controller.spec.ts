@@ -108,9 +108,11 @@ describe('UserController', () => {
     expect(spyRemove).toBeCalled();
   });
 
-
   it('Validamos Profile', async () => {
+    const userProfile = UserServiceMock.mockFindAllUserData[0];
+    const spyProfileService = jest.spyOn(service, 'getUserById').mockResolvedValue(userProfile);
     const profile = await controller.profile(UserServiceMock.mockResultCreateUser);
-    expect(profile.message).toEqual(Constant.MENSAJE_OK)
-  })
+    expect(profile).toEqual(userProfile);
+    expect(spyProfileService).toBeCalledWith(UserServiceMock.mockResultCreateUser.id);
+  });
 });

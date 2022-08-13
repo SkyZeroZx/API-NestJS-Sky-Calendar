@@ -78,18 +78,5 @@ describe('TaskToUserService', () => {
     );
     expect(spyDeleteError).toBeCalled();
   });
-
-  it('Validamos TaskToUserByUser', async () => {
-    const spyQueryBuilder = jest.spyOn(mockService, 'createQueryBuilder');
-    const spySelect = jest.spyOn(mockService, 'select');
-    const spyWhere = jest.spyOn(mockService, 'where');
-    const spyGetRawMany = jest.spyOn(mockService, 'getRawMany');
-    await service.TaskToUserByUser(TaskToUserMock.taskToUserDto.codUser);
-    expect(spyQueryBuilder).toBeCalled();
-    expect(spySelect).toBeCalledWith('id');
-    expect(spyWhere).toBeCalledWith('codUser =:codUser', {
-      codUser: TaskToUserMock.taskToUserDto.codUser,
-    });
-    expect(spyGetRawMany).toBeCalled();
-  });
+ 
 });

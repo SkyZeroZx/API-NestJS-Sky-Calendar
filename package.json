@@ -17,7 +17,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./e2e/jest-e2e.json",
+    "test:e2e:watch": "jest --config ./e2e/jest-e2e.json --watch",
+    "test:e2e:cov": "jest --config ./e2e/jest-e2e.json --coverage",
     "sonar": "sonar-scanner"
   },
   "dependencies": {
@@ -67,6 +69,7 @@
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
     "@types/supertest": "^2.0.11",
+    "@types/web-push": "^3.3.2",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
@@ -91,6 +94,7 @@
     "indent": 4
   },
   "jest": {
+    "testTimeout": 15000,
     "moduleFileExtensions": [
       "js",
       "json",

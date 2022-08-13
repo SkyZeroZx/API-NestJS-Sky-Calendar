@@ -84,18 +84,5 @@ export class TaskToUserService {
     };
   }
 
-  /**
-   * It returns the id of the taskToUser table where the codUser is equal to the id passed as a parameter
-   * @param {number} id - number
-   * @returns An array of objects with the id of the taskToUser
-   */
-  async TaskToUserByUser(id: number) {
-    return this.taskToUserRepository
-      .createQueryBuilder()
-      .select('id')
-      .where('codUser =:codUser', {
-        codUser: id,
-      })
-      .getRawMany();
-  }
+
 }

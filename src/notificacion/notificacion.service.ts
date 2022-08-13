@@ -6,7 +6,7 @@ import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateNotificacionDto } from './dto/create-notificacion.dto';
 import { Notificacion } from './entities/notificacion.entity';
-const webpush = require('web-push');
+import * as webpush from 'web-push';
 
 @Injectable()
 export class NotificacionService {

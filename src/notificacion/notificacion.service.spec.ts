@@ -9,7 +9,7 @@ import { UserServiceMock } from '../user/user.mock.spec';
 import { Notificacion } from './entities/notificacion.entity';
 import { NotificacionService } from './notificacion.service';
 import { NotificationMockService } from './notification.mock.spec';
-const webpush = require('web-push');
+import * as webpush from 'web-push';
 describe('NotificacionService', () => {
   let service: NotificacionService;
   let mockService: NotificationMockService = new NotificationMockService();
@@ -99,7 +99,7 @@ describe('NotificacionService', () => {
   it('Validamos sendNotification ', async () => {
     const tokenPush: string = '{"hello":"world"}';
     const message: Object = { hello: 'world' };
-    const spyWebPush = jest.spyOn(webpush, 'sendNotification').mockResolvedValue(Constant.MENSAJE_OK);
+    const spyWebPush = jest.spyOn(webpush, 'sendNotification').mockResolvedValue(null);
     await service.sendNotification(tokenPush, message);
     expect(spyWebPush).toBeCalledWith(JSON.parse(tokenPush), JSON.stringify(message));
     // Validamos el caso de entrar en catch

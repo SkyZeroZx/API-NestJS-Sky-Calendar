@@ -36,15 +36,14 @@ export class UserController {
     return users;
   }
 
-   
-  @Auth('SuperAdminTesting')
+  @Auth('admin')
   @Post('profile')
   async profile(@User() user: UserEntity) {
-    this.logger.log('User JWT is ' , user.id);
+    this.logger.log('User JWT is ', user.id);
     this.logger.log(`Usuario Obtenido ${Constant.MENSAJE_OK}`);
-    return {message:Constant.MENSAJE_OK};
+    return this.userService.getUserById(user.id);
   }
- 
+
   @UseGuards(JwtAuthGuard)
   @Patch()
   update(@Body() updateUserDto: UpdateUserDto) {

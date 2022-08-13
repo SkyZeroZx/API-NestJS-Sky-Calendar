@@ -26,11 +26,13 @@
 - [Instalación](#instalación-)
 - [Desarrollo](#desarrollo-%EF%B8%8F)
   - [Unit-Test](#unit-test)
+  - [E2E-Test](#E2E-test)
   - [Build](#build)
 - [Analisis de Codigo](#analisis-de-codigo-)
 - [Construido](#construido-con-)
 
 ## Comenzando 🚀
+
 _Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
 
 ## Pre-Requisitos 📋
@@ -67,25 +69,39 @@ _Previamente a ejecutar el servidor en desarrollo configurar el archivo .env con
 
 _Dirigirse a la ruta http://localhost:3000/ donde tendra el API REST levantada_
 
-
 ## Desarrollo ⚙️
 
 _Las siguientes instrucciones serviran para ejecutar en su entorno local la pruebas unitarias realizadas para el proyecto_
 
-###  Unit-Test 
+### Unit-Test
 
-_Para ejecutar todos los Unit Test y reporte de cobertura de codigo ejecutar el comando_
+_Para ejecutar todos los Unit Test desarrollados en Jest y reporte de cobertura de codigo ejecutar el comando_
 
 ```
  npm run test:cov
 ```
-_La carpeta con la cobertura del codigo se creara en la raiz del proyecto con la siguiente ruta coverage/Icov-report/index.html el cual se puede visualizar_
 
+_La carpeta con la cobertura del codigo se creara en la raiz del proyecto con la siguiente ruta coverage/Icov-report/index.html el cual se puede visualizar_
 
 ![Unit Test Coverage](/docs/unit-test/unit-test-coverage.png)
 
+### E2E Test
 
-###  Build
+_Los test fueron desarrollados en Jest con ayuda de SuperTest realizados a la API , para validar el funcionamiento adecuado en un entorno más real_
+
+_Para ejecutar todos los E2E Test y reporte de cobertura de codigo ejecutar el comando_
+
+```
+ npm run test:e2e:cov
+```
+
+_La carpeta con la cobertura del codigo se creara en la raiz del proyecto con la siguiente ruta coverage-e2e/Icov-report/index.html el cual se puede visualizar_
+
+![E2E Test Coverage 1](/docs/e2e/e2e-test-1.png)
+
+![E2E Test Coverage 1](/docs/e2e/e2e-test-2.png)
+
+### Build
 
 _Para generar el build de producción del proyecto ejecutar el siguiente comando:_
 
@@ -107,8 +123,7 @@ Sonaqube >= 9.X
 
 ![SonarQube Properties](/docs/sonar/sonar-properties.png)
 
-_Las pruebas fueron realizas sobre *SonarQube 9.5* y *SonarCloud*  para ejecutar el analisis de codigo ejecutar el comando para la instancia local:_
-
+_Las pruebas fueron realizas sobre *SonarQube 9.5* y *SonarCloud* para ejecutar el analisis de codigo ejecutar el comando para la instancia local:_
 
 ```
 npm run sonar
@@ -118,12 +133,9 @@ _Reporte de Cobertura en SonarCloud_
 
 ![SonarQube Cloud 1](/docs/sonar/sonar-cloud.png)
 
-
 ![SonarQube Cloud 2](/docs/sonar/sonar-cloud-2.png)
 
-
 ![SonarQube Cloud 3](/docs/sonar/sonar-cloud-3.png)
-
 
 ## Construido con 🛠️
 
