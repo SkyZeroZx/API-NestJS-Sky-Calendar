@@ -113,7 +113,7 @@ _Para generar el build de producción del proyecto ejecutar el siguiente comando
 
 ## Despliegue 👨🏻‍💻
 
-_La desplegar el proyecto mediante Docker se tiene los archivos ```Dockerfile``` y ```docker-compose.prod.yaml```, los cuales tienen preconfigurado la imagen y dependencias necesarias para levantar el proyecto_
+_Para desplegar el proyecto mediante Docker se tiene los archivos ```Dockerfile``` y ```docker-compose.prod.yaml```, los cuales tienen preconfigurado la imagen y dependencias necesarias para levantar el proyecto_
 
 _Para construir la imagen y ejecutarla tenemos el siguiente comando , el cual tambien tomara nuestras variable de entorno del archivo ```env```_
 
