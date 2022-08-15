@@ -6,7 +6,7 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <h1 align="center">Sky Calendar API NestJS</h1>
-  Es el API REST para la WebAPP/PWA SkyCalendar integrado con Web Authentication para el inicio de sesion passworless
+  _Es el API REST para la WebAPP/PWA SkyCalendar integrado con Web Authentication para el inicio de sesion passworless_
   <p></p>
   <p align="center">
 <a href="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=alert_status" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=alert_status" alt="Quality Gate" /></a>
@@ -168,6 +168,7 @@ _Las herramientas utilizadas son:_
 - [NestJS](https://nestjs.com/) - El framework para construir aplicaciones del lado del servidor eficientes, confiables y escalables.
 - [NPM](https://www.npmjs.com/) - Manejador de dependencias
 - [Jest](https://jestjs.io/) - Framework Testing para pruebas unitarias
+- [Docker](https://www.docker.com/) - Para el despliegue de aplicaciones basado en contenedores
 - [SonarQube](https://www.sonarqube.org/) - Evaluacion de codigo on premise
 - [SonarCloud](https://sonarcloud.io/) - Evaluacion de codigo cloud
 - [Visual Studio Code](https://code.visualstudio.com/) - Editor de Codigo
