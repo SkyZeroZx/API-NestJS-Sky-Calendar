@@ -28,6 +28,7 @@
   - [Unit-Test](#unit-test)
   - [E2E-Test](#E2E-test)
   - [Build](#build)
+- [Despligue](#Despliegue-👨🏻‍💻)  
 - [Analisis de Codigo](#analisis-de-codigo-)
 - [Construido](#construido-con-)
 
@@ -43,6 +44,7 @@ _Software requerido_
 NodeJS >= 14.X
 NPM >= 8.X
 NestJS >= 8.X
+MySQL >=7.X
 ```
 
 _Software opcional_
@@ -107,6 +109,28 @@ _Para generar el build de producción del proyecto ejecutar el siguiente comando
 
 ```
  npm run build
+```
+
+## Despliegue 👨🏻‍💻
+
+_La desplegar el proyecto mediante Docker se tiene los archivos ```Dockerfile``` y ```docker-compose.prod.yaml```, los cuales tienen preconfigurado la imagen y dependencias necesarias para levantar el proyecto_
+
+_Para construir la imagen y ejecutarla tenemos el siguiente comando , el cual tambien tomara nuestras variable de entorno del archivo ```env```_
+
+_Ejecutar el siguiente comando en la raiz del proyecto_
+
+```
+ docker-compose -f docker-compose.prod.yaml --env-file .env up --build
+```
+
+![Docker 1](/docs/docker/docker-1.png)
+
+![Docker 2](/docs/docker/docker-2.png)
+
+_En caso de requerir volver a ejecutar el contenedor del proyecto previamente creado ejecutar el comando:_
+
+```
+ docker-compose -f docker-compose.prod.yaml --env-file .env up
 ```
 
 ## Analisis de Codigo 🔩

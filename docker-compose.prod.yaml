@@ -1,0 +1,23 @@
+version: '2.2'
+services:
+  skycalendarapi:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: sky-calendar-docker
+    container_name: sky-calendar-api
+    restart: always # reiniciar el contenedor si se detiene
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      JWT_TOKEN: ${JWT_TOKEN}
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_PORT: ${EMAIL_PORT}
+      EMAIL_USERNAME: ${EMAIL_USERNAME}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
