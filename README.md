@@ -28,7 +28,7 @@
   - [Unit-Test](#unit-test)
   - [E2E-Test](#E2E-test)
   - [Build](#build)
-- [Despligue](#Despliegue-👨🏻‍💻)  
+- [Despligue](#despliegue-)  
 - [Analisis de Codigo](#analisis-de-codigo-)
 - [Construido](#construido-con-)
 
