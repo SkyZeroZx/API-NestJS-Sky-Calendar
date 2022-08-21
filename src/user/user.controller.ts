@@ -16,14 +16,14 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
   private readonly logger = new Logger(UserController.name);
 
-  @UseGuards(JwtAuthGuard)
+  @Auth('admin')
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     this.logger.log('Creando usuario');
     return this.userService.create(createUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Auth('admin')
   @Get()
   async findAll() {
     this.logger.log('Listando Usuarios');
@@ -36,7 +36,7 @@ export class UserController {
     return users;
   }
 
-  @Auth('admin')
+  @UseGuards(JwtAuthGuard)
   @Post('profile')
   async profile(@User() user: UserEntity) {
     this.logger.log('User JWT is ', user.id);
@@ -51,7 +51,7 @@ export class UserController {
     return this.userService.update(updateUserDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Auth('admin')
   @Delete()
   remove(@Body() deleteUserDto: DeleteUserDto) {
     this.logger.log('Eliminando usuario');

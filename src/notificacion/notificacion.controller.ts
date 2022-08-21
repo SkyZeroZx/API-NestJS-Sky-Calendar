@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserDecorator as User } from '../common/decorators/user.decorator';
 import { User as UserEntity } from '../user/entities/user.entity';
 import { SendNotificacionDto } from './dto/send-notificacion.dto';
+import { Auth } from '../common/decorators/auth.decorator';
 
 @ApiTags('Notificaciones')
 @Controller('notificacion')
@@ -23,7 +24,7 @@ export class NotificacionController {
     return this.notificacionService.suscribeNotification(user.id, createNotificacionDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Auth('admin')
   @Post('/send')
   async registerTaskTokenByUser(@Body() sendNotificacionDto: SendNotificacionDto) {
     this.logger.log(`Enviando notificaciones de nueva tarea creada a los usuarios `);

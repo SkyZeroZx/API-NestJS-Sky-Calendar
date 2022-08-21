@@ -9,6 +9,7 @@ import { UserDecorator as User } from '../common/decorators/user.decorator';
 import { User as UserEntity } from '../user/entities/user.entity';
 import { DeleteTaskDto } from './dto/delete-task.dto';
 import { TaskToUserDto } from '../task_to_user/dto/task-to-user.dto';
+import { Auth } from '../common/decorators/auth.decorator';
 
 @ApiTags('Task')
 @Controller('task')
@@ -65,28 +66,28 @@ export class TaskController {
   }
 
   /* This is a method that will delete the user from the task. */
-  @UseGuards(JwtAuthGuard)
+  @Auth('admin')
   @Delete()
   removeUserToTask(@Body() taskToUserDto: TaskToUserDto) {
     return this.taskService.removeUserToTask(taskToUserDto);
   }
 
   /* This is a method that will add the user to the task. */
-  @UseGuards(JwtAuthGuard)
+  @Auth('admin')
   @Post('/add_user')
   addUserToTask(@Body() taskToUserDto: TaskToUserDto) {
     return this.taskService.addUserToTask(taskToUserDto);
   }
 
   /* This is a method that will update the task. */
-  @UseGuards(JwtAuthGuard)
+  @Auth('admin')
   @Patch()
   async update(@Body() updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(updateTaskDto);
   }
 
   /* This is a method that will delete the task. */
-  @UseGuards(JwtAuthGuard)
+  @Auth('admin')
   @Delete('/remove_task')
   removeTask(@Body() deleteTaskDto: DeleteTaskDto) {
     return this.taskService.removeTask(deleteTaskDto);
