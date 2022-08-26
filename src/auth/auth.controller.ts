@@ -7,7 +7,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { UserDecorator as User } from '../common/decorators/user.decorator';
@@ -23,7 +23,7 @@ import {
   verifyAuthenticationOption,
   verifyAuthWeb,
 } from '../config/webAuthn';
-
+import { AuthResponse } from '../common/swagger/response/auth.response';
 @ApiTags('Autentificacion')
 @Controller('auth')
 export class AuthController {
@@ -34,6 +34,8 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  @ApiOperation({ summary: 'Login del usuario' })
+  @ApiResponse(AuthResponse.login)
   async login(@Body() _loginDto: LoginDto, @User() user: UserEntity) {
     this.logger.log('Retornando datos');
     // Segun el estado de nuestro usuario retornamos una respuesta
@@ -51,6 +53,8 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('generate-registration-options')
+  @ApiOperation({ summary: 'Generacion de opciones webAuthn para usuario logeado' })
+  @ApiBearerAuth()
   async generateRegistration(@User() user: UserEntity) {
     this.logger.log('generate-registration-options');
     const userAuthenticators = await this.authService.getUserAuthenticators(user);
@@ -61,6 +65,8 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('verify-registration')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Registro de webAuthn para usuario logeado' })
   async verifyRegistration(@Body() verify, @User() user: UserEntity) {
     this.logger.log('Verificando registro Authn Web');
     const verifyTest = await verifyAuthWeb(verify, this.rememberChallenge);
@@ -68,6 +74,7 @@ export class AuthController {
   }
 
   @Post('generate-authentication-options')
+  @ApiOperation({ summary: 'Generacion de autentificador usuario a logear' })
   async generateAuthenticationOptions(@Body() user) {
     this.logger.log('Generando Authentication Options Authn Web username', user.username);
     const userAuthenticators = await this.authService.getUserAuthenticatorsByUsername(
@@ -81,6 +88,7 @@ export class AuthController {
   }
 
   @Post('verify-authentication')
+  @ApiOperation({ summary: 'Verificacion y login de autentificador usuario a logear' })
   async verifityAuthentication(@Body() data) {
     this.logger.log('Se recibio', data);
     this.logger.log('Verificando Authentication Authn Web');
@@ -103,6 +111,9 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('reset-password')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Reseteo de contraseña administrativo' })
+  @ApiResponse(AuthResponse.resetPassword)
   async resetPassword(@Body() resetUserDto: ResetUserDto) {
     this.logger.log(`Reseteando usuario ${resetUserDto.username}`);
     const { username } = resetUserDto;
@@ -111,6 +122,9 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('change-password')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Cambio de contraseña a demanda por usuario logeado' })
+  @ApiResponse(AuthResponse.changePassword)
   async changePassword(@Body() changePasswordDto: ChangePasswordDto, @User() user: UserEntity) {
     this.logger.log(`Cambiando contraseña usuario ${user.username}`);
     // Obtenemos las contraseña antigua y nueva de nuestro ChangePasswordDto

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Delete, Logger, UseGuards } from '@
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Constant } from '../common/constants/Constant';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserDecorator as User } from '../common/decorators/user.decorator';
@@ -10,22 +10,27 @@ import { User as UserEntity } from '../user/entities/user.entity';
 import { DeleteTaskDto } from './dto/delete-task.dto';
 import { TaskToUserDto } from '../task_to_user/dto/task-to-user.dto';
 import { Auth } from '../common/decorators/auth.decorator';
+import { TaskResponse } from '../common/swagger/response/task.response';
 
 @ApiTags('Task')
+@ApiBearerAuth()
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
   private readonly logger = new Logger(TaskController.name);
 
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Crea una nueva tarea' })
+  @ApiResponse(TaskResponse.genericReponse)
   @Post()
   async create(@Body() createTaskDto: CreateTaskDto) {
     return this.taskService.create(createTaskDto);
   }
 
-  /*Este es un método que devolverá todas las tareas*/
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOperation({ summary: 'Devuelve todas las tareas' })
+  @ApiResponse(TaskResponse.responseFindAll)
   async findAll() {
     this.logger.log('Listando Taks');
     const taks = await this.taskService.findAll();
@@ -37,8 +42,9 @@ export class TaskController {
     return taks;
   }
 
-  /* Este es un método que devolverá todas las tareas asignadas al usuario que ha iniciado sesión. */
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Devuelve todas las tareas solo del usuario logeado' })
+  @ApiResponse(TaskResponse.getTaskByUser)
   @Get('/user')
   async getTaskByUser(@User() user: UserEntity) {
     this.logger.log(`Listando Task por usuario ${user.username}`);
@@ -51,9 +57,11 @@ export class TaskController {
     return taskByUser;
   }
 
-  /* Este es un método que devolverá todos los usuarios asignados a la tarea. */
   @UseGuards(JwtAuthGuard)
   @Post('/task_user')
+  @ApiOperation({ summary: 'Devuelve todos los usuarios asignado a una tarea' })
+  @ApiBody(TaskResponse.bodyGetTaskByUser)
+  @ApiResponse(TaskResponse.getUserByTask)
   async getUsersByTask(@Body() data: any) {
     this.logger.log(`Listando usuarios por task`);
     const taskByUser = await this.taskService.findByTask(parseInt(data.id));
@@ -65,37 +73,37 @@ export class TaskController {
     return taskByUser;
   }
 
-  /* This is a method that will delete the user from the task. */
   @Auth('admin')
   @Delete()
+  @ApiOperation({ summary: 'Eliminar un usuario de una tarea' })
+  @ApiResponse(TaskResponse.genericReponse)
   removeUserToTask(@Body() taskToUserDto: TaskToUserDto) {
     return this.taskService.removeUserToTask(taskToUserDto);
   }
 
-  /* This is a method that will add the user to the task. */
   @Auth('admin')
   @Post('/add_user')
+  @ApiOperation({ summary: 'Agregar un usuario a una tarea' })
+  @ApiResponse(TaskResponse.genericReponse)
   addUserToTask(@Body() taskToUserDto: TaskToUserDto) {
     return this.taskService.addUserToTask(taskToUserDto);
   }
 
-  /* This is a method that will update the task. */
   @Auth('admin')
   @Patch()
+  @ApiOperation({ summary: 'Actualizar una tarea , descripcion , fecha inicio - fin' })
+  @ApiResponse(TaskResponse.genericReponse)
   async update(@Body() updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(updateTaskDto);
   }
 
-  /* This is a method that will delete the task. */
   @Auth('admin')
   @Delete('/remove_task')
+  @ApiOperation({
+    summary: 'Eliminar una tarea asi los usuarios relacionados a esta misma en casacada',
+  })
+  @ApiResponse(TaskResponse.genericReponse)
   removeTask(@Body() deleteTaskDto: DeleteTaskDto) {
     return this.taskService.removeTask(deleteTaskDto);
   }
-
-  // @Post('/testTask')
-  // @Auth('SuperAdminTesting')
-  // testTaskRole() {
-  //   return { message: 'OK' };
-  // }
 }

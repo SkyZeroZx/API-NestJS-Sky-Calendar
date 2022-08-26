@@ -1,14 +1,16 @@
 import { Controller, Post, Body, UseGuards, Logger } from '@nestjs/common';
 import { NotificacionService } from './notificacion.service';
 import { CreateNotificacionDto } from './dto/create-notificacion.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserDecorator as User } from '../common/decorators/user.decorator';
 import { User as UserEntity } from '../user/entities/user.entity';
 import { SendNotificacionDto } from './dto/send-notificacion.dto';
 import { Auth } from '../common/decorators/auth.decorator';
+import { NotificationResponse } from '../common/swagger/response/notification.response';
 
 @ApiTags('Notificaciones')
+@ApiBearerAuth()
 @Controller('notificacion')
 export class NotificacionController {
   constructor(private readonly notificacionService: NotificacionService) {}
@@ -16,6 +18,9 @@ export class NotificacionController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
+  @ApiOperation({ summary: 'Registra el token del usuario logeado' })
+  @ApiBody(NotificationResponse.bodySaveToken)
+  @ApiResponse(NotificationResponse.genericReponse)
   async registerSuscriptionNotification(
     @User() user: UserEntity,
     @Body() createNotificacionDto: CreateNotificacionDto,
@@ -26,9 +31,10 @@ export class NotificacionController {
 
   @Auth('admin')
   @Post('/send')
+  @ApiOperation({ summary: 'Envio de notificacion push a los usuarios asignados a la nueva tarea' })
+  @ApiResponse(NotificationResponse.genericReponse)
   async registerTaskTokenByUser(@Body() sendNotificacionDto: SendNotificacionDto) {
     this.logger.log(`Enviando notificaciones de nueva tarea creada a los usuarios `);
-
     return this.notificacionService.registerTaskTokenByUser(sendNotificacionDto.users);
   }
 }
