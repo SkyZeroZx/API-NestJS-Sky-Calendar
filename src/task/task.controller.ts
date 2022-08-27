@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Delete, Logger, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Logger,
+  UseGuards,
+  Param,
+  Query,
+} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -58,18 +69,18 @@ export class TaskController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('/task_user')
+  @Get('/task_user/:codTask')
   @ApiOperation({ summary: 'Devuelve todos los usuarios asignado a una tarea' })
   @ApiBody(TaskResponse.bodyGetTaskByUser)
   @ApiResponse(TaskResponse.getUserByTask)
-  async getUsersByTask(@Body() data: any) {
-    this.logger.log(`Listando usuarios por task`);
-    const taskByUser = await this.taskService.findByTask(parseInt(data.id));
+  async getUsersByTask(@Param('codTask') codTask: string) {
+    this.logger.log(`Listando usuarios por task` , codTask);
+    const taskByUser = await this.taskService.findByTask(parseInt(codTask));
     if (taskByUser.length === 0) {
-      this.logger.warn(`No se encontraron users para el task ${data.id}`);
+      this.logger.warn(`No se encontraron users para el task ${codTask}`);
       return { message: 'No se encontraron users para el task' };
     }
-    this.logger.log(`Listado Users para el task ${data.id} ${Constant.MENSAJE_OK}`);
+    this.logger.log(`Listado Users para el task ${codTask} ${Constant.MENSAJE_OK}`);
     return taskByUser;
   }
 
@@ -77,7 +88,7 @@ export class TaskController {
   @Delete()
   @ApiOperation({ summary: 'Eliminar un usuario de una tarea' })
   @ApiResponse(TaskResponse.genericReponse)
-  removeUserToTask(@Body() taskToUserDto: TaskToUserDto) {
+  removeUserToTask(@Query() taskToUserDto: TaskToUserDto) {
     return this.taskService.removeUserToTask(taskToUserDto);
   }
 
@@ -93,17 +104,18 @@ export class TaskController {
   @Patch()
   @ApiOperation({ summary: 'Actualizar una tarea , descripcion , fecha inicio - fin' })
   @ApiResponse(TaskResponse.genericReponse)
-  async update(@Body() updateTaskDto: UpdateTaskDto) {
+  update(@Body() updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(updateTaskDto);
   }
 
   @Auth('admin')
-  @Delete('/remove_task')
+  @Delete('/remove_task/:codTask')
   @ApiOperation({
-    summary: 'Eliminar una tarea asi los usuarios relacionados a esta misma en casacada',
+    summary: 'Eliminar una tarea asi como los usuarios relacionados a esta misma en casacada',
   })
   @ApiResponse(TaskResponse.genericReponse)
-  removeTask(@Body() deleteTaskDto: DeleteTaskDto) {
+  removeTask(@Param() deleteTaskDto: DeleteTaskDto) {
+    this.logger.log('Deleting task', deleteTaskDto);
     return this.taskService.removeTask(deleteTaskDto);
   }
 }

@@ -1,7 +1,7 @@
 {
   "env": {
     "jwtToken": {
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInVzZXJuYW1lIjoic2t5emVyb2JvdDY0QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImZpcnN0TG9naW4iOmZhbHNlLCJpYXQiOjE2NjAzNTk0NzAsImV4cCI6MTY2MDQ0NTg3MH0.4ZYiOvdn9GuJb3OEYQKn5VNwxIpbHPGxYFLS0Sw1pd4"
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInVzZXJuYW1lIjoic2t5emVyb2JvdDY0QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImZpcnN0TG9naW4iOmZhbHNlLCJpYXQiOjE2NjE2MjAwODgsImV4cCI6MTY2MTcwNjQ4OH0.8GplUHGNr3dDtAsWEAaTyevMTRKxUCq0lJDYYxMFjPw"
     },
     "jwtTokenFail": {
       "Authorization": ""
@@ -18,7 +18,7 @@
         "apellidoPaterno": "Sky",
         "apellidoMaterno": "Sky",
         "createdAt": "2022-06-20T03:05:34.710Z",
-        "updateAt": "2022-08-13T03:16:08.000Z",
+        "updateAt": "2022-08-25T05:06:44.000Z",
         "role": "admin",
         "estado": "HABILITADO",
         "firstLogin": false

@@ -118,7 +118,7 @@
       "!**/common/*.(t|j)s",
       "!**/config/*.(t|j)s",
       "!**common/helpers/*.(t|j)s",
-      "!**common/swagger/*.(t|j)s",
+      "!**common/swagger/**.(t|j)s",
       "!**main.(t|j)s"
     ],
     "coverageDirectory": "../coverage",

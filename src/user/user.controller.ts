@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Delete, Logger, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Logger,
+  UseGuards,
+  Param,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -43,12 +53,11 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('profile')
+  @Get('/profile')
   @ApiOperation({ summary: 'Obtener perfil personal por usuario logeado' })
   @ApiResponse(UserReponse.profile)
   async profile(@User() user: UserEntity) {
-    this.logger.log('User JWT is ', user.id);
-    this.logger.log(`Usuario Obtenido ${Constant.MENSAJE_OK}`);
+    this.logger.log(`Perfil del usuario obtenido`, user);
     return this.userService.getUserById(user.id);
   }
 
@@ -62,10 +71,10 @@ export class UserController {
   }
 
   @Auth('admin')
-  @Delete()
+  @Delete(':id')
   @ApiOperation({ summary: 'Eliminar usuario del sistema' })
   @ApiResponse(UserReponse.genericReponse)
-  remove(@Body() deleteUserDto: DeleteUserDto) {
+  remove(@Param() deleteUserDto: DeleteUserDto) {
     this.logger.log('Eliminando usuario');
     return this.userService.remove(deleteUserDto);
   }

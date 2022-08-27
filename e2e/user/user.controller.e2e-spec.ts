@@ -133,17 +133,17 @@ describe('UserController (e2e)', () => {
     expect(spyFindError).toBeCalled();
   });
 
-  it('/PROFILE (POST) OK', async () => {
+  it('/PROFILE (GET) OK', async () => {
     const { password, ...expectUserLogin } = userLoginOk;
-    const profileOk = await request.post('/users/profile').expect(201);
+    const profileOk = await request.get('/users/profile').expect(200);
     expect(profileOk.body).toEqual(expectUserLogin);
   });
 
-  it('/PROFILE (POST) ERROR [MOCK]', async () => {
+  it('/PROFILE (GET) ERROR [MOCK]', async () => {
     const spyUserFindOneOrFail = jest
       .spyOn(userRepositoryMock, 'findOneOrFail')
       .mockRejectedValueOnce(new Error('Error DataBase'));
-    const profileError = await request.post('/users/profile').expect(500);
+    const profileError = await request.get('/users/profile').expect(500);
     expect(profileError.body.message).toEqual('Sucedio un error al buscar el usuario');
     expect(spyUserFindOneOrFail).toBeCalled();
   });
@@ -166,7 +166,7 @@ describe('UserController (e2e)', () => {
 
   it('/ (DELETE) OK [MOCK]', async () => {
     const spyDeleteOK = jest.spyOn(userRepositoryMock, 'delete').mockResolvedValueOnce(null);
-    const deleteOK = await request.delete('/users').send(UserMockE2E.deleteUserDto).expect(200);
+    const deleteOK = await request.delete(`/users/${UserMockE2E.deleteUserDto.id}`).expect(200);
     expect(deleteOK.body.message).toEqual(Constant.MENSAJE_OK);
     expect(spyDeleteOK).toBeCalled();
   });
@@ -175,7 +175,7 @@ describe('UserController (e2e)', () => {
     const spyDeleteError = jest
       .spyOn(userRepositoryMock, 'delete')
       .mockRejectedValueOnce(new Error('Error DELETE'));
-    const deleteError = await request.delete('/users').send(UserMockE2E.deleteUserDto).expect(500);
+    const deleteError = await request.delete(`/users/${UserMockE2E.deleteUserDto.id}`).expect(500);
     expect(deleteError.body.message).toEqual('Sucedio un error al eliminar al usuario');
     expect(spyDeleteError).toBeCalled();
   });

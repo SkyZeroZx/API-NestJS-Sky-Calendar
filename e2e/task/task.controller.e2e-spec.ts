@@ -90,14 +90,14 @@ describe('TaskController (e2e)', () => {
     expect(userFindByUserError.body.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('/TASK/TASK_USER (POST) OK', async () => {
-    const getUsersByTask = await request.post('/task/task_user').send({ id: idTask }).expect(201);
+  it('/TASK/TASK_USER/:codTask (GET) OK', async () => {
+    const getUsersByTask = await request.post(`/task/task_user/${idTask}`).expect(200);
     expect(getUsersByTask.body).toEqual(taskByUser);
   });
 
-  it('/TASK/TASK_USER (POST) ERROR (MOCK)', async () => {
+  it('/TASK/TASK_USER/:codTask (GET) ERROR (MOCK)', async () => {
     const spyFindByTask = jest.spyOn(taskServiceMock, 'findByTask').mockResolvedValueOnce([]);
-    const getUsersByTaskError = await request.post('/task/task_user').send({ id: idTask }).expect(201);
+    const getUsersByTaskError = await request.post(`/task/task_user/${idTask}`).expect(200);
     expect(spyFindByTask).toBeCalled();
     expect(getUsersByTaskError.body.message).toEqual('No se encontraron users para el task');
   });
@@ -128,17 +128,19 @@ describe('TaskController (e2e)', () => {
   });
 
   it('/TASK (DELETE) OK (MOCK)', async () => {
+    const {codUser , codTask}  =TaskMockServiceE2E.taskToUserDto
     const spyDeleteTaskToUser = jest.spyOn(taskToUserRepositoryMock, 'delete').mockResolvedValueOnce(null);
-    const taskDeleteOk = await request.delete('/task').send(TaskMockServiceE2E.taskToUserDto);
+    const taskDeleteOk = await request.delete(`/task?codTask=${codTask}&codUser=${codUser}`)
     expect(taskDeleteOk.body.message).toEqual(Constant.MENSAJE_OK)
     expect(spyDeleteTaskToUser).toBeCalled();
   });
 
   it('/TASK (DELETE) ERROR (MOCK)', async () => {
+    const {codUser , codTask}  =TaskMockServiceE2E.taskToUserDto
     const spyDeleteTaskToUser = jest
       .spyOn(taskToUserRepositoryMock, 'delete')
       .mockRejectedValue(new Error('Sucedio un error'));
-    const taskDeleteError = await request.delete('/task').send(TaskMockServiceE2E.taskToUserDto).expect(500);
+    const taskDeleteError = await request.delete(`/task?codTask=${codTask}&codUser=${codUser}`).expect(500);
     expect(taskDeleteError.body.message).toEqual('Sucedio un error al eliminar al usuario de la tarea seleccionada');
     expect(spyDeleteTaskToUser).toBeCalled();
   });
@@ -186,7 +188,7 @@ describe('TaskController (e2e)', () => {
 
   it('/TASK/REMOVE_TASK (DELETE) OK (MOCK)', async ()=> {
     const spyDeleteTaskRepository = jest.spyOn(taskRepositoryMock,'delete').mockResolvedValueOnce({affected:1})
-    const removeTaskOk = await request.delete('/task/remove_task').send(TaskMockServiceE2E.deleteTaskDto)
+    const removeTaskOk = await request.delete(`/task/remove_task/${TaskMockServiceE2E.deleteTaskDto.codTask}`)
     
     expect(removeTaskOk.body.message).toEqual(Constant.MENSAJE_OK);
     expect(spyDeleteTaskRepository).toBeCalled()
@@ -194,14 +196,15 @@ describe('TaskController (e2e)', () => {
   })
 
   it('/TASK/REMOVE_TASK (DELETE) ERROR (MOCK)', async ()=> {
+    const {codTask} = TaskMockServiceE2E.deleteTaskDto
     const spyDeleteTaskRepositoryError = jest.spyOn(taskRepositoryMock,'delete').mockResolvedValueOnce({affected:0})
-    const removeTaskError= await request.delete('/task/remove_task').send(TaskMockServiceE2E.deleteTaskDto)
+    const removeTaskError= await request.delete(`/task/remove_task/${codTask}`)
     expect(removeTaskError.body.message).toEqual('Sucedio un error');
     expect(spyDeleteTaskRepositoryError).toBeCalled()
 
 
     const spyDeleteTaskRepositoryInternalError= jest.spyOn(taskRepositoryMock,'delete').mockRejectedValueOnce(new Error('Algo salio mal '));
-    const removeTaskInternalError= await request.delete('/task/remove_task').send(TaskMockServiceE2E.deleteTaskDto).expect(500)
+    const removeTaskInternalError= await request.delete(`/task/remove_task/${codTask}`).expect(500)
     expect(spyDeleteTaskRepositoryInternalError).toBeCalled()
     expect(removeTaskInternalError.body.message).toEqual('Sucedio un error al eliminar la tarea')
 

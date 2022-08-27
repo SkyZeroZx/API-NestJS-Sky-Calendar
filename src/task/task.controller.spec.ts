@@ -77,20 +77,17 @@ describe('TaskController', () => {
   });
 
   it('Validamos getUsersByTask', async () => {
+    const codTask = '15'
     const spyFindByTask = jest
       .spyOn(taskService, 'findByTask')
       .mockResolvedValueOnce(TaskServiceMock.taskFindAll);
-    const getUsersByTaskData = await controller.getUsersByTask(
-      UserServiceMock.mockResultCreateUser,
-    );
-    expect(spyFindByTask).toBeCalledWith(UserServiceMock.mockResultCreateUser.id);
+    const getUsersByTaskData = await controller.getUsersByTask(codTask);
+    expect(spyFindByTask).toBeCalledWith(parseInt(codTask));
     expect(getUsersByTaskData).toEqual(TaskServiceMock.taskFindAll);
     // Validamos para el caso que findByUser del servicio nos retorne un array vacio
     spyFindByTask.mockResolvedValue([]);
-    const getUsersByTaskVoid = await controller.getUsersByTask(
-      UserServiceMock.mockResultCreateUser,
-    );
-    expect(spyFindByTask).toHaveBeenNthCalledWith(2, UserServiceMock.mockResultCreateUser.id);
+    const getUsersByTaskVoid = await controller.getUsersByTask(codTask);
+    expect(spyFindByTask).toHaveBeenNthCalledWith(2,parseInt(codTask));
     expect(getUsersByTaskVoid).toEqual({ message: 'No se encontraron users para el task' });
   });
 
