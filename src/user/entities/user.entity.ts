@@ -16,6 +16,7 @@ import { Notificacion } from '../../notificacion/entities/notificacion.entity';
 import { TaskToUser } from '../../task_to_user/entities/task_to_user.entity';
 import { Constant } from '../../common/constants/Constant';
 import { ApiHideProperty} from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 @Unique(['username'])
@@ -39,7 +40,6 @@ export class User {
   @Column({ type: 'varchar', length: 128, nullable: false, select: false })
   @MinLength(6)
   @IsNotEmpty()
-  @ApiHideProperty()
   password: string;
 
   @Column()
