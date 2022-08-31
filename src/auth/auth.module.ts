@@ -10,7 +10,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JWT_TOKEN } from '../common/constants/Constant';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Authentication } from './entities/autentication.entity';
- 
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([Authentication]),

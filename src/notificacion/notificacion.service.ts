@@ -77,21 +77,19 @@ export class NotificacionService {
       .getRawMany();
   }
 
-  async registerTaskTokenByUser(listaUsers: User[]) {
+  async registerTaskTokenByUser(listUsers: User[]) {
     this.logger.log('Obteniendo Tokens para la nueva tarea creada');
-    let arrayTokenUsers: any[] = [];
+    let tokensPerUser: any[] = [];
     try {
 
-      listaUsers.forEach((user) => {
-        arrayTokenUsers.push(this.findTokensByUser(user.id));
+      listUsers.forEach((user) => {
+        tokensPerUser.push(this.findTokensByUser(user.id));
       });
-      arrayTokenUsers = await Promise.all(arrayTokenUsers);
 
-      this.logger.log('Despues del Lop soy el arrayTokens cantidad', arrayTokenUsers.length);
-
-      arrayTokenUsers.forEach((tokens) => {
+      tokensPerUser = await Promise.all(tokensPerUser);
+      
+      tokensPerUser.forEach((tokens) => {
         tokens.forEach((token) => {
-          this.logger.log('Llegue aca el token push es ', token);
           this.sendNotification(token.tokenPush, Constant.NOTIFICACION_NEW_TASK);
         });
       });

@@ -56,13 +56,13 @@ export class TaskService {
       });
     }
 
-    let arrayTaskToUser: any[] = [];
+    let tasksPerUser: any[] = [];
 
     try {
       createTaskDto.users.forEach((user) => {
-        arrayTaskToUser.push(this.serviceTaskToUser.saveTaskToUser(task.codTask, user.id));
+        tasksPerUser.push(this.serviceTaskToUser.saveTaskToUser(task.codTask, user.id));
       });
-      await Promise.all(arrayTaskToUser);
+      await Promise.all(tasksPerUser);
     } catch (error) {
       this.logger.error(
         `Sucedio un error al registrar el usuario a la tarea ${task.codTask}`,
@@ -72,7 +72,6 @@ export class TaskService {
         message: 'Sucedio un error al asignar la tarea al usuario',
       });
     }
- 
 
     this.logger.log('Task registrado exitosamente');
     return {
@@ -189,7 +188,6 @@ export class TaskService {
    */
   async update(updateTaskDto: UpdateTaskDto) {
     this.logger.log(`Actualizando tarea`, updateTaskDto);
-    // Obtenemos los tokens de los usuarios antes de eliminarlos los relacionado a la tarea
     try {
       const updateTask = await this.taskRepository
         .createQueryBuilder()
@@ -206,24 +204,19 @@ export class TaskService {
       if (updateTask.affected > 0) {
         this.logger.log(`Se actualizo exitosamente el task`, { updateTaskDto });
         const tokens = await this.notificacionService.findTokensByTask(updateTaskDto.codTask);
-        this.logger.log('Tokens obtenidos son ', tokens);
-        // Validando que se actualicen los task procedemos a enviar las notificaciones a los tokens
-
         tokens.forEach((item) => {
           this.notificacionService.sendNotification(
             item.tokenPush,
             Constant.NOTIFICACION_UPDATE_TASK,
           );
         });
-
         return {
           message: Constant.MENSAJE_OK,
           info: 'Task Actualizado Correctamente',
         };
-      } else {
-        this.logger.warn(`No se actualizo ningun registro para el task ${updateTaskDto.codTask}`);
-        return { message: 'No se actualizo ningun registro' };
       }
+      this.logger.warn(`No se actualizo ningun registro para el task ${updateTaskDto.codTask}`);
+      return { message: 'No se actualizo ningun registro' };
     } catch (error) {
       this.logger.error(`Sucedio un error al actualizar al task ${updateTaskDto.codTask}`, error);
       throw new InternalServerErrorException({
@@ -256,10 +249,9 @@ export class TaskService {
         });
 
         return { message: Constant.MENSAJE_OK, info: 'Tarea eliminada exitosamente' };
-      } else {
-        this.logger.warn(`No se encontro tarea a eliminar`);
-        return { message: 'Sucedio un error', info: 'No se encontro tarea a eliminar' };
       }
+      this.logger.warn(`No se encontro tarea a eliminar`);
+      return { message: 'Sucedio un error', info: 'No se encontro tarea a eliminar' };
     } catch (error) {
       this.logger.error(`Error al elimanar la tarea`, deleteTaskDto, error);
       throw new InternalServerErrorException({
@@ -285,7 +277,7 @@ export class TaskService {
   async addUserToTask(taskToUserDto: TaskToUserDto) {
     // Registramos la nueva tarea para el usuario
     const newUserToTask = await this.serviceTaskToUser.addUserToTask(taskToUserDto);
-     // Si nos devuelve un OK procedemos a enviar notificaciones
+    // Si nos devuelve un OK procedemos a enviar notificaciones
     if (newUserToTask.message == Constant.MENSAJE_OK) {
       // Obtenemos los tokens para el usuario
       const tokens = await this.notificacionService.findTokensByUser(taskToUserDto.codUser);

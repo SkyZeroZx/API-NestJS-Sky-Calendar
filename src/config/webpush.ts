@@ -1,11 +1,10 @@
 import * as webpush from 'web-push';
-
-import { vapidKeys } from './config';
+import 'dotenv/config';
 
 export default (): void => {
   webpush.setVapidDetails(
-    'mailto:nodetestui@gmail.com',
-    vapidKeys.publicKey,
-    vapidKeys.privateKey
+    process.env.EMAIL_WEB_PUSH,
+    process.env.PUBLIC_KEY,
+    process.env.PRIVATE_KEY,
   );
 };

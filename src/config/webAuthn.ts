@@ -4,6 +4,7 @@ import {
   verifyAuthenticationResponse,
   verifyRegistrationResponse,
 } from '@simplewebauthn/server';
+import 'dotenv/config';
 import { Authentication } from '../auth/entities/autentication.entity';
 import { User } from '../user/entities/user.entity';
 
@@ -12,24 +13,11 @@ import { User } from '../user/entities/user.entity';
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
-const rpID = 'sky-calendar-app.vercel.app';
+const rpID = process.env.RP_ID;
 
-const rpIDArray = [
-  'localhost',
-  'kikesport.com.pe',
-  'sky-calendar-app.vercel.app',
-  'sky-calendar.herokuapp.com',
-];
+const rpIDArray = process.env.RP_ID_ARRAY.split(", ");
 // The URL at which registrations and authentications should occur
-const origin = [
-  `http://${rpID}:4200`,
-  `http://${rpID}:4300`,
-  'https://www.kikesport.com.pe',
-  'https://www.kikesport.com.pe/sky',
-  'https://sky-calendar-app.vercel.app',
-  'https://sky-calendar-app.vercel.app:4200',
-  'https://sky-calendar.herokuapp.com'
-];
+const origin = process.env.ORIGIN.split(", ");
 
 export function generateRegistrationOption(user: User, userAuthenticators: Authentication[]) {
   return generateRegistrationOptions({

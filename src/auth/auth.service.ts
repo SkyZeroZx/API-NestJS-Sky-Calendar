@@ -79,8 +79,6 @@ export class AuthService {
       // Salvamos la nueva contraseña con sus datos del usuario reseteado
       const response = await this.userService.saveNewPassword(userReset);
       if (response.message == Constant.MENSAJE_OK) {
-        // Validamos la respuesta si es OK enviamos mail
-
         await transporter.sendMail({
           from: 'SkyCalendar <sky-admin@gmail.com>',
           to: username,
@@ -93,12 +91,11 @@ export class AuthService {
         });
         this.logger.log(`Se envio correo de reseteo del usuario ${username}`);
         return { message: Constant.MENSAJE_OK, info: 'Usuario reseteado exitosamente' };
-      } else {
-        this.logger.error('No se pudo resetear la contraseña');
-        throw new InternalServerErrorException({
-          message: 'Hubo un error al enviar el correo de reseteo',
-        });
       }
+      this.logger.error('No se pudo resetear la contraseña');
+      throw new InternalServerErrorException({
+        message: 'Hubo un error al enviar el correo de reseteo',
+      });
     } catch (error) {
       this.logger.error('Hubo un error al enviar el correo de reseteo');
       throw new InternalServerErrorException({
@@ -126,7 +123,7 @@ export class AuthService {
    * @param {string} id - The id of the authenticator you want to get.
    * @returns The user authenticators by id
    */
-  async getUserAuthenticatorsById(username: string, id: string)  : Promise<Authentication[]> {
+  async getUserAuthenticatorsById(username: string, id: string): Promise<Authentication[]> {
     return this.autenticationRepository
       .createQueryBuilder('AUTH')
       .select('AUTH.id', 'id')

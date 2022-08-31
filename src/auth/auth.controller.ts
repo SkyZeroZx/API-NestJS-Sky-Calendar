@@ -29,7 +29,6 @@ import { AuthResponse } from '../common/swagger/response/auth.response';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   private readonly logger = new Logger(AuthController.name);
-
   rememberChallenge: any;
 
   @UseGuards(LocalAuthGuard)
@@ -69,8 +68,8 @@ export class AuthController {
   @ApiOperation({ summary: 'Registro de webAuthn para usuario logeado' })
   async verifyRegistration(@Body() verify, @User() user: UserEntity) {
     this.logger.log('Verificando registro Authn Web');
-    const verifyTest = await verifyAuthWeb(verify, this.rememberChallenge);
-    return this.authService.saveUserAuthenticators(user, verify.id, verifyTest);
+    const verifyAuthentication = await verifyAuthWeb(verify, this.rememberChallenge);
+    return this.authService.saveUserAuthenticators(user, verify.id, verifyAuthentication);
   }
 
   @Post('generate-authentication-options')
@@ -127,9 +126,7 @@ export class AuthController {
   @ApiResponse(AuthResponse.changePassword)
   async changePassword(@Body() changePasswordDto: ChangePasswordDto, @User() user: UserEntity) {
     this.logger.log(`Cambiando contraseña usuario ${user.username}`);
-    // Obtenemos las contraseña antigua y nueva de nuestro ChangePasswordDto
     const { oldPassword, newPassword } = changePasswordDto;
-    //Realizamos validaciones
     if (oldPassword == newPassword) {
       this.logger.warn('No puede repetir la contraseña antigua para la nueva contraseña');
       throw new BadRequestException({

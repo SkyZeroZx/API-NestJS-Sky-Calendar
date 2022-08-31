@@ -1,7 +1,7 @@
 {
   "env": {
     "jwtToken": {
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInVzZXJuYW1lIjoic2t5emVyb2JvdDY0QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImZpcnN0TG9naW4iOmZhbHNlLCJpYXQiOjE2NjE2MjAwODgsImV4cCI6MTY2MTcwNjQ4OH0.8GplUHGNr3dDtAsWEAaTyevMTRKxUCq0lJDYYxMFjPw"
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInVzZXJuYW1lIjoic2t5emVyb2JvdDY0QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImZpcnN0TG9naW4iOmZhbHNlLCJpYXQiOjE2NjE5MDI0OTMsImV4cCI6MTY2MTk4ODg5M30.8y7vCC0S_IReGng-dS1KbhUg1nc6yBbRUjvLzLHVvmM"
     },
     "jwtTokenFail": {
       "Authorization": ""

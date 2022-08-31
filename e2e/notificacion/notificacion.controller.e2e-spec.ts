@@ -5,7 +5,7 @@ import { AppModule } from '../../src/app.module';
 import * as config from '../config-e2e.json';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotificacionModule } from '../../src/notificacion/notificacion.module';
-import webPush from '../../src/config/webpush';
+import webPush from '../../src/config/webPush';
 import { Notificacion } from '../../src/notificacion/entities/notificacion.entity';
 import { NotificacionService } from '../../src/notificacion/notificacion.service';
 import { Constant } from '../../src/common/constants/Constant';

@@ -4,7 +4,7 @@ import * as superTest from 'supertest';
 import { AppModule } from '../../src/app.module';
 import * as config from '../config-e2e.json';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import webPush from '../../src/config/webpush';
+import webPush from '../../src/config/webPush';
 import { Constant } from '../../src/common/constants/Constant';
 import { UserModule } from '../../src/user/user.module';
 import { User } from '../../src/user/entities/user.entity';
