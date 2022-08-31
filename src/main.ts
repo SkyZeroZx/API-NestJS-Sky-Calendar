@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { initSwagger } from './common/swagger/swagger';
 import * as cors from "cors";
 import helmet from "helmet";
-import webpush from './config/webPush';
+import webpush from './config/webpush';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
