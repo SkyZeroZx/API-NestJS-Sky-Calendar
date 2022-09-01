@@ -1,14 +1,11 @@
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
-
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
-
   <h1 align="center">Sky Calendar API NestJS</h1>
-  _Es el API REST para la WebAPP/PWA SkyCalendar integrado con Web Authentication para el inicio de sesion passworless_
-  <p></p>
-  <p align="center">
+  <p>Es el API REST para la WebAPP/PWA SkyCalendar integrado con Web Authentication para el inicio de sesion passworless</p>
+<p align="center">
 <a href="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=alert_status" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=alert_status" alt="Quality Gate" /></a>
 <a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=coverage" alt="Coverage" /></a>
 <a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=vulnerabilities" alt="Vulnerabilities" /></a>
