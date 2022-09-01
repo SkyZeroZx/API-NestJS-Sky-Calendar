@@ -1,10 +1,9 @@
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+
   <h1 align="center">Sky Calendar API NestJS</h1>
-  <p>Es el API REST para la WebAPP/PWA SkyCalendar integrado con Web Authentication para el inicio de sesion passworless</p>
+  <p align="center">Es el API REST para la WebAPP/PWA SkyCalendar integrado con Web Authentication para el inicio de sesion passworless</p>
 <p align="center">
 <a href="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=alert_status" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=alert_status" alt="Quality Gate" /></a>
 <a href="https://sonarcloud.io/summary/new_code?id=SkyZeroZx_API-NestJS-Sky-Calendar" target="_blank"><img src="https://sonarcloud.io/api/project_badges/measure?project=SkyZeroZx_API-NestJS-Sky-Calendar&metric=coverage" alt="Coverage" /></a>
@@ -27,6 +26,7 @@
   - [Build](#build)
 - [Despligue](#despliegue-)  
 - [Analisis de Codigo](#analisis-de-codigo-)
+- [Integración Continua](#integración-continua)
 - [Construido](#construido-con-)
 
 ## Comenzando 🚀
@@ -157,6 +157,17 @@ _Reporte de Cobertura en SonarCloud_
 ![SonarQube Cloud 2](/docs/sonar/sonar-cloud-2.png)
 
 ![SonarQube Cloud 3](/docs/sonar/sonar-cloud-3.png)
+
+## Integración Continua
+
+_Se realizo un CI con SonarCloud para ejecuta de manera automatica los test_
+
+_Se creo la carpeta `.github/workflows` con el archivo `build.yml` que contiene los pasos para desplegar mediante GitHub Actions nuestro CI_
+
+![CI 1](/docs/ci/ci-1.png)
+
+![CI 1](/docs/ci/ci-2.png)
+
 
 ## Construido con 🛠️
 
