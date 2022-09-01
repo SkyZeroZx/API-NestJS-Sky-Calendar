@@ -16,7 +16,6 @@ export class TaskResponse {
     status: 201,
     description: 'Devolucion exitosa',
     schema: {
- 
       example: [
         {
           id: 27,
@@ -51,7 +50,7 @@ export class TaskResponse {
   public static readonly bodyGetTaskByUser = {
     schema: {
       properties: {
-        id: { type: 'string' , description: 'ID del usuario'},
+        id: { type: 'string', description: 'ID del usuario' },
       },
     },
   };

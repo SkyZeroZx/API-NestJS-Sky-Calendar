@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MinLength, IsString, IsNotEmpty, MaxLength, IsArray, IsNumber } from 'class-validator';
 import { User } from '../../user/entities/user.entity';
- 
+
 export class CreateTaskDto {
   @ApiProperty()
   @IsNumber()

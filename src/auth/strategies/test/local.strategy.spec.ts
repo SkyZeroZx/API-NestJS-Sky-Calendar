@@ -32,14 +32,14 @@ describe('Local Strategy ', () => {
     expect(localStrategy).toBeDefined();
   });
 
-  it('Validamos validateUser' , async () => {
+  it('Validamos validateUser', async () => {
     const email = 'test@example@mail.com';
     const password = '123456';
-    const spyValidateUser = jest.spyOn(authService,'validateUser').mockImplementation(async ()=>{return null});
-    const localStrategyValidateUser= await localStrategy.validate(email,password);
-    expect(spyValidateUser).toHaveBeenCalledWith(email,password)
+    const spyValidateUser = jest.spyOn(authService, 'validateUser').mockImplementation(async () => {
+      return null;
+    });
+    const localStrategyValidateUser = await localStrategy.validate(email, password);
+    expect(spyValidateUser).toHaveBeenCalledWith(email, password);
     expect(localStrategyValidateUser).toBeNull();
-
-  })
-
+  });
 });

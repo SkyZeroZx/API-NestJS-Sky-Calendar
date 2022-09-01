@@ -139,7 +139,7 @@ export class UserService {
     this.logger.log('Se elimino exitosamente al usuario ', { deleteUserDto });
     return {
       message: Constant.MENSAJE_OK,
-      info: 'Usuario Eliminado Correctamente'
+      info: 'Usuario Eliminado Correctamente',
     };
   }
 

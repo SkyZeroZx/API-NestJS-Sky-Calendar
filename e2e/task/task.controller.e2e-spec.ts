@@ -91,13 +91,13 @@ describe('TaskController (e2e)', () => {
   });
 
   it('/TASK/TASK_USER/:codTask (GET) OK', async () => {
-    const getUsersByTask = await request.post(`/task/task_user/${idTask}`).expect(200);
+    const getUsersByTask = await request.get(`/task/task_user/${idTask}`).expect(200);
     expect(getUsersByTask.body).toEqual(taskByUser);
   });
 
   it('/TASK/TASK_USER/:codTask (GET) ERROR (MOCK)', async () => {
     const spyFindByTask = jest.spyOn(taskServiceMock, 'findByTask').mockResolvedValueOnce([]);
-    const getUsersByTaskError = await request.post(`/task/task_user/${idTask}`).expect(200);
+    const getUsersByTaskError = await request.get(`/task/task_user/${idTask}`).expect(200);
     expect(spyFindByTask).toBeCalled();
     expect(getUsersByTaskError.body.message).toEqual('No se encontraron users para el task');
   });

@@ -50,8 +50,10 @@ describe('TypeController', () => {
   });
 
   it('Validamos findAll', async () => {
-    const spyCreate = jest.spyOn(service, 'findAll').mockImplementation(async () => {return listaTypes});
-    const types =  await controller.findAll();
+    const spyCreate = jest.spyOn(service, 'findAll').mockImplementation(async () => {
+      return listaTypes;
+    });
+    const types = await controller.findAll();
     expect(spyCreate).toBeCalled();
     expect(types).toEqual(listaTypes);
   });

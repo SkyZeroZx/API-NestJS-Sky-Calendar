@@ -1,5 +1,3 @@
- 
-
 export class TypeResponse {
   public static readonly findAll = {
     status: 200,

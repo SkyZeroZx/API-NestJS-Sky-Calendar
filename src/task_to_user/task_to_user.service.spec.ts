@@ -27,7 +27,6 @@ describe('TaskToUserService', () => {
     jest.clearAllMocks();
   });
 
-
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
@@ -78,5 +77,4 @@ describe('TaskToUserService', () => {
     );
     expect(spyDeleteError).toBeCalled();
   });
- 
 });

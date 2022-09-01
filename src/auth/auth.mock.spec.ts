@@ -11,8 +11,7 @@ export class AuthMockService {
 
   public generateTokenWithAuthnWeb = jest.fn().mockReturnThis();
 
-
-  public getRequest  = jest.fn().mockReturnThis();
+  public getRequest = jest.fn().mockReturnThis();
   // Is function for mock configService
   public get = jest.fn().mockReturnThis();
 

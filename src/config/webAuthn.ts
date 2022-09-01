@@ -8,16 +8,16 @@ import 'dotenv/config';
 import { Authentication } from '../auth/entities/autentication.entity';
 import { User } from '../user/entities/user.entity';
 
-// Utilitarios de AuthnWeb 
+// Utilitarios de AuthnWeb
 
 // Human-readable title for your website
 const rpName = 'Sky Calendar App';
 // A unique identifier for your website
 const rpID = process.env.RP_ID;
 
-const rpIDArray = process.env.RP_ID_ARRAY.split(", ");
+const rpIDArray = process.env.RP_ID_ARRAY.split(', ');
 // The URL at which registrations and authentications should occur
-const origin = process.env.ORIGIN.split(", ");
+const origin = process.env.ORIGIN.split(', ');
 
 export function generateRegistrationOption(user: User, userAuthenticators: Authentication[]) {
   return generateRegistrationOptions({
@@ -55,7 +55,7 @@ export async function verifyAuthWeb(body, expectedChallenge) {
     });
   } catch (error) {
     console.log(error);
-    return  error ;
+    return error;
   }
 }
 

@@ -31,7 +31,9 @@ describe('NotificacionController', () => {
   });
 
   it('Validamos registerSuscriptionNotification', async () => {
-    const spySuscribeNotification = jest.spyOn(service, 'suscribeNotification').mockResolvedValue(null);;
+    const spySuscribeNotification = jest
+      .spyOn(service, 'suscribeNotification')
+      .mockResolvedValue(null);
     await controller.registerSuscriptionNotification(
       UserServiceMock.mockResultCreateUser,
       NotificationMockService.createNotificacionDto,
@@ -43,8 +45,12 @@ describe('NotificacionController', () => {
   });
 
   it('Validamos registerTaskTokenByUser', async () => {
-    const spySuscribeNotification = jest.spyOn(service, 'registerTaskTokenByUser').mockResolvedValue(null);
+    const spySuscribeNotification = jest
+      .spyOn(service, 'registerTaskTokenByUser')
+      .mockResolvedValue(null);
     await controller.registerTaskTokenByUser(NotificationMockService.sendNotificacionDto);
-    expect(spySuscribeNotification).toBeCalledWith(NotificationMockService.sendNotificacionDto.users);
+    expect(spySuscribeNotification).toBeCalledWith(
+      NotificationMockService.sendNotificacionDto.users,
+    );
   });
 });

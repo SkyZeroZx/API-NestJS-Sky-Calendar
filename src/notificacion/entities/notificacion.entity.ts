@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-   import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 
 @Entity()
@@ -13,7 +13,7 @@ export class Notificacion {
 
   @ManyToOne(() => User, (user) => user.id, {
     nullable: false,
-    onDelete :"CASCADE"
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'codUser' })
   @Column()

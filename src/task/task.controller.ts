@@ -74,7 +74,7 @@ export class TaskController {
   @ApiBody(TaskResponse.bodyGetTaskByUser)
   @ApiResponse(TaskResponse.getUserByTask)
   async getUsersByTask(@Param('codTask') codTask: string) {
-    this.logger.log(`Listando usuarios por task` , codTask);
+    this.logger.log(`Listando usuarios por task`, codTask);
     const taskByUser = await this.taskService.findByTask(parseInt(codTask));
     if (taskByUser.length === 0) {
       this.logger.warn(`No se encontraron users para el task ${codTask}`);

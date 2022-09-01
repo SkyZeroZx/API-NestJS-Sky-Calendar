@@ -157,7 +157,11 @@ describe('NotificacionService', () => {
     const spyFindTokensByUser = jest
       .spyOn(service, 'findTokensByUser')
       .mockResolvedValue(TaskServiceMock.tokenByUser);
-    const spySendNotification = jest.spyOn(service, 'sendNotification').mockImplementation(async ()=>{return;})
+    const spySendNotification = jest
+      .spyOn(service, 'sendNotification')
+      .mockImplementation(async () => {
+        return;
+      });
     const registerTaskTokenByUser = await service.registerTaskTokenByUser(
       UserServiceMock.mockFindAllUserData,
     );

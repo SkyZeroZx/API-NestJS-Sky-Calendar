@@ -1,4 +1,3 @@
- 
 export class NotificationResponse {
   public static readonly bodySaveToken = {
     status: 201,

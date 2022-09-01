@@ -3,16 +3,11 @@ import { TaskService } from './task.service';
 import { TaskController } from './task.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './entities/task.entity';
-import { Notificacion } from '../notificacion/entities/notificacion.entity';
 import { TaskToUserModule } from '../task_to_user/task_to_user.module';
 import { NotificacionModule } from '../notificacion/notificacion.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Task]),
-    TaskToUserModule,
-    NotificacionModule
-  ],
+  imports: [TypeOrmModule.forFeature([Task]), TaskToUserModule, NotificacionModule],
   controllers: [TaskController],
   providers: [TaskService],
   exports: [TaskService],

@@ -24,6 +24,6 @@ describe('User Role Guard ', () => {
   it('Validamos User Decorator', async () => {
     const userMockDecorator = User('admin', executionContextMock);
     expect(userMockDecorator).toBeUndefined();
-    const userMockDecoratorNoRole = User('', executionContextMock)
+    const userMockDecoratorNoRole = User('', executionContextMock);
   });
 });

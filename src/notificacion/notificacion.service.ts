@@ -81,13 +81,12 @@ export class NotificacionService {
     this.logger.log('Obteniendo Tokens para la nueva tarea creada');
     let tokensPerUser: any[] = [];
     try {
-
       listUsers.forEach((user) => {
         tokensPerUser.push(this.findTokensByUser(user.id));
       });
 
       tokensPerUser = await Promise.all(tokensPerUser);
-      
+
       tokensPerUser.forEach((tokens) => {
         tokens.forEach((token) => {
           this.sendNotification(token.tokenPush, Constant.NOTIFICACION_NEW_TASK);

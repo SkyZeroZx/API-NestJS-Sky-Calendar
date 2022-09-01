@@ -1,7 +1,7 @@
 {
   "env": {
     "jwtToken": {
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInVzZXJuYW1lIjoic2t5emVyb2JvdDY0QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImZpcnN0TG9naW4iOmZhbHNlLCJpYXQiOjE2NjE5MDI0OTMsImV4cCI6MTY2MTk4ODg5M30.8y7vCC0S_IReGng-dS1KbhUg1nc6yBbRUjvLzLHVvmM"
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInVzZXJuYW1lIjoic2t5emVyb2JvdDY0QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImZpcnN0TG9naW4iOmZhbHNlLCJpYXQiOjE2NjIwNTgwODgsImV4cCI6MTY2MjE0NDQ4OH0.93NGfj5_q07Sui_1JWFepqHJkMD1K8Djms_2YewdQ_Q"
     },
     "jwtTokenFail": {
       "Authorization": ""
@@ -18,20 +18,20 @@
         "apellidoPaterno": "Sky",
         "apellidoMaterno": "Sky",
         "createdAt": "2022-06-20T03:05:34.710Z",
-        "updateAt": "2022-08-25T05:06:44.000Z",
+        "updateAt": "2022-08-27T19:20:40.000Z",
         "role": "admin",
         "estado": "HABILITADO",
         "firstLogin": false
       },
       "userReseteado": {
-        "id": 30,
+        "id": 102,
         "username": "jburgost@unac.edu.pe",
-        "password": "97PDIL9BMW",
-        "nombre": "Admin",
-        "apellidoPaterno": "Admin Paterno",
-        "apellidoMaterno": "Admin Materno",
-        "createdAt": "2022-08-05T21:11:58.379Z",
-        "updateAt": "2022-08-10T05:02:46.000Z",
+        "password": "QJbtSqTxgE",
+        "nombre": "Jaime",
+        "apellidoPaterno": "Burgos",
+        "apellidoMaterno": "Tejada",
+        "createdAt": "2022-08-27T19:07:11.468Z",
+        "updateAt": "2022-09-01T18:46:26.000Z",
         "role": "admin",
         "estado": "RESETEADO",
         "firstLogin": true
@@ -39,12 +39,12 @@
       "userCreado": {
         "id": 31,
         "username": "mysqlserver64@gmail.com",
-        "password": "vpBwjI3Oi0",
+        "password": "Bs8sc80d8c",
         "nombre": "UserCreate",
         "apellidoPaterno": "Create Paterno",
         "apellidoMaterno": "Create Materno",
         "createdAt": "2022-08-10T04:28:53.167Z",
-        "updateAt": "2022-08-10T04:28:53.167Z",
+        "updateAt": "2022-09-01T19:22:22.000Z",
         "role": "admin",
         "estado": "CREADO",
         "firstLogin": true
@@ -52,55 +52,55 @@
       "userBloqueado": {
         "id": 4,
         "username": "saivergx@gmail.com",
-        "password": "Admin1",
+        "password": "QPpwATdl2z",
         "nombre": "Jaime",
         "apellidoPaterno": "Burgos",
         "apellidoMaterno": "Tejada",
-        "createdAt": "2022-06-19T15:46:39.563Z",
-        "updateAt": "2022-08-10T05:00:08.000Z",
+        "createdAt": "2022-08-10T04:28:53.167Z",
+        "updateAt": "2022-09-01T19:11:14.000Z",
         "estado": "BLOQUEADO",
         "role": "admin",
-        "firstLogin": false
+        "firstLogin": true
       },
       "userAdmin": {
         "id": 6,
         "username": "skyzerobot64@gmail.com",
-        "password": "ENVTbctv0F",
+        "password": "Admin1",
         "nombre": "SkyBot",
         "apellidoPaterno": "Sky",
         "apellidoMaterno": "Sky",
         "createdAt": "2022-06-20T03:05:34.710Z",
-        "updateAt": "2022-08-10T04:58:06.000Z",
+        "updateAt": "2022-08-27T19:20:40.000Z",
         "role": "admin",
         "estado": "HABILITADO",
-        "firstLogin": true
+        "firstLogin": false
       },
       "userUpdate": {
-        "id":43,
-        "username": "kRT7kA5znn@mail.com",
+        "id": 104,
+        "username": "qvhwAZabvp@mail.com",
         "nombre": "TEST E2E API",
         "apellidoPaterno": "TEST E2E API",
         "apellidoMaterno": "TEST E2E API",
-        "rol" : "viewer",
-        "estado" : "CREADO"
+        "rol": "viewer",
+        "estado": "CREADO"
       },
       "userViewer": {
-        "username": "view-user-sky@gmail",
+        "username": "view-user-sky@gmail.com",
         "password": "Admin1"
       }
     },
     "tasks": {
       "updateTask": {
-        "codTask": 23,
-        "title": "TEST NEW",
-        "description": "SDFGSDFSD",
+        "codTask": 35,
+        "title": "Create",
+        "description": " Hcyct",
         "codType": 1,
-        "dateRange": ["2022-08-13T07:00:00", "2022-08-13T07:00:00"],
-        "users":[]
+        "dateRange": ["2022-07-22T07:00:00", "2022-07-22T14:00:00"],
+        "users": []
       }
     },
     "findTask": {
-      "id": 23
+      "id": 34
     },
     "taskByUser": [
       {

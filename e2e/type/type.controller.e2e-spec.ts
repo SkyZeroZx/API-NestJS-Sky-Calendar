@@ -53,11 +53,4 @@ describe('TypeController (e2e)', () => {
     const typeFindAll = await request.get('/type').expect(200);
     expect(typeFindAll.body.length).toBeGreaterThanOrEqual(1);
   });
-
-  it('/TYPE  (GET) ERROR (MOCK)', async () => {
-    const spyFind = jest.spyOn(typeRepositoryMock, 'find').mockResolvedValue([]);
-    const typeFindAll = await request.get('/type').expect(500);
-    expect(typeFindAll.body.message).toEqual('No se encontraron Types');
-    expect(spyFind).toBeCalled();
-  });
 });

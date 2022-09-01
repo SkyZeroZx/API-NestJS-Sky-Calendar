@@ -277,7 +277,6 @@ export class TaskService {
   async addUserToTask(taskToUserDto: TaskToUserDto) {
     // Registramos la nueva tarea para el usuario
     const newUserToTask = await this.serviceTaskToUser.addUserToTask(taskToUserDto);
-    // Si nos devuelve un OK procedemos a enviar notificaciones
     if (newUserToTask.message == Constant.MENSAJE_OK) {
       // Obtenemos los tokens para el usuario
       const tokens = await this.notificacionService.findTokensByUser(taskToUserDto.codUser);

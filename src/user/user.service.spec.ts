@@ -44,9 +44,8 @@ describe('UserService', () => {
       return User;
     });
     // Mockeamos el envio de email
-    const spyTransporterEmail = jest
-      .spyOn(transporter, 'sendMail').mockReturnValue(null)
-       
+    const spyTransporterEmail = jest.spyOn(transporter, 'sendMail').mockReturnValue(null);
+
     const dataOK = await service.create(UserServiceMock.mockCreateDto);
     // Validamos las llamadas a nuestras funciones mockeadas
     expect(spyFindByEmailMockOk).toBeCalledWith(UserServiceMock.mockCreateDto.username);
@@ -292,7 +291,9 @@ describe('UserService', () => {
     const spyCreate = jest.spyOn(mockService, 'create').mockImplementation(() => {
       return UserServiceMock.mockResultCreateUser;
     });
-    const spyExecuteQueryBuilderError = jest.spyOn(mockService, 'execute').mockRejectedValue(new Error('Algo salio mal'));
+    const spyExecuteQueryBuilderError = jest
+      .spyOn(mockService, 'execute')
+      .mockRejectedValue(new Error('Algo salio mal'));
     await expect(
       service.saveNewPassword(UserServiceMock.mockResultCreateUser),
     ).rejects.toThrowError(
@@ -302,6 +303,5 @@ describe('UserService', () => {
     );
     expect(spyExecuteQueryBuilderError).toBeCalled();
     expect(spyCreate).toBeCalled();
- 
   });
 });

@@ -23,8 +23,6 @@ export class UserReponse {
     },
   };
 
-
-
   public static readonly profile = {
     status: 201,
     description: 'Obtener perfil exitoso',

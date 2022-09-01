@@ -1,6 +1,5 @@
 import { TaskToUserDto } from './dto/task-to-user.dto';
 
-
 export class TaskToUserMock {
   public save = jest.fn().mockReturnThis();
 

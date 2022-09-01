@@ -15,7 +15,7 @@ import * as bcrypt from 'bcryptjs';
 import { Notificacion } from '../../notificacion/entities/notificacion.entity';
 import { TaskToUser } from '../../task_to_user/entities/task_to_user.entity';
 import { Constant } from '../../common/constants/Constant';
-import { ApiHideProperty} from '@nestjs/swagger';
+import { ApiHideProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
 @Entity()

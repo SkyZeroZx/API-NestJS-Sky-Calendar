@@ -140,20 +140,20 @@ export class TaskServiceMock {
     dateRange: [new Date(), new Date()],
   };
 
-  public static readonly findByTaskResults : any[] = [
-      {
-          id: 1,
-         nombre: 'Juan',
-          apellidoPaterno: 'Perez',
-          apellidoMaterno: 'Gonzalez',
-        },
-        {
-          id: 2,
-         nombre: 'Pepe',
-          apellidoPaterno: 'Fulano',
-          apellidoMaterno: 'Quispe',
-        }
-  ]
+  public static readonly findByTaskResults: any[] = [
+    {
+      id: 1,
+      nombre: 'Juan',
+      apellidoPaterno: 'Perez',
+      apellidoMaterno: 'Gonzalez',
+    },
+    {
+      id: 2,
+      nombre: 'Pepe',
+      apellidoPaterno: 'Fulano',
+      apellidoMaterno: 'Quispe',
+    },
+  ];
 
   public static readonly deleteTaskDto: DeleteTaskDto = {
     codTask: 25,

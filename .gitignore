@@ -1,7 +1,8 @@
 # compiled output
 /dist
 /node_modules
-
+/coverage
+/coverage-e2e
 
 credentials.txt
 calendar_app.sql

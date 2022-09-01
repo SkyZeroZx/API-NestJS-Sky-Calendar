@@ -288,7 +288,4 @@ describe('AuthService', () => {
     expect(spyCreate).toBeCalled();
     expect(spySave).toBeCalledWith(Authentication);
   });
-
-
-  
 });

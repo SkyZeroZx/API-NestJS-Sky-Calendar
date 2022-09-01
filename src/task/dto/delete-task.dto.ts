@@ -5,5 +5,4 @@ export class DeleteTaskDto {
   @ApiProperty()
   @IsNotEmpty()
   codTask: number;
-
 }

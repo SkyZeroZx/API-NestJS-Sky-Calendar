@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeService } from './type.service';
 import { Type } from './entities/type.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { InternalServerErrorException } from '@nestjs/common';
 
 describe('TypeService', () => {
   let service: TypeService;
@@ -54,18 +53,5 @@ describe('TypeService', () => {
     });
     await service.findAll();
     expect(spyFind).toBeCalled();
-  });
-
-  it('Validamos FindAll Error', async () => {
-    const spyFindErr = jest.spyOn(mockService, 'find').mockImplementation(() => {
-      return [];
-    });
-
-    expect(service.findAll()).rejects.toThrowError(
-      new InternalServerErrorException({
-        message: 'No se encontraron Types',
-      }),
-    );
-    expect(spyFindErr).toBeCalled();
   });
 });

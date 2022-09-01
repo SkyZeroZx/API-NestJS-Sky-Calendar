@@ -1,13 +1,13 @@
 import { IsNotEmpty } from 'class-validator';
- import { Column, Entity,  OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Task } from '../../task/entities/task.entity';
 
 @Entity()
 export class Type {
   @PrimaryGeneratedColumn()
-  @OneToMany(() => Task,(Task) => Task.codType)
+  @OneToMany(() => Task, (Task) => Task.codType)
   codType: number;
- 
+
   @Column({ type: 'varchar', length: 255, nullable: true })
   @IsNotEmpty()
   typeDescription: string;
@@ -20,7 +20,6 @@ export class Type {
   @IsNotEmpty()
   borderColor: string;
 
-
   @Column({ type: 'time' })
   @IsNotEmpty()
   start: Date;
@@ -29,7 +28,6 @@ export class Type {
   @IsNotEmpty()
   end: Date;
 
-  @Column({ type: 'varchar', length: 30 , default: 'BLOCK' })
+  @Column({ type: 'varchar', length: 30, default: 'BLOCK' })
   display: string;
-
 }

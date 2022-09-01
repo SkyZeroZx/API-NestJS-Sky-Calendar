@@ -27,9 +27,7 @@ export class TaskToUserService {
     } catch (error) {
       this.logger.error(
         `Sucedio un error al agregar al usuario ${taskToUserDto.codUser} a la tarea ${taskToUserDto.codTask}`,
-        {
-          error,
-        },
+        { error }
       );
       throw new InternalServerErrorException({
         message: 'Sucedio un error al agregar al usuario a la tarea seleccionada',
@@ -66,9 +64,7 @@ export class TaskToUserService {
     } catch (error) {
       this.logger.error(
         `Sucedio un error al eliminar al usuario ${taskToUserDto.codUser} de la tarea ${taskToUserDto.codTask}`,
-        {
-          error,
-        },
+        { error },
       );
       throw new InternalServerErrorException({
         message: 'Sucedio un error al eliminar al usuario de la tarea seleccionada',
@@ -83,6 +79,4 @@ export class TaskToUserService {
       info: 'Usuario Eliminado de la Tarea',
     };
   }
-
-
 }

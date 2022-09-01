@@ -24,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       case Constant.ESTADOS_USER.CREADO:
         return user;
       default:
-        this.logger.warn(`Su usuario no se encuentra autorizado`, user , payload);
+        this.logger.warn(`Su usuario no se encuentra autorizado`, user, payload);
         throw new UnauthorizedException({
           message: `Su usuario no se encuentra autorizado , tiene un status ${user.estado}`,
         });

@@ -2,8 +2,8 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { initSwagger } from './common/swagger/swagger';
-import * as cors from "cors";
-import helmet from "helmet";
+import * as cors from 'cors';
+import helmet from 'helmet';
 import webpush from './config/webpush';
 
 async function bootstrap() {
