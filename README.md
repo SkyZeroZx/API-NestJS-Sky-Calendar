@@ -166,8 +166,6 @@ _Se creo la carpeta `.github/workflows` con el archivo `build.yml` que contiene 
 
 ![CI 1](/docs/ci/ci-1.png)
 
-![CI 1](/docs/ci/ci-2.png)
-
 
 ## Construido con 🛠️
 
