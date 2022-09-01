@@ -17,6 +17,6 @@ export class TypeController {
   @ApiResponse(TypeResponse.findAll)
   async findAll() {
     this.logger.log('Listando Types');
-    return this.typeService.findAll();
+    return   this.typeService.findAll();
   }
 }

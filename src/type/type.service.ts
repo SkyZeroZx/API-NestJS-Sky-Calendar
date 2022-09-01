@@ -13,6 +13,6 @@ export class TypeService {
 
   async findAll(): Promise<Type[]> {
     this.logger.log('Listando Types');
-    return await this.typeRepository.find();
+    return this.typeRepository.find();
   }
 }

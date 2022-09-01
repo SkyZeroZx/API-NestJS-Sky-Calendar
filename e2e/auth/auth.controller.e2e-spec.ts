@@ -13,6 +13,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Authentication } from '../../src/auth/entities/autentication.entity';
 import { User } from '../../src/user/entities/user.entity';
 import * as bycrpt from 'bcryptjs';
+import { transporter } from '../../src/config/mailer';
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
   // Instanciamos request para posteriormente setear las configuraciones de superTest
