@@ -28,6 +28,7 @@ services:
       RP_ID_ARRAY : ${RP_ID_ARRAY}
       ORIGIN  : ${ORIGIN}
       DATE_PATTERN : ${DATE_PATTERN} # LOGGER PROPERTIES
+      APP_NAME : ${APP_NAME}
       MAX_SIZE  : ${MAX_SIZE}  
       MAX_DAYS  : ${MAX_DAYS}
       LOG_FOLDER : ${LOG_FOLDER}

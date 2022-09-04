@@ -4,6 +4,9 @@
   "description": "Awesome API Calendar NestJS",
   "author": "SkyZeroZx",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

@@ -17,13 +17,14 @@ import { Constant } from '../common/constants/Constant';
 import { LoginDto } from './dtos/login.dto';
 import { ResetUserDto } from './dtos/reset.dto';
 import { ChangePasswordDto } from './dtos/changePasssword.dto';
-import {
-  generateAuthenticationOption,
-  generateRegistrationOption,
-  verifyAuthenticationOption,
-  verifyAuthWeb,
-} from '../config/webauthn';
 import { AuthResponse } from '../common/swagger/response/auth.response';
+import {
+  generateRegistrationOption,
+  verifyAuthWeb,
+  generateAuthenticationOption,
+  verifyAuthenticationOption,
+} from '../config/webauthn';
+
 @ApiTags('Autentificacion')
 @Controller('auth')
 export class AuthController {

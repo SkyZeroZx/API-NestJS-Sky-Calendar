@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { Constant } from '../common/constants/Constant';
 import { UserService } from '../user/user.service';
 import { compare } from 'bcryptjs';
