@@ -8,7 +8,7 @@ import { Constant } from '../../src/common/constants/Constant';
 import { AuthMockServiceE2E } from './auth.mock.e2e.spec';
 import { UserService } from '../../src/user/user.service';
 import { AuthService } from '../../src/auth/auth.service';
-import * as webAuthn from '../../src/config/webAuthn';
+import * as webAuthn from '../../src/config/webauthn';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Authentication } from '../../src/auth/entities/autentication.entity';
 import { User } from '../../src/user/entities/user.entity';

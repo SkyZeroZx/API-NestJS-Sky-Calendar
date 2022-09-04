@@ -22,7 +22,7 @@ import {
   generateRegistrationOption,
   verifyAuthenticationOption,
   verifyAuthWeb,
-} from '../config/webAuthn';
+} from '../config/webauthn';
 import { AuthResponse } from '../common/swagger/response/auth.response';
 @ApiTags('Autentificacion')
 @Controller('auth')

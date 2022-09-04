@@ -67,7 +67,7 @@ export class Constant {
       Constant.CALENDAR_WEB,
   };
 
-  public static NOTIFICACION_NEW_TASK = {
+  public static readonly NOTIFICACION_NEW_TASK = {
     notification: {
       title: 'Se creo una nueva tarea para usted',
       icon: Constant.LOGO_ICON,
@@ -86,7 +86,7 @@ export class Constant {
     },
   };
 
-  public static NOTIFICACION_UPDATE_TASK = {
+  public static readonly NOTIFICACION_UPDATE_TASK = {
     notification: {
       title: 'Se actualizo una tarea asignada a usted',
       icon: Constant.LOGO_ICON,
@@ -105,7 +105,7 @@ export class Constant {
     },
   };
 
-  public static NOTIFICACION_DELETE_TASK = {
+  public static readonly NOTIFICACION_DELETE_TASK = {
     notification: {
       title: 'Se eliminado una tarea asignada a usted',
       icon: Constant.LOGO_ICON,
@@ -124,7 +124,7 @@ export class Constant {
     },
   };
 
-  public static replaceText(keyText: string[], arrayTextReplace: string[], textForReplace: string) {
+  public static  replaceText(keyText: string[], arrayTextReplace: string[], textForReplace: string) {
     let result = textForReplace;
     for (let i = 0; i < arrayTextReplace.length; i++) {
       result = result.replace(keyText[i].trim(), arrayTextReplace[i].trim());

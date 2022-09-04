@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { Constant } from '../common/constants/Constant';
 import { UserService } from '../user/user.service';
 import { compare } from 'bcryptjs';
@@ -9,7 +9,6 @@ import { generate } from 'generate-password';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Authentication } from './entities/autentication.entity';
-
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
@@ -28,7 +27,7 @@ export class AuthService {
    * @returns The user object is being returned.
    */
   async validateUser(email: string, pass: string) {
-    this.logger.log('Validando Usuario');
+    this.logger.log('Validando Usuario', AuthService.name);
     const user = await this.userService.findByEmail(email);
     if (typeof user.user == 'undefined') {
       this.logger.warn(`Login fallido usuario: ${email}`);

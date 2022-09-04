@@ -27,6 +27,7 @@
 - [Despligue](#despliegue-)  
 - [Analisis de Codigo](#analisis-de-codigo-)
 - [Integración Continua](#integración-continua)
+- [Logger](#logger)
 - [Construido](#construido-con-)
 
 ## Comenzando 🚀
@@ -166,6 +167,24 @@ _Se creo la carpeta `.github/workflows` con el archivo `build.yml` que contiene 
 
 ![CI 1](/docs/ci/ci-1.png)
 
+
+## Logger
+
+_Se integro winston para reemplazar el logger de NestJS para realizar seguimiento y conservacion de los logs segun sea requerido_
+
+_En el archivo `.env` se tienen los siguientes apartados configurados por default:_
+
+```
+APP_NAME=SKY_CALENDAR
+DATE_PATTERN=YYYY-MM-DD
+MAX_SIZE=20m
+MAX_DAYS=14d
+```
+_Por default la carpeta donde se guardan los logs es `LOG` , el formato configurado es JSON_
+
+![LOGGER 1](/docs/logger/logger-1.png)
+
+![LOGGER 2](/docs/logger/logger-2.png)
 
 ## Construido con 🛠️
 

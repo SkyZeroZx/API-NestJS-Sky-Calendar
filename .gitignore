@@ -8,6 +8,7 @@ credentials.txt
 calendar_app.sql
 
 # Logs
+/LOG
 logs
 *.log
 npm-debug.log*

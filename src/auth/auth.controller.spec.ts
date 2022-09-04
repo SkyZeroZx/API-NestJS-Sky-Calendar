@@ -8,7 +8,7 @@ import { AuthController } from './auth.controller';
 import { AuthMockService } from './auth.mock.spec';
 import { AuthService } from './auth.service';
 import { Authentication } from './entities/autentication.entity';
-import * as webAuthn from '../config/webAuthn';
+import * as webAuthn from '../config/webauthn';
 import { ChangePasswordDto } from './dtos/changePasssword.dto';
 import { BadRequestException } from '@nestjs/common';
 describe('AuthController', () => {

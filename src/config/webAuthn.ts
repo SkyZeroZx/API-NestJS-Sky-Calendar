@@ -4,7 +4,6 @@ import {
   verifyAuthenticationResponse,
   verifyRegistrationResponse,
 } from '@simplewebauthn/server';
-import 'dotenv/config';
 import { Authentication } from '../auth/entities/autentication.entity';
 import { User } from '../user/entities/user.entity';
 
@@ -15,9 +14,9 @@ const rpName = 'Sky Calendar App';
 // A unique identifier for your website
 const rpID = process.env.RP_ID;
 
-const rpIDArray = process.env.RP_ID_ARRAY.split(', ');
+const rpIDArray = JSON.parse(process.env.RP_ID_ARRAY);
 // The URL at which registrations and authentications should occur
-const origin = process.env.ORIGIN.split(', ');
+const origin = JSON.parse(process.env.ORIGIN);
 
 export function generateRegistrationOption(user: User, userAuthenticators: Authentication[]) {
   return generateRegistrationOptions({

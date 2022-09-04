@@ -5,9 +5,54 @@ import { initSwagger } from './common/swagger/swagger';
 import * as cors from 'cors';
 import helmet from 'helmet';
 import webpush from './config/webpush';
+import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
+import 'winston-daily-rotate-file';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  // Custom Logger replace logger NestJs with winston logger
+  const app = await NestFactory.create(AppModule, {
+    logger: WinstonModule.createLogger({
+      exitOnError: false,
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.json(),
+            winston.format.timestamp(),
+            winston.format.errors({ stacks: true }),
+            nestWinstonModuleUtilities.format.nestLike(process.env.APP_NAME, {
+              colors: true,
+              prettyPrint: true,
+            }),
+          ),
+        }),
+        new winston.transports.DailyRotateFile({
+          filename: `${process.env.LOG_FOLDER}/${process.env.APP_NAME}-INFO-%DATE%.json`,
+          datePattern: process.env.DATE_PATTERN,
+          zippedArchive: true,
+          maxSize: process.env.MAX_SIZE,
+          maxFiles: process.env.MAX_DAYS,
+          level: 'info',
+        }),
+        new winston.transports.DailyRotateFile({
+          filename: `${process.env.LOG_FOLDER}/${process.env.APP_NAME}-WARN-%DATE%.json`,
+          datePattern: process.env.DATE_PATTERN,
+          zippedArchive: true,
+          maxSize: process.env.MAX_SIZE,
+          maxFiles: process.env.MAX_DAYS,
+          level: 'warn',
+        }),
+        new winston.transports.DailyRotateFile({
+          filename: `${process.env.LOG_FOLDER}/${process.env.APP_NAME}-ERROR-%DATE%.json`,
+          datePattern: process.env.DATE_PATTERN,
+          zippedArchive: true,
+          maxSize: process.env.MAX_SIZE,
+          maxFiles: process.env.MAX_DAYS,
+          level: 'error',
+        }),
+      ],
+    }),
+  });
   const logger = new Logger(bootstrap.name);
 
   // Habilitamos la whitelist con ValidationPipe al inicializar nuestra API
