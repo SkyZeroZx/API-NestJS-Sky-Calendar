@@ -7,3 +7,5 @@ node_modules/
 docs/
 e2e/
 LOG/
+log/
+.gitattributes

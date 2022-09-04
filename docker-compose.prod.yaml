@@ -32,3 +32,4 @@ services:
       MAX_SIZE  : ${MAX_SIZE}  
       MAX_DAYS  : ${MAX_DAYS}
       LOG_FOLDER : ${LOG_FOLDER}
+      TIMESTAMP_FORMAT : ${TIMESTAMP_FORMAT}

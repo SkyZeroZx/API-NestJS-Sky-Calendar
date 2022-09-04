@@ -2,10 +2,10 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { initSwagger } from './common/swagger/swagger';
+import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
 import * as cors from 'cors';
 import helmet from 'helmet';
 import webpush from './config/webpush';
-import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 
@@ -15,9 +15,9 @@ async function bootstrap() {
     logger: WinstonModule.createLogger({
       exitOnError: false,
       format: winston.format.combine(
-        winston.format.timestamp({format: 'YYYY-MM-DD hh:mm:ss.SSS A'}),
-        winston.format.json()
-    ),
+        winston.format.timestamp({ format: process.env.TIMESTAMP_FORMAT }),
+        winston.format.json(),
+      ),
       transports: [
         new winston.transports.Console({
           format: winston.format.combine(
