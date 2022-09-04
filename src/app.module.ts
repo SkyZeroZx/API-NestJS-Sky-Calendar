@@ -29,7 +29,7 @@ import { ScheduleModule } from '@nestjs/schedule';
         username: config.get<string>(DATABASE_USERNAME),
         password: config.get<string>(DATABASE_PASSWORD),
         database: config.get<string>(DATABASE_NAME),
-        timezone: 'local',
+        timezone: 'Z',
         entities: [__dirname + './**/**/*entity{.ts,.js}'],
         autoLoadEntities: true,
         synchronize: true,
