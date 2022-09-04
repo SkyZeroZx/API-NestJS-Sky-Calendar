@@ -23,7 +23,7 @@ import {
   verifyAuthWeb,
   generateAuthenticationOption,
   verifyAuthenticationOption,
-} from '../config/webauthn';
+} from '../config/webAuthn';
 
 @ApiTags('Autentificacion')
 @Controller('auth')
