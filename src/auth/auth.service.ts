@@ -28,6 +28,8 @@ export class AuthService {
    */
   async validateUser(email: string, pass: string) {
     this.logger.log('Validando Usuario', AuthService.name);
+    this.logger.warn(`Login fallido usuario: ${email}`);
+    this.logger.error(`Error ${email}`);
     const user = await this.userService.findByEmail(email);
     if (typeof user.user == 'undefined') {
       this.logger.warn(`Login fallido usuario: ${email}`);

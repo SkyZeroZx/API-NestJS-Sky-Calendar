@@ -200,6 +200,7 @@ _Las herramientas utilizadas son:_
 - [Prettier](https://prettier.io/) - Formateador de Codigo
 - [WebAuthn](https://webauthn.guide/) - Estándar web del proyecto FIDO2 de la Alianza FIDO
 - [TabNine](https://www.tabnine.com/) - Autocompletador de Codigo
+- [Winston](https://github.com/winstonjs/winston) - Logger para NodeJS
 
 ## Versionado 📌
 

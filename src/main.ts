@@ -14,6 +14,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({
       exitOnError: false,
+      format: winston.format.combine(
+        winston.format.timestamp({format: 'YYYY-MM-DD hh:mm:ss.SSS A'}),
+        winston.format.json()
+    ),
       transports: [
         new winston.transports.Console({
           format: winston.format.combine(
